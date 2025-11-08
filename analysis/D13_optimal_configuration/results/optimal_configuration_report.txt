@@ -1,0 +1,54 @@
+================================================================================
+D13: OPTIMAL CONFIGURATION ANALYSIS
+================================================================================
+
+RECOMMENDED SYSTEM CONFIGURATION
+Based on comprehensive analysis of BLE pedestrian tracking dataset
+================================================================================
+
+HARDWARE
+--------------------------------------------------------------------------------
+  Advertisement Interval: 1000ms
+  Tx Power: 0 dBm (standard)
+  Deployment Distance: 3m (optimal balance)
+
+SIGNAL PROCESSING
+--------------------------------------------------------------------------------
+  Averaging Window: 5-10 seconds
+  Outlier Rejection: Median filtering
+  Smoothing: Moving average or Kalman filter
+
+DETECTION
+--------------------------------------------------------------------------------
+  Presence Threshold: -75 dBm
+  Min Packets: 2-3 packets
+  Temporal Window: 5-10 seconds
+
+DISTANCE ESTIMATION
+--------------------------------------------------------------------------------
+  Method: SVR
+  Expected Accuracy: ±2m at 3-9m range
+  Proximity Zones: <3m (close), 3-6m (medium), >6m (far)
+
+APPLICATION SPECIFIC
+--------------------------------------------------------------------------------
+  Occupancy Detection: Packet count + RSSI threshold
+  Contact Tracing: 1.5-2m threshold with temporal confirmation
+  Traffic Monitoring: Flow intensity metrics
+
+KEY RECOMMENDATIONS SUMMARY
+--------------------------------------------------------------------------------
+1. Use 1000ms advertisement interval (best PRR, power efficiency)
+2. Apply ML-based distance estimation (SVR: 1.9m MAE)
+3. Use -75 dBm RSSI threshold for presence detection
+4. Average over 5-10 seconds for stable measurements
+5. Define proximity zones instead of precise distances
+
+PERFORMANCE EXPECTATIONS
+--------------------------------------------------------------------------------
+• Distance estimation: ±2m accuracy (31% relative error)
+• Presence detection: >90% reliability at <7m
+• Packet reception: ~50% PRR with 1000ms interval
+• Signal variability: ±10 dB due to multipath
+
+================================================================================

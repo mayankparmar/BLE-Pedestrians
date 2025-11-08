@@ -1,0 +1,14 @@
+================================================================================
+E15: REGRESSION TASKS
+================================================================================
+
+This analysis is consolidated with B5: Proximity Detection Algorithms.
+
+B5 provides comprehensive regression analysis including:
+  - Support Vector Regression (SVR): 1.90m MAE
+  - Random Forest Regression: 2.05m MAE
+  - Log-distance path loss model: 109.47m MAE
+
+Recommendation: Refer to B5 analysis for complete regression results.
+
+================================================================================
