@@ -1,0 +1,37 @@
+================================================================================
+D11: SIGNAL VARIABILITY ANALYSIS
+================================================================================
+
+OVERALL CONSISTENCY METRICS
+--------------------------------------------------------------------------------
+Mean inter-run std dev: 3.86 dB
+Mean coefficient of variation: 6.51%
+
+VARIABILITY BY DISTANCE
+--------------------------------------------------------------------------------
+3m:
+  Inter-run std: 3.76 dB
+  CV: 7.01%
+5m:
+  Inter-run std: 2.28 dB
+  CV: 3.87%
+7m:
+  Inter-run std: 3.68 dB
+  CV: 6.13%
+9m:
+  Inter-run std: 5.71 dB
+  CV: 9.02%
+
+VARIABILITY BY ORIENTATION
+--------------------------------------------------------------------------------
+LOS:
+  Inter-run std: 3.86 dB
+  CV: 6.51%
+
+KEY INSIGHTS
+--------------------------------------------------------------------------------
+1. Inter-run variability quantifies measurement consistency
+2. Coefficient of variation normalizes variability across signal strengths
+3. Both temporal and inter-run variability contribute to uncertainty
+
+================================================================================
