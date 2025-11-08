@@ -1,0 +1,81 @@
+================================================================================
+C10: PATHWAY ANALYTICS
+================================================================================
+
+POSITION USAGE ANALYSIS
+--------------------------------------------------------------------------------
+start:
+  Total measurements: 867
+  Total sessions: 12
+  Mean packets/session: 72.2
+  Mean RSSI: -66.0 dBm
+center:
+  Total measurements: 1031
+  Total sessions: 12
+  Mean packets/session: 85.9
+  Mean RSSI: -52.0 dBm
+end:
+  Total measurements: 841
+  Total sessions: 12
+  Mean packets/session: 70.1
+  Mean RSSI: -65.0 dBm
+
+DISTANCE DISTRIBUTION
+--------------------------------------------------------------------------------
+3.0m:
+  Total measurements: 676.0
+  Position coverage: 3.0/5
+  Mean RSSI: -57.7 dBm
+5.0m:
+  Total measurements: 677.0
+  Position coverage: 3.0/5
+  Mean RSSI: -61.2 dBm
+7.0m:
+  Total measurements: 720.0
+  Position coverage: 3.0/5
+  Mean RSSI: -61.3 dBm
+9.0m:
+  Total measurements: 666.0
+  Position coverage: 3.0/5
+  Mean RSSI: -61.4 dBm
+
+TRAFFIC FLOW ANALYSIS
+--------------------------------------------------------------------------------
+
+LOS:
+  start: 1.012 packets/sec
+  center: 1.377 packets/sec
+  end: 1.127 packets/sec
+
+NLOS:
+
+SPATIAL UTILIZATION PATTERNS
+--------------------------------------------------------------------------------
+Position utilization:
+  start: 31.7%
+  mid_facing: 0.0%
+  center: 37.6%
+  mid_away: 0.0%
+  end: 30.7%
+
+Distance coverage:
+  3m: 24.7%
+  5m: 24.7%
+  7m: 26.3%
+  9m: 24.3%
+
+KEY INSIGHTS
+--------------------------------------------------------------------------------
+1. Pathway shows balanced usage across positions
+2. Signal strength varies systematically along pathway
+3. Traffic flow intensity differs by position and orientation
+4. Distance distribution reflects measurement protocol
+
+RECOMMENDATIONS
+--------------------------------------------------------------------------------
+• Use flow intensity for real-time traffic monitoring
+• Position-specific thresholds optimize detection
+• Combine multiple positions for robust pathway tracking
+• Apply to occupancy heatmaps and utilization metrics
+
+================================================================================
