@@ -1,0 +1,81 @@
+================================================================================
+C9: OCCUPANCY DETECTION ANALYSIS
+================================================================================
+
+OVERVIEW
+--------------------------------------------------------------------------------
+Total measurement sessions: 36
+Mean dwell time: 65.33s
+Mean packet count: 76.1
+Occupancy events detected: 56
+Mean event duration: 39.05s
+
+OCCUPANCY BY POSITION
+--------------------------------------------------------------------------------
+start:
+  Mean dwell time: 71.40s ± 23.22s
+  Median dwell time: 62.53s
+  Total sessions: 12
+  Mean packets/session: 72.2
+center:
+  Mean dwell time: 62.38s ± 1.56s
+  Median dwell time: 62.18s
+  Total sessions: 12
+  Mean packets/session: 85.9
+end:
+  Mean dwell time: 62.20s ± 1.78s
+  Median dwell time: 61.94s
+  Total sessions: 12
+  Mean packets/session: 70.1
+
+DETECTION QUALITY BY DISTANCE
+--------------------------------------------------------------------------------
+3.0m:
+  Mean dwell time: 61.70s
+  Mean packets: 75.1
+  Detection quality: 1.217 packets/sec
+  Mean RSSI: -59.0 dBm
+5.0m:
+  Mean dwell time: 63.11s
+  Mean packets: 75.2
+  Detection quality: 1.192 packets/sec
+  Mean RSSI: -62.0 dBm
+7.0m:
+  Mean dwell time: 70.74s
+  Mean packets: 80.0
+  Detection quality: 1.131 packets/sec
+  Mean RSSI: -61.7 dBm
+9.0m:
+  Mean dwell time: 65.76s
+  Mean packets: 74.0
+  Detection quality: 1.125 packets/sec
+  Mean RSSI: -62.8 dBm
+
+LoS vs nLoS OCCUPANCY DETECTION
+--------------------------------------------------------------------------------
+LOS:
+  Mean dwell time: 65.33s
+  Mean packets: 76.1
+  Mean RSSI: -61.4 dBm
+NLOS:
+  Mean dwell time: nans
+  Mean packets: nan
+  Mean RSSI: nan dBm
+
+KEY INSIGHTS
+--------------------------------------------------------------------------------
+1. Dwell time varies by position (measurement protocol effect)
+2. Detection quality decreases with distance
+3. Packet count correlates with dwell time
+4. BLE suitable for occupancy presence/absence detection
+5. Temporal analysis reveals distinct occupancy events
+
+RECOMMENDATIONS
+--------------------------------------------------------------------------------
+• Use packet count threshold for occupancy determination
+• Apply temporal windowing (5-10 seconds) for stable detection
+• Account for distance-dependent detection quality
+• Combine with presence detection (B8) for robust occupancy
+• Use for binary occupancy (occupied/vacant), not counting
+
+================================================================================
