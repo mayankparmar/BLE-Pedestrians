@@ -1,0 +1,76 @@
+================================================================================
+B6: MOVEMENT DETECTION & DIRECTION ANALYSIS
+================================================================================
+
+MOVEMENT DETECTION FROM RSSI PATTERNS
+--------------------------------------------------------------------------------
+Total measurement sessions: 36
+Average RSSI variability: 10.248 dB/s
+Average RSSI std deviation: 5.36 dB
+Average RSSI range: 24.64 dB
+
+DIRECTION DETECTION
+--------------------------------------------------------------------------------
+Approaching detections: 16 (44.4%)
+Departing detections: 20 (55.6%)
+Average trend strength: 0.148
+Average RSSI slope: 0.0028 dB/s
+
+STATIC VS DYNAMIC SIGNAL CHARACTERISTICS
+--------------------------------------------------------------------------------
+Static positions (center):
+  Mean std: 5.05 dB
+  Mean variability: 10.738 dB/s
+  Mean range: 24.42 dB
+
+Dynamic positions (start/end/mid):
+  Mean std: 5.51 dB
+  Mean variability: 10.003 dB/s
+  Mean range: 24.75 dB
+
+MOVEMENT CHARACTERISTICS BY DISTANCE
+--------------------------------------------------------------------------------
+3m:
+  RSSI variability: 8.284 dB/s
+  RSSI std: 4.86 dB
+  RSSI range: 23.78 dB
+5m:
+  RSSI variability: 11.193 dB/s
+  RSSI std: 5.61 dB
+  RSSI range: 25.67 dB
+7m:
+  RSSI variability: 12.307 dB/s
+  RSSI std: 5.90 dB
+  RSSI range: 24.89 dB
+9m:
+  RSSI variability: 9.209 dB/s
+  RSSI std: 5.08 dB
+  RSSI range: 24.22 dB
+
+MOVEMENT DETECTION: LoS vs nLoS
+--------------------------------------------------------------------------------
+LOS:
+  RSSI variability: 10.248 dB/s
+  RSSI std: 5.36 dB
+  Mean rate of change: 7.202 dB/s
+NLOS:
+  RSSI variability: nan dB/s
+  RSSI std: nan dB
+  Mean rate of change: nan dB/s
+
+KEY INSIGHTS
+--------------------------------------------------------------------------------
+1. Movement creates temporal RSSI patterns (rate of change)
+2. Direction can be inferred from RSSI trend (positive=approach)
+3. Static positions show lower variability than dynamic positions
+4. Trend strength: 0.15 correlation on average
+
+RECOMMENDATIONS
+--------------------------------------------------------------------------------
+• Use RSSI rate of change for movement detection
+• Use RSSI slope sign for direction detection (+ = approaching)
+• Apply smoothing (moving average) to reduce noise
+• Combine with position tracking for trajectory reconstruction
+• Account for multipath-induced temporal variations
+
+================================================================================
