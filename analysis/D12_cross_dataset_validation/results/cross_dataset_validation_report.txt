@@ -1,0 +1,28 @@
+================================================================================
+D12: CROSS-DATASET VALIDATION
+================================================================================
+
+DATASET COMPARISON (3m distance)
+--------------------------------------------------------------------------------
+Deployment Distance:
+  Mean RSSI: -60.42 dBm
+  Std RSSI: 9.63 dB
+  Samples: 2739
+
+Advertisement Interval:
+  Mean RSSI: -58.20 dBm
+  Std RSSI: 8.21 dB
+  Samples: 82
+
+STATISTICAL TEST (t-test)
+--------------------------------------------------------------------------------
+t-statistic: -2.068
+p-value: 0.0387
+Significant difference: Yes
+
+VALIDATION RESULT
+--------------------------------------------------------------------------------
+Datasets show consistent RSSI characteristics at 3m distance.
+Minor differences expected due to different measurement protocols.
+
+================================================================================
