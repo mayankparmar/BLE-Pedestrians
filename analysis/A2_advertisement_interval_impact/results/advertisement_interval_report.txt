@@ -1,0 +1,93 @@
+================================================================================
+BLE ADVERTISEMENT INTERVAL IMPACT ANALYSIS REPORT
+================================================================================
+
+EXPERIMENTAL SETUP
+--------------------------------------------------------------------------------
+Advertisement Intervals Tested: [100, 500, 1000] ms
+Orientations: LoS and nLoS
+Deployment Distance: 3 meters
+Walking Directions: Both (es and se)
+
+
+================================================================================
+INTERVAL: 100 ms
+================================================================================
+
+LOS Configuration:
+----------------------------------------
+  Packet Reception Rate: 12.36% ± 8.72%
+  Packet Loss Rate: 87.64%
+  Detection Latency: -7500.00 ± 16340.13 ms
+  Mean RSSI: -56.88 dBm
+  RSSI Stability (Std Dev): 7.61 dB
+  Detection Gap Rate: 66.98%
+
+
+================================================================================
+INTERVAL: 500 ms
+================================================================================
+
+LOS Configuration:
+----------------------------------------
+  Packet Reception Rate: 51.18% ± 9.13%
+  Packet Loss Rate: 48.82%
+  Detection Latency: 250.00 ± 500.00 ms
+  Mean RSSI: -57.15 dBm
+  RSSI Stability (Std Dev): 8.33 dB
+  Detection Gap Rate: 69.59%
+
+
+================================================================================
+INTERVAL: 1000 ms
+================================================================================
+
+LOS Configuration:
+----------------------------------------
+  Packet Reception Rate: 53.41% ± 7.02%
+  Packet Loss Rate: 46.59%
+  Detection Latency: 500.00 ± 1000.00 ms
+  Mean RSSI: -60.10 dBm
+  RSSI Stability (Std Dev): 8.09 dB
+  Detection Gap Rate: 42.53%
+
+
+================================================================================
+COMPARATIVE SUMMARY
+================================================================================
+
+Overall Performance by Interval (averaged across LoS/nLoS):
+--------------------------------------------------------------------------------
+
+100 ms:
+  PRR: 12.36%
+  Loss: 87.64%
+  RSSI: -56.88 dBm
+  Stability: 7.61 dB
+
+500 ms:
+  PRR: 51.18%
+  Loss: 48.82%
+  RSSI: -57.15 dBm
+  Stability: 8.33 dB
+
+1000 ms:
+  PRR: 53.41%
+  Loss: 46.59%
+  RSSI: -60.10 dBm
+  Stability: 8.09 dB
+
+================================================================================
+RECOMMENDATIONS
+================================================================================
+
+For Maximum Reliability: 1000 ms
+  - Highest PRR: 53.41%
+
+For Best Signal Stability: 100 ms
+  - Lowest RSSI Std Dev: 7.61 dB
+
+For Power Efficiency: 1000 ms (fewer transmissions)
+  - Trade-off: Lower update rate, but conserves battery
+
+================================================================================
