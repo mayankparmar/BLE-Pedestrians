@@ -1,0 +1,11 @@
+threshold,orientation,reliable_range,min_probability
+-90,los,9,0.9
+-90,nlos,0,0.9
+-80,los,9,0.9
+-80,nlos,0,0.9
+-70,los,9,0.9
+-70,nlos,0,0.9
+-60,los,5,0.9
+-60,nlos,0,0.9
+-50,los,0,0.9
+-50,nlos,0,0.9
