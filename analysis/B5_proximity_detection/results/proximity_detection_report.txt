@@ -1,0 +1,55 @@
+================================================================================
+PROXIMITY DETECTION ALGORITHMS ANALYSIS REPORT
+================================================================================
+
+OVERVIEW
+--------------------------------------------------------------------------------
+This analysis develops and evaluates distance estimation algorithms from
+RSSI measurements, comparing analytical path loss models with machine learning
+approaches.
+
+DATASET SUMMARY
+--------------------------------------------------------------------------------
+Total samples: 81
+Unique distances: [np.int64(3), np.int64(5), np.int64(7), np.int64(9)]
+LoS samples: 36
+nLoS samples: 45
+
+MODEL PERFORMANCE COMPARISON
+--------------------------------------------------------------------------------
+
+1. LOG-DISTANCE PATH LOSS MODEL
+   MAE: 109.47 meters
+   RMSE: 311.77 meters
+   R²: -17032.546
+
+2. RANDOM FOREST REGRESSOR
+   MAE: 2.05 meters
+   RMSE: 2.43 meters
+   R²: -0.075
+
+3. SUPPORT VECTOR REGRESSION (SVR)
+   MAE: 1.90 meters
+   RMSE: 2.82 meters
+   R²: -0.447
+
+BEST MODEL: SVR
+  Achieves MAE of 1.90 meters
+
+ACCURACY BY ORIENTATION
+--------------------------------------------------------------------------------
+LoS Error: 32.76 meters
+nLoS Error: 170.84 meters
+Difference: 138.08 meters
+
+INTERPRETATION
+--------------------------------------------------------------------------------
+GOOD: MAE < 2.5m - acceptable for most applications
+
+At 1.90m mean error across 3-9m range,
+relative error is ~31.7% of mean distance.
+
+Machine learning improves accuracy by 98.1% over analytical model,
+suggesting complex non-linear patterns that simple path loss cannot capture.
+
+================================================================================
