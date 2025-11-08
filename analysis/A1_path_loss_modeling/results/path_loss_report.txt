@@ -1,0 +1,56 @@
+================================================================================
+BLE PATH LOSS MODELING ANALYSIS REPORT
+================================================================================
+
+EXPERIMENTAL SETUP
+--------------------------------------------------------------------------------
+Deployment Distances: [3, 5, 7, 9] meters
+Positions: start, mid_facing, center, mid_away, end
+Runs per configuration: 3
+BLE Frequency: 2.4 GHz
+
+LINE-OF-SIGHT (LoS) RESULTS
+--------------------------------------------------------------------------------
+RSSI at 1m (reference): -55.89 ± 1.76 dBm
+Path Loss Exponent (n): 0.735 ± 0.230
+R-squared: 0.8368
+RMSE: 0.580 dB
+
+Measured vs Predicted RSSI:
+  3m: Measured = -58.96 dBm, Predicted = -59.39 dBm, Error = 0.44 dB
+  5m: Measured = -62.01 dBm, Predicted = -61.03 dBm, Error = -0.99 dB
+  7m: Measured = -61.70 dBm, Predicted = -62.10 dBm, Error = 0.40 dB
+  9m: Measured = -62.75 dBm, Predicted = -62.90 dBm, Error = 0.15 dB
+
+NON-LINE-OF-SIGHT (nLoS) RESULTS
+--------------------------------------------------------------------------------
+RSSI at 1m (reference): -62.31 ± 3.07 dBm
+Path Loss Exponent (n): 0.415 ± 0.390
+R-squared: 0.5309
+RMSE: 0.797 dB
+
+Measured vs Predicted RSSI:
+  3m: Measured = -64.04 dBm, Predicted = -64.29 dBm, Error = 0.25 dB
+  7m: Measured = -66.89 dBm, Predicted = -65.82 dBm, Error = -1.08 dB
+  9m: Measured = -65.44 dBm, Predicted = -66.27 dBm, Error = 0.83 dB
+
+COMPARATIVE ANALYSIS
+--------------------------------------------------------------------------------
+Path Loss Exponent Difference (nLoS - LoS): -0.320
+  - LoS exponent: 0.735
+  - nLoS exponent: 0.415
+  - Free-space reference: 2.000
+
+Body Shadowing Effect (RSSI difference at each distance):
+  3m: LoS = -58.96 dBm, nLoS = -64.04 dBm, Δ = 5.09 dB
+  7m: LoS = -61.70 dBm, nLoS = -66.89 dBm, Δ = 5.19 dB
+  9m: LoS = -62.75 dBm, nLoS = -65.44 dBm, Δ = 2.69 dB
+
+Average Body Shadowing Effect: 4.32 dB
+
+INTERPRETATION
+--------------------------------------------------------------------------------
+LoS: Path loss exponent < 2 suggests waveguide or ground reflection effects
+nLoS: Limited body shadowing effect
+
+================================================================================
