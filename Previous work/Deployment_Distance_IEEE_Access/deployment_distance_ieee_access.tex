@@ -1,0 +1,45 @@
+\documentclass{../../Papers/ACCESS_latex_template_20240429 (1)/ACCESS_latex_template_20240429/ieeeaccess}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+\history{Date of publication xxxx 00, 0000, date of current version xxxx 00, 0000.}
+\doi{10.1109/ACCESS.2024.XXXXXXX}
+
+\title{Optimal Horizontal Deployment Distance for BLE-Based Pedestrian Monitoring in Outdoor Linear Pathways}
+
+\author{\uppercase{Mayank Parmar}\authorrefmark{1},
+\uppercase{Paula Kelly}\authorrefmark{2}, and
+\uppercase{Damon Berry}\authorrefmark{3}}
+
+\address[1]{TU Dublin, Grangegorman, Dublin, Ireland (e-mail: mayank.parmar@tudublin.ie)}
+\address[2]{TU Dublin, Grangegorman, Dublin, Ireland (e-mail: paula.kelly@tudublin.ie)}
+\address[3]{TU Dublin, Grangegorman, Dublin, Ireland (e-mail: damon.berry@tudublin.ie)}
+
+\markboth
+{Parmar \headeretal: Optimal Horizontal Deployment Distance for BLE-Based Pedestrian Monitoring}
+{Parmar \headeretal: Optimal Horizontal Deployment Distance for BLE-Based Pedestrian Monitoring}
+
+\corresp{Corresponding author: Mayank Parmar (e-mail: mayank.parmar@tudublin.ie).}
+
+\begin{abstract}
+Bluetooth Low Energy (BLE) is emerging as a privacy-preserving alternative for pedestrian monitoring in urban environments, yet optimal deployment configurations remain under-explored. This study investigates the impact of horizontal deployment distance on the quality of BLE signal measurements for pedestrian monitoring systems in outdoor linear pathways. We systematically evaluated four deployment distances (3~m, 5~m, 7~m, and 9~m) from a linear pathway using stationary pedestrian measurements at five key points, examining both Line-of-Sight (LoS) and Non-Line-of-Sight (nLoS) orientations with three repetitions each. Statistical analysis using ANOVA and Tukey's Honestly Significant Difference (HSD) test revealed that deployment distances of 3~m and 5~m produce significantly higher quality signals compared to 7~m and 9~m (p $<$ 0.05). Small-scale fading analysis through Rician distribution fitting demonstrated that 3~m and 5~m deployments exhibit superior LoS dominance, with K-factors reaching 117.84 at 5~m, indicating strong direct signal components and minimal multipath scattering. In contrast, 7~m and 9~m deployments showed predominantly scattered signals with K-factors approaching 0 at most measurement points, indicating Rayleigh fading conditions. These findings provide empirical evidence for optimal BLE Observer placement, contributing essential deployment guidelines for privacy-preserving pedestrian monitoring systems in outdoor environments.
+\end{abstract}
+
+\begin{keywords}
+Bluetooth Low Energy, deployment distance, pedestrian monitoring, privacy-preserving sensing, RSSI, signal propagation, outdoor environments, Rician fading
+\end{keywords}
+
+\titlepgskip=-21pt
+
+\maketitle
+
