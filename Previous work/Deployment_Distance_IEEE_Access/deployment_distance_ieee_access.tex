@@ -1,0 +1,633 @@
+\documentclass{../../Papers/ACCESS_latex_template_20240429 (1)/ACCESS_latex_template_20240429/ieeeaccess}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+\history{Date of publication xxxx 00, 0000, date of current version xxxx 00, 0000.}
+\doi{10.1109/ACCESS.2024.XXXXXXX}
+
+\title{Optimal Horizontal Deployment Distance for BLE-Based Pedestrian Monitoring in Outdoor Linear Pathways}
+
+\author{\uppercase{Mayank Parmar}\authorrefmark{1},
+\uppercase{Paula Kelly}\authorrefmark{2}, and
+\uppercase{Damon Berry}\authorrefmark{3}}
+
+\address[1]{TU Dublin, Grangegorman, Dublin, Ireland (e-mail: mayank.parmar@tudublin.ie)}
+\address[2]{TU Dublin, Grangegorman, Dublin, Ireland (e-mail: paula.kelly@tudublin.ie)}
+\address[3]{TU Dublin, Grangegorman, Dublin, Ireland (e-mail: damon.berry@tudublin.ie)}
+
+\markboth
+{Parmar \headeretal: Optimal Horizontal Deployment Distance for BLE-Based Pedestrian Monitoring}
+{Parmar \headeretal: Optimal Horizontal Deployment Distance for BLE-Based Pedestrian Monitoring}
+
+\corresp{Corresponding author: Mayank Parmar (e-mail: mayank.parmar@tudublin.ie).}
+
+\begin{abstract}
+Bluetooth Low Energy (BLE) is emerging as a privacy-preserving alternative for pedestrian monitoring in urban environments, yet optimal deployment configurations remain under-explored. This study investigates the impact of horizontal deployment distance on the quality of BLE signal measurements for pedestrian monitoring systems in outdoor linear pathways. We systematically evaluated four deployment distances (3~m, 5~m, 7~m, and 9~m) from a linear pathway using stationary pedestrian measurements at five key points, examining both Line-of-Sight (LoS) and Non-Line-of-Sight (nLoS) orientations with three repetitions each. Statistical analysis using ANOVA and Tukey's Honestly Significant Difference (HSD) test revealed that deployment distances of 3~m and 5~m produce significantly higher quality signals compared to 7~m and 9~m (p $<$ 0.05). Small-scale fading analysis through Rician distribution fitting demonstrated that 3~m and 5~m deployments exhibit superior LoS dominance, with K-factors reaching 117.84 at 5~m, indicating strong direct signal components and minimal multipath scattering. In contrast, 7~m and 9~m deployments showed predominantly scattered signals with K-factors approaching 0 at most measurement points, indicating Rayleigh fading conditions. These findings provide empirical evidence for optimal BLE Observer placement, contributing essential deployment guidelines for privacy-preserving pedestrian monitoring systems in outdoor environments.
+\end{abstract}
+
+\begin{keywords}
+Bluetooth Low Energy, deployment distance, pedestrian monitoring, privacy-preserving sensing, RSSI, signal propagation, outdoor environments, Rician fading
+\end{keywords}
+
+\titlepgskip=-21pt
+
+\maketitle
+
+\section{Introduction}
+\label{sec:introduction}
+
+\PARstart{U}{nderstanding} pedestrian movement dynamics and activities are key elements of urban and transportation planning. Several modalities have been employed to measure and understand pedestrian movement, including optical sensors such as RGB and thermal cameras, surveys and questionnaires, WiFi, and Global Positioning System (GPS) systems. Optical sensors are prevalent in this regard due to accelerated advances in the technology and computational power necessary for processing large and complex information that these sensors acquire, resulting in accurate measurement. From the use of basic video cameras in the early studies \cite{Carroll2002,Lin2001,Masoud2001,Xu2005} to the use of modern vision methods and a fusion of vision sensors such as Kinect \cite{microsoft_kinect}, stereo vision, and thermal cameras \cite{Seer2014,Husman2021,Kristoffersen2016,Kunchala2023}, optical sensors have been at the forefront of measurement and analysis of pedestrian movement. However, with the increased pressure from privacy regulations such as the General Data Protection Regulation (GDPR), data collection using optical sensors has come under strict scrutiny. Additionally, the mechanism of data acquisition from these sensors is \textit{opportunistic}, which means that the acquisition process is not concerned with the consent of data contributors. Such systems will not discern between users who have consented from those who have not. To circumvent the issue of consent, additional manual effort is required to remove data acquired from non-consenting data contributors. Moreover, the cost of implementation of a vision-based system, both monetary and computationally, is another drawback \cite{Basalamah2016}.
+
+GPS is another widely accepted and utilised modality for understanding pedestrian dynamics \cite{Draghici2018,McArdle2014,Blanke2014,Spek2008}. GPS, being a technology inherently developed for the purposes of navigation, is suitable for measuring pedestrians. It is efficient in capturing finer granularity pedestrian movement as the modality captures regular and precise movement. It is, however, \textit{participatory} in nature, meaning that it requires consent of its data contributors for participation giving it an advantage over opportunistic based monitoring systems in terms of privacy. This aspect however, confines the usability of the technology for acquiring pedestrian data to only a particular mechanism. GPS, however has other privacy concerns due to its inherent capability of tracking pedestrian movement at a finer scale. Literature often resolves this issue through \textit{geo-fencing} approaches, where a logical boundary is set up in the system which enables the measurement process only when a participant is within the experimental zone/region. Since studies facilitate measurements through GPS on participants' local devices, the collected data is often regularly uploaded to a cloud server. This leaves scope for unauthorised access such as man-in-the-middle attacks and also the possibility of lifting or changing the geo-fence.
+
+Surveys and questionnaires are another important modality in pedestrian measurements. This modality is fully participatory, necessitating both objective and subjective responses directly from data contributors. While the advantages of this modality are significant due to direct responses requiring no assertions, they are prone to survey fatigue, resulting in biases. Biases might also emerge from psychological factors, social desirability bias. Moreover, there is time and resource cost associated with recruiting and training surveyors and data contributors, and the process itself is time consuming.
+
+The restriction on the usage of conventional sensors, primarily due to strict privacy regulations has pushed researchers to adapt and identify unconventional sensing technologies such as WiFi and Bluetooth Low Energy (BLE) for capturing the movement of pedestrians. WiFi, due to its availability on mobile phones, and readily available infrastructure due to the ubiquity of public WiFi hotspots provided by various city councils and agencies \cite{Omar2016}, has more purchase in pedestrian-related research over BLE. This is also evident from a comparison of the number of scientific publications over the past ten years between the two technologies, as presented in Fig.~\ref{fig:wifi_ble_comparison} \cite{Dimensions2024}. Both technologies operate in a similar fashion where signal strength is collected and patterns in the signals are used for asserting pedestrian dynamics. WiFi is also capable of capturing more complex forms of information through CSI which provides more agency over its assertion in comparison to BLE. However, processing CSI data requires more computational capabilities.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{figures/wifi vs ble.png}
+\caption{Comparison of the number of pedestrian-related publications using BLE and WiFi \cite{Dimensions2024}. Data extracted from Dimensions, the world's largest linked research database.}
+\label{fig:wifi_ble_comparison}
+\end{figure}
+
+However, the adoption of BLE for this type of research cannot be overlooked. BLE provides superior flexibility over WiFi. The use of WiFi through existing infrastructure, originally meant to provide internet connectivity to the users, puts additional pressure on the infrastructure, thereby, reducing its throughput. Setting up an exclusive WiFi infrastructure for pedestrian measurement is often costly compared to BLE. BLE offers a significant advantage in the form of inexpensive beacons for asset tracking. These beacons can be provided to data contributors both as an incentive and as a mechanism to capture their data without requiring the use of their personal device. BLE offers inherently privacy preserving features which will be presented in Section~\ref{sec:background}.
+
+Whilst the use of BLE as a tool to understand pedestrian movement dynamics and activities has become more common in academic research, studies entailing the assessment of a proper deployment of a BLE monitoring system, referred in this paper as an Observer, are sparse. As will be presented in the next section, the influence of an Observer deployment on the quality of the acquired data is significant. Poor data quality in the acquisition stage also affects data analysis and subsequently, assertions from the acquired data. Therefore, in this study, we present an approach and its usefulness in identifying optimal deployment distance, particularly on a horizontal plane, for a BLE Observer.
+
+\subsection{Research Question and Contributions}
+This paper addresses the following research question: \textit{What is the optimal horizontal deployment distance for a BLE Observer to achieve reliable signal quality for pedestrian monitoring in outdoor linear pathways?}
+
+The main contributions of this work are:
+\begin{itemize}
+\item Systematic evaluation of four horizontal deployment distances (3~m, 5~m, 7~m, and 9~m) using stationary pedestrian measurements across five key points and two orientations (LoS and nLoS).
+\item Statistical validation using ANOVA and Tukey's HSD test demonstrating significant differences in signal quality across deployment distances.
+\item Small-scale fading analysis using Rician distribution fitting to quantify multipath effects and LoS dominance at different deployment distances.
+\item Empirical evidence establishing 3~m and 5~m as optimal deployment distances for outdoor BLE-based pedestrian monitoring systems.
+\item Practical deployment guidelines for researchers and practitioners implementing BLE monitoring infrastructure.
+\end{itemize}
+
+The remainder of this paper is organised as follows: Section~\ref{sec:background} provides background on BLE technology and signal propagation. Section~\ref{sec:related_work} reviews related work on BLE deployment and pedestrian sensing. Section~\ref{sec:methodology} describes the experimental methodology. Section~\ref{sec:results} presents the results. Section~\ref{sec:discussion} discusses the findings, limitations, and practical guidelines. Section~\ref{sec:conclusion} concludes the paper.
+
+\section{Background}
+\label{sec:background}
+
+BLE is a communication protocol developed by the Bluetooth Special Interest Group (SIG) with their Bluetooth 4.0 standard in 2010 \cite{Collotta2018}, as a low power, low cost, easily accessible, and highly available alternative to Bluetooth \cite{Liu2012,Yao2020}. The protocol operates in the 2.4~GHz spectrum and is divided into 40 channels, comprising 3 advertisement channels and 37 data channels \cite{Sig2019}. The BLE protocol, outlined in the Bluetooth SIG core specification \cite{Sig2019}, enables BLE devices to assume one of the following four roles:
+
+\begin{enumerate}
+\item \textit{Central:} A device that can initiate and control connections. Two-way communication.
+\item \textit{Peripheral:} A device capable of advertising its presence and waiting for connection requests from a central device. Two-way communication.
+\item \textit{Observer:} A device that can scan and listen to advertisements from nearby devices but is incapable of establishing a connection. One-way communication.
+\item \textit{Broadcaster:} A device that can advertise its presence to other BLE devices nearby. One-way communication.
+\end{enumerate}
+
+The connection between BLE-enabled devices is established using \textit{advertisements}, where signals are emitted by BLE devices periodically, containing information necessary for the connection process. A BLE device, depending on its role, can assume the following two states:
+
+\begin{enumerate}
+\item \textit{Advertising:} Sending out advertisements. For a Peripheral device, these advertisements are a vehicle for establishing a connection, whereas, for a Broadcaster device, these are used to indicate its presence.
+\item \textit{Scanning:} Listening to the advertisements. For a Central device, this state is a precursor to establishing a connection with a Peripheral device, whereas, for an Observer, this state is a means to identify advertising BLE devices in the vicinity.
+\end{enumerate}
+
+Pedestrian measurements through BLE typically capitalise on this advertisement process, where volunteers carry a Broadcaster or a Peripheral that is periodically advertising its presence which can be intercepted by an Observer or a Central device \cite{Nikodem2020}. The advertising and scanning processes are depicted in Fig.~\ref{fig:advertscan}, and the relevant parameters for these processes are summarised in Table~\ref{tab:params}.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{figures/advert.png}
+\vspace{-0.2cm}
+\includegraphics[width=3.5in]{figures/scan.png}
+\caption{Advertisement (top) and scanning (bottom) mechanisms of BLE devices.}
+\label{fig:advertscan}
+\end{figure}
+
+\begin{table}[!t]
+\caption{BLE Device Parameters During Discovery Process}
+\label{tab:params}
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Notation} & \textbf{Description} & \textbf{Range} \\
+\midrule
+$\tau_{wa}$ & Advertising period per channel & $\leq 10$ ms \\
+$\tau_{ai}$ & Advertisement Interval & [20, 10,240] ms \\
+ & & (0.625 ms multiples) \\
+$\delta$ & Uniform random delay & [0, 10] ms \\
+$\tau_{si}$ & Scan Interval & [2.5, 10,240] ms \\
+ & & (0.625 ms multiples) \\
+$\tau_{sw}$ & Scan Window & [2.5, 10,240] ms \\
+ & & (0.625 ms multiples) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{RSSI and Signal Propagation}
+When an advertisement is intercepted, a parameter known as the Received Signal Strength Indicator (RSSI) is evaluated by the Observer or Central device. This parameter represents the strength of the signal (advertisement) upon reception and is a factor of distance between the two devices and environmental influences. These influences include multi-path propagation mechanisms such as \textit{reflection}, \textit{refraction}, \textit{scattering}, and \textit{absorption} \cite{Rappaport2002}. Other factors such as physical obstructions blocking the direct LoS between two devices \cite{Turner2020}, natural obstacles such as foliage, terrain and weather conditions \cite{liao1990microwave,Mathew2017Evaluation,Inacio2018}, electromagnetic interference \cite{Lopez2012}, and occlusion by other humans \cite{Parmar2022,Smailagic2002,Hongwei2009,Kara2006Effect} also affect the RSSI. Such factors introduce fluctuation in the measured RSSI even when the distances between the two devices are fixed.
+
+\subsection{Path Loss Models}
+The relationship between RSSI and the factors affecting it is represented by the \textit{path loss model} \cite{ROUPHAEL200987}. The standard path loss model, expressed in (\ref{eq:std_loss}), only accommodates the distance between communicating devices, and is often insufficient to assess the path loss accurately as it does not incorporate other contributors to path loss, importantly, \textit{fading}. Fading, also referred to as \textit{shadowing}, is the attenuation of signals occurring due to environmental topology and characteristics \cite{Grami2016,Kaluuba2006}. There are two types of fading, \textit{small-scale (SS) fading} -- fluctuations in the signal due to multipath propagation over short distances, and \textit{large-scale (LS) fading} -- gradual changes in the average received signal strength over longer distances.
+
+\begin{equation}\label{eq:std_loss}
+L_{pl}(d)_{[dB]} = L_{pl}(d_0)_{[dB]} + 10\,n_{pl}\,\log\left(\frac{d}{d_0}\right),
+\end{equation}
+where $L_{pl}(d)_{[dB]}$ is path loss at distance $d$, $L_{pl}(d_0)_{[dB]}$ is reference path loss at reference distance $d_0$, and $n_{pl}$ is the path loss exponent.
+
+The standard path loss model can be adjusted to incorporate these fading parameters to accurately model signal attenuation. A time-dependent path loss model integrating fading is expressed in (\ref{eq:pl}) \cite{SAYRAFIAN2021221}. SS fading can be utilised to understand the effect of multipath components on BLE signals in pedestrianised pathways since SS fading applies over shorter distances and provides insight into fluctuations the signals undergo over any pathway under study.
+
+\begin{equation}
+\label{eq:pl}
+L_{pl}(d, t)_{[dB]} = \overline{L_{pl}(d)_{[dB]}} + \Delta L_{ls}(t)_{[dB]} + \Delta L_{ss}(t)_{[dB]}
+\end{equation}
+where $\overline{L_{pl}(d)_{[dB]}}$ is mean path loss at distance $d$ calculated using (\ref{eq:std_loss}), $\Delta L_{ls}(t)_{[dB]}$ is LS fading component, and $\Delta L_{ss}(t)_{[dB]}$ is SS fading component.
+
+\subsection{Rician Distribution and K-Factor}
+SS fading can be assessed using a \textit{Rician} distribution, a probability distribution function that can be used to assess the dominance of the LoS component relative to the nLoS components in scenarios where there is a direct LoS for signals between devices \cite{Molisch2012}. The Rician probability density function is expressed in (\ref{eq:rician_pdf}). This assessment is performed through the \textit{Rician Factor}, $K$, which is the ratio of power in the LoS component to the power of scattered (or, nLoS) components, indicating the proportion of LoS components. The Rician factor is calculated using (\ref{eq:rician_factor}). A special case of Rician distribution occurs when the $K$-factor is 0, signifying that the distribution is reduced to a \textit{Rayleigh distribution}, meaning that the signal consists purely of scattered components.
+
+\begin{equation}
+\label{eq:rician_pdf}
+f_R(r) = \frac{r}{\sigma^2}\exp\left(-\frac{r^2 + s^2}{2\sigma^2}\right)I_0\left(\frac{rs}{\sigma^2}\right),\quad r \geq 0
+\end{equation}
+where $r$ is the magnitude of receiver signal, $s$ is the amplitude of dominant LoS component, $\sigma$ is standard deviation of scattered components, and $I_0(\cdot)$ is the modified Bessel function of the first kind and zero order.
+
+\begin{equation}
+\label{eq:rician_factor}
+K = \frac{s^2}{2\sigma^2}
+\end{equation}
+where $s$ is the amplitude of dominant LoS component, and $\sigma$ is standard deviation of scattered components.
+
+These parameters, RSSI and Rician factors, are used in this study to assess the quality of signals received at various deployment distances in order to identify an optimal deployment distance. Whilst the RSSI provides an insight into the strength of the signal at various deployment distances, the Rician factor informs the measure of the dominance of LoS components at those distances. Whilst the RSSI approach might seem sufficient to understand the optimal deployment distance of the Observer, because simple strength of the signal can inform if the chosen pathway provides meaningful data, it is inadequate to unravel the effect of multipath components on the signal strengths. Due to propagation mechanisms, RSSI can get influenced, and thus, assessing the Rician factor, in addition to RSSI, provides better insights into the external factors associated with deployment distances affecting signal strength.
+
+\section{Related Work}
+\label{sec:related_work}
+
+This section reviews recent research on BLE-based pedestrian sensing, signal propagation studies, and deployment considerations for wireless sensing systems.
+
+\subsection{BLE for Pedestrian Monitoring and Crowd Sensing}
+BLE has gained significant traction as a technology for pedestrian monitoring due to its low power consumption, cost-effectiveness, and privacy-preserving capabilities. Nikodem and Bawiec \cite{Nikodem2020} conducted a large-scale experimental evaluation of advertisement-based BLE communication with over 200 tags, demonstrating that despite collision rates between 0.22 and 0.33, BLE can ensure acceptable data reception rates for IoT applications. Their work validates the scalability of BLE for crowd sensing but does not address optimal deployment configurations.
+
+Groba and Springer \cite{Groba2019} explored data forwarding with Bluetooth for participatory crowd monitoring at large-scale events, proposing peer-to-peer networking to reduce network infrastructure load. Whilst their work addresses data transmission challenges, it assumes pre-existing deployment without investigating optimal sensor placement. Blanke et al. \cite{Blanke2014} deployed an official app for Züri Fäscht 2013, collecting 25M location updates from 28,000 users, demonstrating the potential of participatory sensing for understanding crowd dynamics. However, their approach relies on GPS-based localisation rather than BLE infrastructure deployment.
+
+\subsection{RSSI-Based Positioning and Signal Characterisation}
+Several studies have investigated RSSI-based positioning using BLE beacons. Yao et al. \cite{Yao2020} proposed an integrity monitoring algorithm for BLE beacon RSSI-based indoor positioning, achieving a 90\% average error of 1.9143~m after performing integrity monitoring, representing a 34.48\% improvement over basic least squares methods. Their work focuses on positioning accuracy rather than optimal sensor deployment distances.
+
+The impact of environmental factors on BLE signal propagation has been examined in various contexts. Turner et al. \cite{Turner2020} validated the impact of vehicle obstruction on signal propagation at 2.4~GHz, demonstrating that metal objects significantly reduce transmission range and signal power. Inácio and Azevedo \cite{Inacio2018} studied the influence of meteorological parameters on a 2.4~GHz wireless sensor network, showing significant impact on link quality during rainfall and temperature variations. These studies highlight the importance of environmental considerations but do not provide systematic deployment distance guidelines.
+
+\subsection{Human Body Effects and Occlusion Studies}
+Body shadowing and occlusion effects have been identified as significant factors affecting BLE signal propagation. Parmar et al. \cite{Parmar2022} investigated the effects of body occlusion on BLE RSSI in identifying close proximity of pedestrians in outdoor environments, demonstrating measurable RSSI differences based on device orientation relative to the Observer. Kara and Bertoni \cite{Kara2006Effect} examined the effect of people moving near short-range indoor propagation links at 2.45~GHz, whilst Hongwei et al. \cite{Hongwei2009} studied the effect of human activities on 2.4~GHz radio propagation in home environments. These studies confirm that human body orientation significantly affects signal quality, supporting the need for LoS and nLoS scenario evaluation in deployment studies.
+
+\subsection{Wireless Sensor Deployment Studies}
+Deployment optimisation for wireless sensing systems has been explored primarily in the context of WiFi-based crowd sensing. Basalamah \cite{Basalamah2016} deployed solar-powered WiFi sniffers at the Hajj, covering a population of 185,000 people with 8 sniffers, detecting 37.5\% of the population. The study provides valuable insights on large-scale deployment but does not systematically evaluate deployment distances. López-Iturri et al. \cite{Lopez2012} investigated the impact of high power interference sources in planning and deployment of wireless sensor networks at 2.4~GHz in heterogeneous environments, emphasising the need for careful deployment planning to mitigate electromagnetic interference.
+
+\subsection{Research Gap}
+Whilst existing literature demonstrates the viability of BLE for pedestrian monitoring and characterises various factors affecting signal propagation, a systematic investigation of optimal horizontal deployment distances for BLE Observers in outdoor pedestrian monitoring scenarios remains absent. Previous studies have focused on:
+\begin{itemize}
+\item Indoor positioning accuracy \cite{Yao2020} rather than outdoor monitoring deployment
+\item Large-scale system validation \cite{Nikodem2020,Blanke2014} without deployment optimisation
+\item Environmental factor characterisation \cite{Turner2020,Inacio2018,Lopez2012} without systematic distance evaluation
+\item Body occlusion effects \cite{Parmar2022,Kara2006Effect} without deployment guidelines
+\end{itemize}
+
+This work addresses this gap by providing a systematic experimental evaluation of horizontal deployment distances using statistical validation (ANOVA, Tukey's HSD) and small-scale fading analysis (Rician distribution fitting), establishing empirical evidence for optimal Observer placement at 3~m and 5~m distances for outdoor linear pathways.
+
+\section{Methodology}
+\label{sec:methodology}
+
+\subsection{Design and Development of BLE Measurement System}
+Before identifying suitable hardware platforms and software tools, requirements from devices concerning BLE specifications were examined. Amongst the two BLE roles, Central and Observer, that allow devices to scan advertisements, the Observer role was identified as a suitable option as it prevents the device from establishing a connection, thereby, enhancing the privacy preservation aspect of the system. In a similar way, the Broadcaster role was selected over the Peripheral role.
+
+Cost, availability, and community presence were identified as key \textit{principles} for the selection of tools to conduct the experiments. These parameters facilitate a greater likelihood of garnering the attention of other researchers and allow easier access to replicate or extend the experiments. Live monitoring of collected data was also identified to be of great value as it provided a means to identify any errors preventing measurements.
+
+\subsubsection{Observer Device}
+A Raspberry Pi (RPi) \cite{rpi2024} was selected as the platform to act as the Observer as it met the identified principles. In particular, RPi model 4B variant with 8~GB RAM was selected. RPi provided on-board BLE 5.0 support which also reduces the need for the integration of any additional components on top of the device. RPi was housed in a weather-proof enclosure \cite{enclosure2024} with a power bank \cite{ansmann} to run the device, and a real-time clock (RTC) module \cite{ds3231} was added to the RPi to keep a tab on the time.
+
+A Python application was developed for the RPi, utilising the \textit{bluepy} library \cite{bluepy} to interact with the BLE chipset. This library was modified to simulate the \textit{whitelisting} feature of the BLE protocol standard that automatically discards advertisements emanating from non-whitelisted devices, another feature that enhances the privacy preservation aspect of the system. Additionally, a simple moving average (SMA) filter with a window size of 10 samples was implemented in the library itself to reduce the effect of fluctuations in the RSSI. The database connection and storage of measurements in the database were also integrated into the library itself. \textit{InfluxDB} \cite{influxdb} was selected as the database for storing the measurements as it is specifically designed for time-series data, enabling ingestion of high-throughput data and fast querying on time ranges. Moreover, it provides a feature, \textit{ephemerality}, where the stored data can be programmed to be deleted automatically at a chosen expiry interval. Whilst this feature was not employed, it provided a future real-world deployable architecture where the privacy of pedestrians can be further prioritised. Finally, a MEAN stack dashboard was developed to provide live measurement statistics. Fig.~\ref{fig:rpi_enc} showcases the RPi connected to a powerbank inside the enclosure.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{figures/rpi orientation.jpg}
+\caption{Raspberry Pi Observer device inside weatherproof enclosure.}
+\label{fig:rpi_enc}
+\end{figure}
+
+\subsubsection{Broadcaster Device}
+An off-the-shelf BLE beacon was selected as the Broadcaster. These beacons typically require no programming and broadcast advertisements at a manufacturer-defined advertisement interval. Specifically, a RuuviTag beacon \cite{ruuvi}, broadcasting at an interval of 500~ms, was selected for this experiment. The MAC address of the beacon was added to the whitelist of the Observer device. Fig.~\ref{fig:ruuvi} showcases the selected RuuviTag beacon.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{figures/ruuvi.jpg}
+\caption{RuuviTag Broadcaster beacon.}
+\label{fig:ruuvi}
+\end{figure}
+
+\subsection{Experimental Location}
+A simple topology was identified for conducting these experiments. The rationale behind this was to allow an understanding of the mechanism of the technology in a fundamental setting, limiting the external influences. A location was identified in the TU Dublin's Grangegorman campus. The selected location featured a 5-storey tall building, composed of brickwork and large glass windows, on one side and open ground on the other, as illustrated in Fig.~\ref{fig:satellite_exp}. The building also had an open ramp with a railing along the side, which was used as a spot to deploy the Observer. The orientation of deployment of the Observer is depicted in Fig.~\ref{fig:plane}, where the 90$^\circ$ faces the open ground. The open ground is less trodden and features no pathways and access to any other building. Therefore, it was an unshared space, devoid of any other pedestrians or cyclists. The location thus offered the flexibility to mark pathways at different distances from the deployed Observer to examine different deployment distances.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{figures/experimental ground satellite view.png}
+\caption{Satellite view of the experimental location with overlaid pathways and key points.}
+\label{fig:satellite_exp}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{figures/axis v6 (1).png}
+\caption{Orientation of the Observer deployment showing 90$^\circ$ facing open ground.}
+\label{fig:plane}
+\end{figure}
+
+Four pathways of 24~m in length were marked on the open ground, at a distance of 3~m, 5~m, 7~m, and 9~m respectively from the deployed Observer. Five equidistant key points were identified -- namely, \textit{start}, \textit{approach}, \textit{centre}, \textit{depart}, and \textit{end} -- and marked on each pathway.
+
+It is necessary to clarify why deployment distances of over 9~m were not selected for this study. The pathways under examination in this study were all linear and 24~m in length. The Observer was deployed at the midpoint across the pathway, that is, with 12~m of pathway on either side of the Observer. The closest location between the Observer and pathways was the respective \textit{centre} key point, directly opposite to the Observer, whereas, the farthest point on pathways from the Observer were the respective \textit{start} and \textit{end} key points. Therefore, at a deployment distance of 3~m, an Observer receives advertisements from distances varying between 12.37~m at the farthest (\textit{start} and \textit{end}) key points and 3~m at the closest (\textit{centre}) key point. This can be calculated using Pythagoras's theorem expressed in (\ref{eq:pytha}) and the difference in the closest and farthest points are illustrated in Fig.~\ref{fig:distances}.
+
+\begin{equation}
+\label{eq:pytha}
+\text{hypotenuse} = \sqrt{\text{base}^2 + \text{perpendicular}^2}
+\end{equation}
+where hypotenuse is the distance between Observer and \textit{start} key point, base is the distance between \textit{start} point and \textit{centre} point, and perpendicular is the distance between the Observer and \textit{centre} point on the pathway.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{figures/changing_angles.png}
+\caption{Closest and farthest measurement key points for different pathways.}
+\label{fig:distances}
+\end{figure}
+
+As seen in Fig.~\ref{fig:distances}, the difference between the hypotenuse (distance between Observer and farthest key point) and perpendicular (distance between Observer and closest key point) reduces as the deployment distance increases. This reduction indicates that the difference between the greatest and the smallest distance a signal travels on the pathway becomes progressively smaller with increased deployment distance, proving to be inconsequential to produce recognisable and meaningful patterns at large deployment distances. The drop in the ratio with increasing deployment distance is presented in Fig.~\ref{fig:ratio}.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{figures/ratio_distances.png}
+\caption{Ratio of distances between closest and farthest measurement key points for different pathways.}
+\label{fig:ratio}
+\end{figure}
+
+\subsection{Data Collection Protocol}
+Advertisements were collected for 3~minutes, in three 1-minute segments at each key point on all pathways from the Broadcaster provided to a volunteer pedestrian. Two scenarios were identified for data acquisition, first, where the volunteer was instructed to hold the Broadcaster facing towards the Observer, that is LoS, and second, where the volunteer was instructed to hold the Broadcaster facing away from the Observer, that is nLoS. These scenarios were chosen as they typically resemble real-world situations where there is no knowledge of which side a BLE device is held by the pedestrians. The nLoS case, in particular, offered several scenarios extending beyond complete occlusion between the Broadcaster and the Observer. Complete occlusion was only an instance of the nLoS scenario. At the \textit{start} and \textit{end} key points, there was almost a full LoS, and at \textit{approach} and \textit{centre} key points, a partial occlusion. This is due to the angle between the Observer and the hand of the volunteer holding the Broadcaster. This is easily understood from the illustration in Fig.~\ref{fig:occ}.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{figures/occ.png}
+\caption{Different occlusions in the nLoS scenario showing full, partial, and near-full LoS conditions.}
+\label{fig:occ}
+\end{figure}
+
+The collected data comprised MAC address, timestamped RSSI, and SMA of RSSI. The following protocol was used to collect the data for this experiment:
+
+\begin{enumerate}
+\item Select one of the four pathways for data acquisition.
+\item Instruct the volunteer to stay stationary at the first key point on the selected pathway, holding the Broadcaster in an orientation corresponding to the scenario being examined (LoS or nLoS). Ensure that the Broadcaster is not clenched within their fist.
+\item Start a timer to measure a 1-minute round of data acquisition and execute the script on the Observer. Ensure data is being acquired through the live dashboard. Repeat this step for two more rounds taking a break of approximately 1~minute in between.
+\item Upon completion of three rounds of data measurement on one key point, instruct the volunteer to move to the next key point and repeat the above steps.
+\item When measurements are taken at all key points on each pathway, repeat the above steps for the next scenario.
+\end{enumerate}
+
+Measurements from this experiment were spread across two different days. All the cases for LoS scenarios were acquired on the 1st of February 2023 between 1143 hours and 1317 hours, Irish time. Whereas, the measurements for nLoS scenario were acquired on the 10th of February 2023 between 1205 and 1405 hours, Irish time. The weather conditions during the two measurement periods are presented in Table~\ref{tab:weather}.
+
+\begin{table*}[!t]
+\caption{Weather Information on the Days of Data Acquisition}
+\label{tab:weather}
+\centering
+\begin{tabular}{llcccccc}
+\toprule
+\textbf{Measurement} & \textbf{Time} & \textbf{Rain} & \textbf{Air Temp} & \textbf{Wet Bulb} & \textbf{Dew Point} & \textbf{Humidity} & \textbf{Pressure} \\
+\midrule
+LoS Scenarios & 12:00 & 0.0 mm & 9.4$^\circ$C & 7.8$^\circ$C & 6.0$^\circ$C & 79\% & 1024.1 hPa \\
+Feb 1, 2023 & 13:00 & 0.0 mm & 10$^\circ$C & 8.0$^\circ$C & 5.6$^\circ$C & 74\% & 1023.7 hPa \\
+\midrule
+nLoS Scenarios & 12:00 & 0.0 mm & 10.7$^\circ$C & 9.5$^\circ$C & 8.2$^\circ$C & 84\% & 1032.6 hPa \\
+Feb 10, 2023 & 13:00 & 0.0 mm & 11.2$^\circ$C & 9.8$^\circ$C & 8.4$^\circ$C & 82\% & 1032.3 hPa \\
+ & 14:00 & 0.0 mm & 11.8$^\circ$C & 10.1$^\circ$C & 8.4$^\circ$C & 80\% & 1032.2 hPa \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Data Analysis}
+The first analytics is descriptive statistics for which the median of RSSI acquired at each key point was calculated for all pathways. These median values were averaged for every key point on all pathways for both scenarios, LoS and nLoS. Through this, a general sense of signal strength emerging from the BLE device on all of those pathways was obtained. Subsequently, an average across all key points for each scenario and pathway was also evaluated to understand a general blueprint of signal strength in each of those scenarios for all pathways. Finally, the LoS and nLoS RSSI were also averaged for all pathways to obtain a single descriptive RSSI indicator for each of those candidate pathways. Through this final value, a general sense of expected signal strength at those deployment distance was obtained.
+
+Whilst the previous analytical technique was simple, it was used to determine whether some candidate deployment distances can be discarded simply on the merit of their signal quality. However, this technique only used median values of the collected RSSI, therefore, it overlooks other determinants in the data. For example, as seen in Section~\ref{sec:background}, BLE signals are prone to fluctuations in outdoor environments -- which means that even with a stationary source, the RSSI values measured over a period of time vary in a range -- and this technique fails to measure or highlight the variability in the measured RSSI. Since RSSI is affected by any change in the environment, which is common in a noisy outdoor environment, RSSI collected over an extended period (a total of 3~minutes in this study) should demonstrate fluctuations or deviations in the collected values. Thus, the ANOVA test was performed to identify statistically significant differences amongst the groups of RSSI values for each pathway. The data obtained from all rounds were combined but were separately used for the LoS and nLoS scenarios. However, the ANOVA results only informed the existence of statistically significant differences. In order to identify the groups exhibiting significant differences, a post-hoc analysis, Tukey's HSD was performed. This examination is suitable to identify which pathways produce similar results, or rather, do not produce statistically different RSSI from one another.
+
+Finally, the Rician factor was computed for each pathway only for the LoS scenario. The nLoS scenario was not considered for this approach because SS fading assessed through the Rician factor provides empirical representation of the dominance of LoS components in the collected data, which will be diminished in the nLoS scenario. The Rician factor provided an assessment of the fluctuation at each pathway by identifying the influence of the environmental topology on each of the pathways resulting from an increased effect of the propagation mechanism.
+
+\section{Results}
+\label{sec:results}
+
+\subsection{Descriptive Statistics: Median RSSI Analysis}
+The first approach, computing and assessing the means of medians, was implemented in phases. In the first phase, a median RSSI from each round of measurements for each key point on every pathway was computed for both, LoS and nLoS scenarios. These median values were then averaged to represent the three rounds of measurement for every case with a single value. The term \textit{averaged median} will be used to refer to this value in this paper. In the second phase, averages of averaged medians that belonged to a single pathway, a combination of ten values from all key points for LoS and nLoS scenarios, per pathway were computed. These values depict the LoS and nLoS representative RSSI for each pathway. In the third phase, the average of LoS and nLoS representative values, obtained from the second phase, were averaged to obtain a single descriptive statistic representing the expected signal strength for each pathway. The results are described in Table~\ref{tab:means_medians}.
+
+\begin{table*}[!t]
+\caption{Comparison of Median RSSI Values Across Deployment Distances}
+\label{tab:means_medians}
+\centering
+\begin{tabular}{lcccccccc}
+\toprule
+\multirow{3}{*}{\textbf{Key Point}} & \multicolumn{8}{c}{\textbf{Median RSSI of All Three Rounds (dB)}} \\
+\cline{2-9}
+& \multicolumn{2}{c}{\textbf{3~m}} & \multicolumn{2}{c}{\textbf{5~m}} & \multicolumn{2}{c}{\textbf{7~m}} & \multicolumn{2}{c}{\textbf{9~m}} \\
+\cline{2-9}
+& LoS & nLoS & LoS & nLoS & LoS & nLoS & LoS & nLoS \\
+\midrule
+Start & $-62.10$ & $-74.10$ & $-66.30$ & $-69.70$ & $-69.10$ & $-69.95$ & $-66.29$ & $-71.55$ \\
+Approach & $-47.85$ & $-47.10$ & $-48.10$ & $-51.42$ & $-54.68$ & $-55.60$ & $-50.95$ & $-49.40$ \\
+Centre & $-45.60$ & $-72.89$ & $-54.68$ & $-73.50$ & $-54.65$ & $-76.95$ & $-54.30$ & $-72.31$ \\
+Depart & $-56.60$ & $-62.00$ & $-48.10$ & $-51.42$ & $-56.68$ & $-64.45$ & $-48.10$ & $-60.94$ \\
+End & $-68.80$ & $-67.10$ & $-64.80$ & $-72.10$ & $-63.75$ & $-68.20$ & $-67.45$ & $-73.10$ \\
+\midrule
+\textbf{Average RSSI} & \multirow{2}{*}{$-56.19$} & \multirow{2}{*}{$-64.64$} & \multirow{2}{*}{$-56.39$} & \multirow{2}{*}{$-63.62$} & \multirow{2}{*}{$-59.77$} & \multirow{2}{*}{$-67.03$} & \multirow{2}{*}{$-57.41$} & \multirow{2}{*}{$-65.46$} \\
+\textbf{per scenario (dB)} & & & & & & & & \\
+\midrule
+\multirow{2}{*}{\textbf{Overall Average (dB)}} & \multicolumn{2}{c}{\multirow{2}{*}{$-60.41$}} & \multicolumn{2}{c}{\multirow{2}{*}{$-60.01$}} & \multicolumn{2}{c}{\multirow{2}{*}{$-63.40$}} & \multicolumn{2}{c}{\multirow{2}{*}{$-61.02$}} \\
+& \multicolumn{2}{c}{} & \multicolumn{2}{c}{} & \multicolumn{2}{c}{} & \multicolumn{2}{c}{} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Statistical Analysis: ANOVA and Tukey's HSD}
+For detecting statistically significant differences in the measurements between the selected deployment distances, ANOVA followed by Tukey's HSD were implemented. As previously stated, data acquired from all rounds at every key point on the pathway were combined, and grouped by the LoS or nLoS scenarios. Whilst data from these scenarios could also be combined to gain an overall understanding of each deployment distance, they were analysed separately to identify if there was any difference in the way the measurements for these scenarios were influenced. The results of ANOVA were plotted using notched box plots with whiskers and presented in Figs.~\ref{fig:anova_los} and \ref{fig:anova_nlos} respectively for LoS and nLoS scenarios. The red line in the notch of the box plot depicts the median value of the RSSI corresponding to the deployment distance on the x-axis. The upper and lower bounds of the box signify the 75th percentile and 25th percentile values. The notch is based on 5\% significance levels, where the overlapping notches amongst groups depict insignificant differences.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/anova.jpg}
+\caption{ANOVA results for LoS scenario showing median RSSI and confidence intervals across deployment distances.}
+\label{fig:anova_los}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/anova_nlos.jpg}
+\caption{ANOVA results for nLoS scenario showing median RSSI and confidence intervals across deployment distances.}
+\label{fig:anova_nlos}
+\end{figure}
+
+Tukey's HSD was then performed to identify the groups that demonstrate significant statistical differences. The outcome of Tukey's HSD for the LoS and nLoS scenarios are presented in Tables~\ref{tab:hsd_los} and \ref{tab:hsd_nlos} respectively. In the tables, the confidence interval (CI) represents the range between which there is a likelihood of finding the difference of means. If the values within the lower and upper bounds of CI contain a 0, that is if those intervals have opposite signs, then there is no statistically significant difference between the two groups. The $p$-value represents the measure of the probability of obtaining extreme results, with the assumption that the \textit{null} hypothesis is true. The null hypothesis dictates that there exists no significant difference between the groups. The threshold for comparing the value of $p$-value, $\alpha$, is chosen as 0.05. Figs.~\ref{fig:hsd_los} and \ref{fig:hsd_nlos} visually represent the outcome of Tukey's HSD test for LoS and nLoS scenarios respectively. In the figures, the error bars represent the CI with a marker pointing to the difference of means, and the dotted horizontal line represents the zero difference crossing signifying no significant difference between the groups.
+
+\begin{table*}[!t]
+\caption{Outcome of Tukey's HSD for the LoS Scenario}
+\label{tab:hsd_los}
+\centering
+\begin{tabular}{ccccccl}
+\toprule
+\textbf{Group 1} & \textbf{Group 2} & \textbf{CI Lower} & \textbf{Mean Diff} & \textbf{CI Upper} & \textbf{$p$-value} & \textbf{Inference} \\
+\midrule
+3~m & 5~m & $-0.61$ & 0.68 & 1.97 & 0.5249 & No significant difference \\
+3~m & 7~m & 2.62 & 3.91 & 5.20 & 0.0000 & Significant difference \\
+3~m & 9~m & 0.35 & 1.64 & 2.93 & 0.0059 & Significant difference \\
+5~m & 7~m & 1.94 & 3.23 & 4.52 & 0.0000 & Significant difference \\
+5~m & 9~m & $-0.33$ & 0.96 & 2.25 & 0.2223 & No significant difference \\
+7~m & 9~m & $-3.56$ & $-2.27$ & $-0.98$ & 0.0000 & Significant difference \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[!t]
+\caption{Outcome of Tukey's HSD for the nLoS Scenario}
+\label{tab:hsd_nlos}
+\centering
+\begin{tabular}{ccccccl}
+\toprule
+\textbf{Group 1} & \textbf{Group 2} & \textbf{CI Lower} & \textbf{Mean Diff} & \textbf{CI Upper} & \textbf{$p$-value} & \textbf{Inference} \\
+\midrule
+3~m & 5~m & $-1.53$ & $-0.08$ & 1.38 & 0.9992 & No significant difference \\
+3~m & 7~m & 0.16 & 1.62 & 3.07 & 0.0222 & Significant difference \\
+3~m & 9~m & $-0.55$ & 0.90 & 2.36 & 0.3810 & No significant difference \\
+5~m & 7~m & 0.24 & 1.69 & 3.15 & 0.0148 & Significant difference \\
+5~m & 9~m & $-0.48$ & 0.98 & 2.43 & 0.3090 & No significant difference \\
+7~m & 9~m & $-2.17$ & $-0.72$ & 0.74 & 0.5870 & No significant difference \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/tukeys_los.jpg}
+\caption{Tukey's HSD confidence intervals for LoS scenario showing mean differences and zero-crossing line.}
+\label{fig:hsd_los}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/tukeys_nlos.jpg}
+\caption{Tukey's HSD confidence intervals for nLoS scenario showing mean differences and zero-crossing line.}
+\label{fig:hsd_nlos}
+\end{figure}
+
+\subsection{Small-Scale Fading Analysis: Rician Distribution}
+Finally, fluctuations experienced by BLE advertisements travelling from each of the pathways were analysed through the assessment of SS fading. This was performed using Rician distribution fitting and subsequently obtained the Rician factor. As previously stated, this analysis was performed only on the LoS scenario. The obtained results are presented in Figs.~\ref{fig:rician_3m}, \ref{fig:rician_5m}, \ref{fig:rician_7m}, and \ref{fig:rician_9m}. In the figures, the curves represent the fitted Rician distribution for data collected for each candidate deployment distance. The peak position of the curves indicates the most probable value of SS fading. A curve peaks at a positive value for SS fading, represented on the x-axis in the figures, indicating a high LoS component in the measurements. Conversely, curves peaking on the left side of the x-axis represent high nLoS component or, a high multipath scattering.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/small_scale_fading_3m.png}
+\caption{Rician distribution fitting to RSSI at each key point on 3~m pathway showing varying LoS dominance.}
+\label{fig:rician_3m}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/small_scale_fading_5m.png}
+\caption{Rician distribution fitting to RSSI at each key point on 5~m pathway showing strong LoS dominance.}
+\label{fig:rician_5m}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/small_scale_fading_7m.png}
+\caption{Rician distribution fitting to RSSI at each key point on 7~m pathway showing multipath effects.}
+\label{fig:rician_7m}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/small_scale_fading_9m.png}
+\caption{Rician distribution fitting to RSSI at each key point on 9~m pathway showing predominantly scattered signals.}
+\label{fig:rician_9m}
+\end{figure}
+
+The height of the curves represents the probability density, that is, a taller peak indicates less variability in the RSSI. Conversely, lower and flatter curves suggest greater fluctuations. The spread of the curve is an indication of the degree of fluctuation, with wider curves signifying greater variation in the RSSI. Asymmetry and tail in the curve indicate an uneven multipath effect on the signal.
+
+As previously stated, the Rician factor (or, the \textit{shape parameter}), $K$, is the ratio of power of LoS and nLoS components. The greater value of $K$ signifies a larger LoS component. \textit{Scale parameter}, another outcome of Rician fitting, indicates the spread of the nLoS component. The larger the scale parameter, the greater the spread of multipath components. The outcome of Rician fitting is summarised in Table~\ref{tab:rician}.
+
+\begin{table}[!t]
+\caption{Scale and Shape Parameters for Different Deployment Distances}
+\label{tab:rician}
+\centering
+\begin{tabular}{cccc}
+\toprule
+\textbf{Distance} & \textbf{Location} & \textbf{$K$ (Shape)} & \textbf{$\sigma$ (Scale)} \\
+\midrule
+\multirow{5}{*}{3~m} & Start & 37.18 & 5.47 \\
+ & Approach & 0.20 & 13.93 \\
+ & Centre & 0.14 & 17.14 \\
+ & Depart & 0.00 & 6.12 \\
+ & End & 0.00 & 5.04 \\
+\midrule
+\multirow{5}{*}{5~m} & Start & 117.84 & 5.45 \\
+ & Approach & 86.35 & 3.13 \\
+ & Centre & 7.26 & 5.71 \\
+ & Depart & 0.00 & 8.26 \\
+ & End & 0.15 & 17.72 \\
+\midrule
+\multirow{5}{*}{7~m} & Start & 0.33 & 14.03 \\
+ & Approach & 0.00 & 2.15 \\
+ & Centre & 0.00 & 2.23 \\
+ & Depart & 0.00 & 5.04 \\
+ & End & 0.10 & 16.00 \\
+\midrule
+\multirow{5}{*}{9~m} & Start & 0.64 & 15.95 \\
+ & Approach & 843.80 & 3.90 \\
+ & Centre & 0.00 & 2.11 \\
+ & Depart & 0.00 & 2.21 \\
+ & End & 0.00 & 5.16 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Discussion}
+\label{sec:discussion}
+
+The results from the three analytical approaches -- descriptive statistics, statistical validation (ANOVA and Tukey's HSD), and Rician distribution fitting -- converge to establish 3~m and 5~m as optimal horizontal deployment distances for BLE-based pedestrian monitoring systems in outdoor linear pathways.
+
+\subsection{Interpretation of Findings}
+
+\subsubsection{Signal Strength Comparison}
+The descriptive statistics presented in Table~\ref{tab:means_medians} reveal that deployment distances of 3~m and 5~m produce nearly identical overall average RSSI values ($-60.41$~dB and $-60.01$~dB respectively), indicating comparable signal quality. In contrast, 7~m deployment shows degraded signal strength ($-63.40$~dB), whilst 9~m exhibits intermediate performance ($-61.02$~dB). The body shadowing effect is evident in the Centre key point measurements, where nLoS RSSI drops by approximately 27~dB at 3~m and 19~dB at 5~m compared to LoS scenarios, confirming that human body occlusion significantly affects signal propagation.
+
+\subsubsection{Statistical Significance}
+The ANOVA and Tukey's HSD results provide rigorous statistical validation of deployment distance selection. For the LoS scenario, the absence of significant difference between 3~m and 5~m (p=0.5249) indicates these distances produce statistically equivalent signal quality. Similarly, for the nLoS scenario, the p-value of 0.9992 between 3~m and 5~m confirms their equivalence. Both deployment distances demonstrate significant superiority over 7~m (p$<$0.05), establishing a clear threshold beyond which signal quality degrades substantially.
+
+The relationship between 5~m and 9~m warrants particular attention. Whilst no significant difference exists between them (p=0.2223 for LoS, p=0.3090 for nLoS), the 9~m deployment distance exhibits substantially different fading characteristics, as evidenced by the Rician analysis. This demonstrates that RSSI-based statistical analysis alone is insufficient for deployment optimisation, necessitating the incorporation of fading analysis.
+
+\subsubsection{Multipath Effects and LoS Dominance}
+The Rician distribution fitting reveals critical insights into signal propagation characteristics. At 5~m deployment, K-factors reach 117.84 at the Start key point and 86.35 at the Approach key point, indicating exceptionally strong LoS dominance with minimal multipath scattering. The 3~m deployment exhibits moderate K-factors at the Start position (37.18) but experiences rapid degradation at subsequent key points, suggesting increased susceptibility to environmental multipath effects at closer distances.
+
+In stark contrast, 7~m and 9~m deployments demonstrate K-factors approaching 0 at most measurement points, indicating predominantly Rayleigh fading conditions where scattered signal components dominate over direct LoS transmission. This fundamental shift in propagation characteristics explains why these distances produce unreliable pedestrian detection patterns despite occasionally acceptable RSSI values.
+
+The anomalous K-factor of 843.80 at the 9~m Approach point likely results from constructive interference of multipath components creating a momentary strong LoS-like condition, demonstrating the unpredictable nature of signal propagation at extended deployment distances.
+
+\subsubsection{Practical Implications}
+The convergence of all three analytical approaches establishes 3~m and 5~m as optimal deployment distances, with 5~m demonstrating superior LoS dominance characteristics. The 5~m deployment offers advantages including:
+\begin{itemize}
+\item Consistently high K-factors indicating reliable LoS propagation
+\item Reduced susceptibility to body shadowing compared to 3~m
+\item Sufficient coverage range whilst maintaining signal quality
+\item Predictable signal behaviour facilitating data analysis
+\end{itemize}
+
+The 3~m deployment remains viable for scenarios requiring closer monitoring but exhibits greater sensitivity to environmental factors and body occlusion.
+
+\subsection{Limitations}
+
+Whilst this study provides systematic evaluation of horizontal deployment distances, several limitations should be acknowledged:
+
+\subsubsection{Environmental Scope}
+The experiments were conducted in a controlled outdoor environment featuring a linear pathway adjacent to a building on one side and open ground on the other. This simplified topology facilitated fundamental understanding but does not represent the full complexity of real-world urban environments. Factors not examined include:
+\begin{itemize}
+\item Dense urban canyons with multiple reflective surfaces
+\item Vegetation and foliage effects on signal propagation
+\item Varying weather conditions (rain, fog, extreme temperatures)
+\item Complex pathway geometries (curved paths, intersections)
+\item Electromagnetic interference from urban infrastructure
+\end{itemize}
+
+\subsubsection{Measurement Limitations}
+The study employed stationary pedestrian measurements at defined key points rather than continuous pedestrian movement. Whilst this approach enabled rigorous statistical analysis with controlled variables, it does not capture the full dynamics of pedestrian motion including:
+\begin{itemize}
+\item Varying pedestrian speeds and trajectories
+\item Multiple simultaneous pedestrians creating occlusion patterns
+\item Device orientation changes during natural movement
+\item Advertisement collision effects in crowded scenarios
+\end{itemize}
+
+\subsubsection{Hardware and Configuration}
+The experimental setup utilised specific hardware (Raspberry Pi 4B Observer, RuuviTag Broadcaster with 500~ms advertisement interval) and configuration (whitelisting, 10-sample SMA filter). Different hardware platforms, BLE chipsets, advertisement intervals, and filtering strategies may yield different optimal deployment distances. The study does not address:
+\begin{itemize}
+\item Vertical deployment distance optimisation
+\item Observer mounting height effects
+\item Broadcaster transmission power variations
+\item Alternative BLE protocol configurations
+\end{itemize}
+
+\subsubsection{Temporal Scope}
+Measurements were conducted across two days in February 2023 under similar mild weather conditions (9-12$^\circ$C, no precipitation, 74-84\% humidity). Long-term seasonal variations, extreme weather events, and diurnal patterns were not examined.
+
+\subsubsection{Participant Diversity}
+The study involved a single volunteer pedestrian. Physiological diversity factors including body size, clothing materials, device carrying behaviours, and inter-individual variability in body shadowing effects were not investigated.
+
+\subsection{Practical Deployment Guidelines}
+
+Based on the empirical findings, the following guidelines are recommended for researchers and practitioners implementing BLE-based pedestrian monitoring infrastructure in outdoor environments:
+
+\subsubsection{Deployment Distance Selection}
+\begin{itemize}
+\item \textbf{Primary Recommendation:} Deploy BLE Observers at 5~m horizontal distance from target pathways to maximise LoS dominance (K-factors exceeding 100) whilst maintaining robust signal quality.
+\item \textbf{Alternative Configuration:} Utilise 3~m deployment for scenarios requiring closer monitoring, acknowledging increased body shadowing effects (27~dB RSSI reduction at Centre positions).
+\item \textbf{Avoid Extended Distances:} Deployment distances exceeding 5~m result in predominantly Rayleigh fading conditions (K-factors approaching 0), producing unreliable detection patterns unsuitable for pedestrian monitoring.
+\end{itemize}
+
+\subsubsection{Environmental Considerations}
+\begin{itemize}
+\item \textbf{Pathway Geometry:} For linear pathways, position Observers at the midpoint to maximise coverage whilst maintaining optimal deployment distance. For 24~m pathways, a single Observer at 5~m distance provides reliable measurements across the entire length.
+\item \textbf{Building Proximity:} Leverage building-side mounting positions to establish controlled deployment distances whilst minimising interference from complex multipath environments.
+\item \textbf{LoS Maintenance:} Ensure unobstructed LoS between Observer and pathway centre point. Obstacles blocking the direct signal path significantly degrade signal quality regardless of deployment distance.
+\end{itemize}
+
+\subsubsection{System Configuration}
+\begin{itemize}
+\item \textbf{Advertisement Interval:} Broadcaster advertisement intervals of 500~ms provide sufficient temporal resolution for stationary measurements. Adjust intervals based on expected pedestrian speeds and desired detection granularity.
+\item \textbf{Signal Filtering:} Implement simple moving average filters (window size: 10 samples) to reduce RSSI fluctuations whilst preserving pedestrian detection patterns.
+\item \textbf{Whitelisting:} Employ MAC address whitelisting to enhance privacy preservation by automatically discarding advertisements from non-consenting participants.
+\end{itemize}
+
+\subsubsection{Data Collection Protocol}
+\begin{itemize}
+\item \textbf{Measurement Duration:} Collect measurements for minimum 3 minutes per location with multiple repetitions (n$\geq$3) to capture signal variability and enable robust statistical analysis.
+\item \textbf{Orientation Scenarios:} Evaluate both LoS and nLoS device orientations to characterise body shadowing effects, as orientation significantly affects RSSI (up to 27~dB difference).
+\item \textbf{Weather Monitoring:} Document weather conditions during data collection to enable assessment of environmental factor influences and ensure comparability across measurement sessions.
+\end{itemize}
+
+\subsubsection{Analysis and Validation}
+\begin{itemize}
+\item \textbf{Multi-Method Validation:} Employ multiple analytical approaches (descriptive statistics, ANOVA/Tukey's HSD, Rician distribution fitting) to comprehensively evaluate deployment configurations.
+\item \textbf{Statistical Rigour:} Perform ANOVA and post-hoc tests (Tukey's HSD) to establish statistical significance (p$<$0.05) of differences between deployment configurations.
+\item \textbf{Fading Analysis:} Incorporate Rician K-factor analysis to assess LoS dominance and multipath effects, as RSSI-based analysis alone may overlook critical propagation characteristics.
+\end{itemize}
+
+\subsubsection{Scalability Considerations}
+\begin{itemize}
+\item \textbf{Multiple Observers:} For extended monitoring areas, deploy multiple Observers at 5~m distances, spacing them to provide overlapping coverage whilst avoiding inter-Observer interference.
+\item \textbf{Network Infrastructure:} Utilise time-series databases (e.g., InfluxDB) to handle high-throughput RSSI data from multiple Observers with efficient querying capabilities.
+\item \textbf{Privacy Architecture:} Implement data ephemerality features enabling automatic deletion of measurements after predefined intervals to enhance privacy preservation.
+\end{itemize}
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+This study presents a systematic experimental evaluation of horizontal deployment distances for BLE-based pedestrian monitoring systems in outdoor linear pathways. Through comprehensive analysis combining descriptive statistics, rigorous statistical validation (ANOVA and Tukey's HSD), and small-scale fading characterisation (Rician distribution fitting), empirical evidence establishes 3~m and 5~m as optimal deployment distances.
+
+The key findings demonstrate that:
+\begin{enumerate}
+\item \textbf{Statistical Equivalence:} Deployment distances of 3~m and 5~m produce statistically equivalent signal quality with no significant differences (p=0.5249 for LoS, p=0.9992 for nLoS), whilst both significantly outperform 7~m and 9~m deployments (p$<$0.05).
+\item \textbf{Superior LoS Dominance:} The 5~m deployment exhibits exceptional LoS characteristics with Rician K-factors reaching 117.84, indicating strong direct signal components and minimal multipath scattering. In contrast, 7~m and 9~m deployments demonstrate predominantly Rayleigh fading conditions (K-factors approaching 0) characterised by scattered signal dominance.
+\item \textbf{Body Shadowing Effects:} Human body occlusion significantly affects signal propagation, causing RSSI reductions up to 27~dB at 3~m and 19~dB at 5~m in nLoS scenarios, confirming the importance of evaluating both LoS and nLoS device orientations.
+\item \textbf{Deployment Threshold:} A clear threshold exists beyond 5~m where signal propagation transitions from LoS-dominated to scattering-dominated regimes, rendering extended deployment distances unsuitable for reliable pedestrian monitoring.
+\end{enumerate}
+
+The practical implications of these findings extend beyond optimal distance selection. The study establishes a comprehensive methodological framework for evaluating BLE deployment configurations, demonstrating that RSSI-based statistical analysis alone is insufficient -- the integration of fading analysis provides critical insights into signal propagation characteristics that fundamentally affect system reliability.
+
+The deployment guidelines presented in this work enable researchers and practitioners to implement BLE-based pedestrian monitoring infrastructure with evidence-based configuration parameters. The primary recommendation of 5~m horizontal deployment distance maximises LoS dominance whilst maintaining robust signal quality across entire pathway lengths, providing reliable detection patterns suitable for privacy-preserving pedestrian monitoring in outdoor environments.
+
+Future work should extend this investigation in several directions. Firstly, validation in diverse environmental conditions including dense urban canyons, varying weather conditions, and complex pathway geometries would establish generalisability of the findings. Secondly, evaluation of continuous pedestrian movement rather than stationary measurements would capture the full dynamics of real-world pedestrian behaviour. Thirdly, investigation of vertical deployment distance optimisation and Observer mounting height effects would provide complete three-dimensional deployment guidelines. Finally, large-scale field deployments with multiple simultaneous pedestrians would characterise advertisement collision effects and system scalability in crowded scenarios.
+
+The findings contribute essential deployment guidelines for the growing field of privacy-preserving pedestrian monitoring using BLE technology. As urban planning and transportation management increasingly rely on accurate pedestrian data whilst navigating stringent privacy regulations, the systematic evaluation of deployment configurations becomes crucial. This work provides the empirical foundation for deploying reliable BLE-based monitoring infrastructure that balances data quality requirements with privacy preservation imperatives.
+
+\bibliographystyle{IEEEtran}
+\bibliography{ref}
+
+\end{document}
