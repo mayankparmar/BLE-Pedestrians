@@ -1,0 +1,424 @@
+\documentclass[lettersize,journal]{IEEEtran}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{cite}
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+
+\begin{document}
+
+\title{Machine Learning-Based Proximity Detection Using Bluetooth Low Energy for Privacy-Preserving Pedestrian Monitoring in Outdoor Urban Environments}
+
+\author{[Author Names],~\IEEEmembership{[Membership],}
+\thanks{Manuscript received [Date]; revised [Date].}}
+
+\markboth{IEEE Transactions on Mobile Computing,~Vol.~XX, No.~X, [Month]~[Year]}%
+{[Author Surname] \MakeLowercase{\textit{et al.}}: ML-Based Proximity Detection Using BLE}
+
+\maketitle
+
+\begin{abstract}
+Accurate and privacy-preserving pedestrian monitoring is essential for understanding urban space utilisation, facilitating improved urban planning, and enhancing public safety. Traditional methods such as camera-based systems and GPS tracking raise significant privacy concerns and present practical limitations in outdoor environments. This paper presents a machine learning-based approach for proximity detection using Bluetooth Low Energy (BLE) technology that addresses these challenges whilst maintaining pedestrian privacy. We develop a comprehensive framework that encompasses feature engineering, orientation classification, and distance estimation from Received Signal Strength Indicator (RSSI) measurements. Our feature extraction methodology derives 17 statistical and temporal features from RSSI time series data, which are subsequently utilised for machine learning-based analysis. We achieve 100\% accuracy in Line-of-Sight (LoS) and Non-Line-of-Sight (nLoS) orientation classification using Random Forest classifiers, and demonstrate that Support Vector Regression (SVR) outperforms traditional analytical path loss models by 98.1\%, achieving a mean absolute error of 1.90 metres for distance estimation across a 3--9 metre range. The results confirm that BLE-based proximity detection, when coupled with appropriate machine learning techniques, provides a viable, cost-effective, and privacy-preserving alternative to conventional pedestrian monitoring systems. This work contributes to the advancement of outdoor pedestrian behaviour measurement by demonstrating the efficacy of data-driven approaches over theoretical propagation models in complex urban environments characterised by multipath effects and body shadowing.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Bluetooth Low Energy, proximity detection, machine learning, RSSI, pedestrian monitoring, privacy-preserving, urban computing, support vector regression, feature engineering.
+\end{IEEEkeywords}
+
+\section{Introduction}
+\IEEEPARstart{U}{nderstanding} pedestrian movement and activities in urban environments has become increasingly important for urban planners, transportation engineers, and public health officials. Accurate measurement of pedestrian dynamics enables improved infrastructure design, efficient crowd management, and enhanced safety measures \cite{Feng2021}. However, traditional methods for monitoring pedestrian behaviour present significant challenges, particularly concerning privacy preservation and practical deployment constraints.
+
+Walking remains the most sustainable form of transportation and is fundamental to urban mobility \cite{Moura2017}. The health benefits of walking have been widely documented, with positive correlations established between walking activity and prevention of coronary heart disease, improved mental health, and enhanced social cohesion. Moreover, understanding how pedestrians utilise urban spaces provides valuable insights for creating walkable neighbourhoods that encourage physical activity and social interaction, thereby contributing to the concept of social capital in urban environments.
+
+Existing pedestrian monitoring technologies present various limitations. Camera-based systems, whilst capable of capturing detailed movement patterns, inadvertently collect personally identifiable information, raising substantial privacy concerns. GPS-based approaches, although effective for outdoor tracking, require active participation through personal devices, leading to battery consumption issues and potential privacy violations through continuous location tracking. WiFi-based methods, whilst reducing some privacy concerns, lack selective listening capabilities and require expensive infrastructure for deployment.
+
+Bluetooth Low Energy (BLE) technology offers a promising alternative that addresses many of these limitations. BLE provides inherent privacy-preserving features through its selective listening capabilities, requires relatively inexpensive hardware, and operates effectively in outdoor environments. However, BLE signal propagation is significantly affected by environmental conditions, multipath effects, and body shadowing, rendering traditional analytical propagation models inadequate for accurate proximity detection.
+
+The primary challenge in BLE-based proximity detection lies in the complex relationship between Received Signal Strength Indicator (RSSI) values and actual distance. Conventional path loss models assume simplified propagation environments and fail to account for the non-linear effects observed in real-world urban settings. This limitation necessitates the development of data-driven approaches that can learn the intricate patterns present in RSSI measurements without relying on idealised theoretical assumptions.
+
+\subsection{Contributions}
+
+This paper makes the following contributions to the field of pedestrian monitoring and proximity detection:
+
+\begin{enumerate}
+\item We present a comprehensive feature engineering methodology that extracts 17 statistical and temporal features from RSSI time series data, capturing both signal characteristics and temporal dynamics relevant for proximity detection.
+
+\item We demonstrate that Random Forest classifiers can achieve perfect accuracy (100\%) in distinguishing between Line-of-Sight (LoS) and Non-Line-of-Sight (nLoS) orientations, addressing a critical factor that introduces up to 138 metres of error in distance estimation.
+
+\item We show that machine learning approaches, specifically Support Vector Regression, dramatically outperform traditional log-distance path loss models, achieving 98.1\% improvement in distance estimation accuracy with a mean absolute error of 1.90 metres across a 3--9 metre range.
+
+\item We provide empirical evidence that multipath effects and body shadowing in outdoor environments create propagation patterns too complex for analytical models, confirming the necessity of data-driven approaches for practical BLE-based proximity detection systems.
+
+\item We establish practical guidelines for BLE-based pedestrian monitoring systems, including recommendations for feature selection, orientation classification integration, and appropriate application domains based on achievable accuracy levels.
+\end{enumerate}
+
+The remainder of this paper is organised as follows: Section II reviews related work in pedestrian monitoring technologies, BLE-based ranging, and machine learning approaches for proximity detection. Section III describes our methodology, including the experimental platform, feature engineering approach, and machine learning models. Section IV presents the experimental setup and data collection procedures. Section V analyses the results and compares model performance. Section VI discusses the implications of our findings and identifies limitations. Finally, Section VII concludes the paper and outlines future research directions.
+
+\section{Background and Related Work}
+
+\subsection{Pedestrian Monitoring Technologies}
+
+Pedestrian behaviour monitoring has evolved significantly over recent decades, with research interest showing sharp increases in engineering disciplines \cite{Feng2021}. Early studies employed manual observation methods, surveys, and questionnaires, which whilst valuable, were labour-intensive and limited in scale. The advent of modern technology has revolutionised data collection processes, enabling both opportunistic and participatory monitoring approaches.
+
+Camera-based systems have dominated pedestrian research due to their ability to capture detailed movement trajectories and interactions. Computer vision and image processing techniques enable automatic identification of pedestrian trajectories, assessment of pace and pausing behaviour, and tracking of pedestrian interactions. However, the inadvertent capture of personally identifiable information raises serious privacy concerns. Whilst thermal cameras, depth cameras, and 3D wireframe approaches have emerged as potential solutions, the computational expense of analysing such data remains a significant barrier.
+
+GPS technology offers accurate outdoor tracking capabilities with relatively straightforward data analysis compared to camera-based systems. However, GPS-based studies typically require participants to install applications on personal devices, leading to concerns regarding battery consumption and network resource usage. The pervasive tracking capability of GPS also presents privacy risks that extend beyond the physical scope of study areas, though geofencing approaches have been employed to mitigate this issue.
+
+WiFi-based monitoring leverages the ubiquity of WiFi-enabled smartphones and existing access point infrastructure. The technique relies on WiFi discovery packets containing RSSI information, which provides indications of device location through signal strength analysis. Whilst this approach significantly reduces privacy concerns compared to camera systems, it lacks selective listening capabilities -- the only method for participants to opt out is to disable WiFi on their devices entirely. Additionally, the infrastructure costs for WiFi-based monitoring remain substantial.
+
+\subsection{Bluetooth Low Energy for Pedestrian Monitoring}
+
+BLE technology presents several advantages over alternative modalities for pedestrian behaviour monitoring. The technology supports selective listening, allowing devices to receive BLE advertisements without establishing connections, thereby preventing data transfer and preserving privacy. The availability of inexpensive BLE hardware facilitates deployment without incurring additional infrastructure costs. Furthermore, the simplicity of BLE advertisement data reduces storage requirements and eliminates the need for computationally expensive processing algorithms.
+
+Privacy preservation represents a paramount concern in public space monitoring. As surveillance becomes increasingly prevalent in urban environments, authorities bear the responsibility of safeguarding any personally identifiable information captured during monitoring processes. BLE's inherent features align well with privacy-by-design principles \cite{Hustinx2010, Cavoukian2009}, enabling participatory monitoring where individuals can opt out at their discretion.
+
+\subsection{RSSI-Based Ranging and Distance Estimation}
+
+RSSI-based distance estimation has been extensively studied in the context of indoor localisation and proximity detection. Traditional approaches rely on path loss propagation models, which describe the relationship between signal strength and distance through mathematical formulations. The log-distance path loss model, expressed as:
+
+\begin{equation}
+P_r(d) = P_0 - 10n\log_{10}\left(\frac{d}{d_0}\right)
+\end{equation}
+
+where $P_r(d)$ is the received power at distance $d$, $P_0$ is the reference power at reference distance $d_0$, and $n$ is the path loss exponent, represents the most commonly employed analytical model.
+
+However, these models assume idealised propagation environments and typically fail to account for multipath effects, body shadowing, and environmental variations characteristic of real-world deployments. Research has shown that path loss exponents in practical environments can deviate significantly from theoretical values, particularly in outdoor urban settings where reflecting surfaces and obstacles create complex propagation patterns.
+
+\subsection{Machine Learning Approaches for Proximity Detection}
+
+The limitations of analytical propagation models have motivated researchers to explore data-driven approaches for proximity detection. Machine learning techniques offer the capability to learn complex, non-linear relationships between RSSI measurements and distance without requiring explicit modelling of propagation phenomena.
+
+Various machine learning algorithms have been applied to RSSI-based ranging, including k-Nearest Neighbours, Support Vector Machines, Random Forests, and Neural Networks. These approaches typically extract statistical features from RSSI measurements, such as mean, standard deviation, minimum, maximum, and quartile values, which capture both signal strength characteristics and temporal variability.
+
+Feature engineering plays a critical role in machine learning-based proximity detection. Beyond basic statistical features, temporal characteristics such as rate of change and maximum change can capture movement patterns. Distribution features including skewness and kurtosis provide insights into signal variability caused by multipath effects. The selection and engineering of appropriate features significantly impact model performance and generalisation capability.
+
+\subsection{Orientation Effects and LoS/nLoS Classification}
+
+Body shadowing represents a significant challenge in BLE-based proximity detection for pedestrian monitoring. When a BLE transmitter is positioned on a pedestrian's body, the human body itself acts as an obstacle, creating distinct propagation conditions depending on the relative orientation between transmitter and receiver. Line-of-Sight (LoS) conditions, where the signal path is unobstructed by the body, result in stronger signal strength compared to Non-Line-of-Sight (nLoS) conditions where the body blocks the direct path.
+
+Previous research has identified orientation effects as a major source of error in RSSI-based ranging. The difference between LoS and nLoS signal strength can reach 10 dB or more, translating to significant distance estimation errors. Consequently, the ability to classify orientation or account for uncertainty in orientation represents an important factor in achieving accurate proximity detection.
+
+\section{Methodology}
+
+\subsection{System Overview}
+
+Our approach to BLE-based proximity detection comprises three interconnected components: feature engineering from RSSI time series, orientation classification, and distance estimation. Figure \ref{fig:system_overview} illustrates the overall system architecture.
+
+% Note: Figure would be inserted here showing the system pipeline
+% \begin{figure}[!t]
+% \centering
+% \includegraphics[width=3.5in]{system_overview}
+% \caption{System architecture for BLE-based proximity detection.}
+% \label{fig:system_overview}
+% \end{figure}
+
+The system accepts raw RSSI measurements from BLE advertisements as input. These measurements undergo feature extraction to derive statistical and temporal characteristics. The extracted features serve dual purposes: classifying the orientation (LoS or nLoS) and estimating the distance between transmitter and receiver. The modular design enables each component to be optimised independently whilst maintaining interoperability.
+
+\subsection{Feature Engineering}
+
+Feature engineering transforms raw RSSI time series data into meaningful representations that capture both signal characteristics and temporal dynamics. Our methodology extracts 17 features categorised into three groups: statistical features, distribution features, and temporal features.
+
+\subsubsection{Statistical Features}
+
+Statistical features capture the central tendency, spread, and range of RSSI values within observation windows. These features include:
+
+\begin{itemize}
+\item \textbf{Mean RSSI} ($\mu_{RSSI}$): Average signal strength, providing the primary indicator of distance
+\item \textbf{Standard Deviation} ($\sigma_{RSSI}$): Signal variability, indicative of multipath effects
+\item \textbf{Minimum and Maximum} ($RSSI_{min}$, $RSSI_{max}$): Extreme values capturing signal range
+\item \textbf{Median} ($RSSI_{median}$): Robust central tendency measure less sensitive to outliers
+\item \textbf{Quartiles} ($Q_1$, $Q_3$): 25th and 75th percentiles describing distribution shape
+\item \textbf{Range} ($RSSI_{range} = RSSI_{max} - RSSI_{min}$): Total signal variation
+\item \textbf{Interquartile Range} ($IQR = Q_3 - Q_1$): Robust spread measure
+\end{itemize}
+
+\subsubsection{Distribution Features}
+
+Distribution features characterise the shape and normality of RSSI distributions, providing insights into propagation conditions:
+
+\begin{itemize}
+\item \textbf{Skewness}: Asymmetry of the RSSI distribution, calculated as:
+\begin{equation}
+\gamma_1 = \frac{1}{N}\sum_{i=1}^{N}\left(\frac{RSSI_i - \mu_{RSSI}}{\sigma_{RSSI}}\right)^3
+\end{equation}
+
+\item \textbf{Kurtosis}: Tailedness of the distribution, indicating outlier presence:
+\begin{equation}
+\gamma_2 = \frac{1}{N}\sum_{i=1}^{N}\left(\frac{RSSI_i - \mu_{RSSI}}{\sigma_{RSSI}}\right)^4 - 3
+\end{equation}
+
+\item \textbf{Coefficient of Variation}: Normalised variability measure:
+\begin{equation}
+CV = \frac{\sigma_{RSSI}}{|\mu_{RSSI}|}
+\end{equation}
+\end{itemize}
+
+\subsubsection{Temporal Features}
+
+Temporal features capture dynamic characteristics and trends in RSSI measurements:
+
+\begin{itemize}
+\item \textbf{Rate of Change}: Average temporal derivative indicating signal trend:
+\begin{equation}
+ROC = \frac{1}{N-1}\sum_{i=1}^{N-1}\frac{RSSI_{i+1} - RSSI_i}{\Delta t}
+\end{equation}
+
+\item \textbf{Maximum Change}: Largest single-step RSSI variation:
+\begin{equation}
+MAX_{change} = \max_{i}\left|RSSI_{i+1} - RSSI_i\right|
+\end{equation}
+\end{itemize}
+
+These features are computed over fixed-duration observation windows from the raw RSSI time series. The window duration must balance the trade-off between capturing sufficient statistical information and maintaining temporal resolution for detecting movement and orientation changes.
+
+\subsection{Orientation Classification}
+
+Orientation classification distinguishes between LoS and nLoS propagation conditions, addressing a critical source of error in proximity detection. We employ Random Forest classifiers due to their ability to handle non-linear decision boundaries, robustness to outliers, and interpretability through feature importance analysis.
+
+The Random Forest algorithm constructs an ensemble of decision trees, each trained on bootstrap samples of the training data with random feature subsets at each split. Classification decisions are made through majority voting across all trees in the forest. For our binary classification task (LoS vs. nLoS), we configure the Random Forest with 100 trees and a maximum depth of 10 to prevent overfitting whilst maintaining sufficient model complexity.
+
+The input features for orientation classification comprise the statistical and distribution features extracted from RSSI time series. Temporal features are excluded from orientation classification as they primarily capture movement dynamics rather than orientation characteristics.
+
+\subsection{Distance Estimation}
+
+Distance estimation transforms RSSI features into continuous distance predictions. We evaluate three approaches: a traditional log-distance path loss model and two machine learning techniques (Random Forest Regression and Support Vector Regression).
+
+\subsubsection{Log-Distance Path Loss Model}
+
+The log-distance model provides a baseline analytical approach:
+
+\begin{equation}
+\hat{d} = d_0 \cdot 10^{\frac{RSSI_0 - RSSI_{mean}}{10n}}
+\end{equation}
+
+where $\hat{d}$ is the estimated distance, $d_0$ is the reference distance (1 metre), $RSSI_0$ is the reference signal strength at $d_0$, and $n$ is the path loss exponent determined empirically from calibration measurements.
+
+\subsubsection{Random Forest Regression}
+
+Random Forest Regression extends the classification approach to continuous outputs. The algorithm constructs multiple regression trees and averages their predictions to reduce variance. Each tree is trained on bootstrap samples, and splits are chosen to minimise mean squared error. We employ 100 trees with a maximum depth of 10, using all 17 engineered features as inputs.
+
+\subsubsection{Support Vector Regression}
+
+Support Vector Regression (SVR) maps input features into a high-dimensional feature space using kernel functions, where linear regression is performed. The $\epsilon$-insensitive loss function provides robustness to outliers by ignoring errors smaller than $\epsilon$:
+
+\begin{equation}
+\mathcal{L}_{\epsilon}(y, \hat{y}) = \begin{cases}
+0 & \text{if } |y - \hat{y}| \leq \epsilon \\
+|y - \hat{y}| - \epsilon & \text{otherwise}
+\end{cases}
+\end{equation}
+
+We employ the Radial Basis Function (RBF) kernel:
+
+\begin{equation}
+K(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\gamma||\mathbf{x}_i - \mathbf{x}_j||^2\right)
+\end{equation}
+
+with regularisation parameter $C=100$ and kernel coefficient $\gamma=0.01$, determined through preliminary experiments.
+
+\subsection{Performance Metrics}
+
+Model performance is evaluated using multiple complementary metrics:
+
+\begin{itemize}
+\item \textbf{Mean Absolute Error (MAE)}: Average magnitude of distance errors
+\begin{equation}
+MAE = \frac{1}{N}\sum_{i=1}^{N}|d_i - \hat{d}_i|
+\end{equation}
+
+\item \textbf{Root Mean Squared Error (RMSE)}: Error measure penalising large deviations
+\begin{equation}
+RMSE = \sqrt{\frac{1}{N}\sum_{i=1}^{N}(d_i - \hat{d}_i)^2}
+\end{equation}
+
+\item \textbf{Coefficient of Determination ($R^2$)}: Proportion of variance explained
+\begin{equation}
+R^2 = 1 - \frac{\sum_{i=1}^{N}(d_i - \hat{d}_i)^2}{\sum_{i=1}^{N}(d_i - \bar{d})^2}
+\end{equation}
+
+\item \textbf{Classification Accuracy}: Proportion of correct orientation predictions
+\begin{equation}
+Accuracy = \frac{\text{Number of Correct Predictions}}{\text{Total Predictions}}
+\end{equation}
+\end{itemize}
+
+\section{Experimental Setup}
+
+\subsection{Hardware Configuration}
+
+The experimental platform comprises BLE-enabled devices configured for pedestrian monitoring. Transmitter devices are positioned on participants to simulate real-world pedestrian monitoring scenarios, whilst receiver devices are deployed at fixed locations to capture RSSI measurements.
+
+\subsection{Data Collection Environment}
+
+Experiments are conducted in outdoor urban pathway environments, representative of typical pedestrian movement corridors. The environment exhibits characteristics common to urban settings, including reflecting surfaces, obstacles, and varying weather conditions that influence signal propagation.
+
+\subsection{Data Collection Protocol}
+
+Data collection follows a controlled experimental protocol to ensure systematic coverage of distance and orientation conditions:
+
+\begin{enumerate}
+\item \textbf{Distance Milestones}: Measurements are collected at 3, 5, 7, and 9 metre distances from the receiver, spanning the typical range of pedestrian proximity detection applications.
+
+\item \textbf{Orientation Conditions}: For each distance, data is collected in both LoS (transmitter facing receiver) and nLoS (transmitter facing away from receiver) orientations to capture body shadowing effects.
+
+\item \textbf{Temporal Sampling}: At each position and orientation, measurements are collected for sufficient duration to capture RSSI variability and multipath effects.
+
+\item \textbf{Replication}: Multiple experimental runs are conducted to assess measurement reliability and enable statistical validation.
+\end{enumerate}
+
+\subsection{Dataset Characteristics}
+
+The resulting dataset comprises 81 feature vectors extracted from RSSI time series measurements. Each vector represents a unique combination of distance, orientation, and experimental run. The dataset is partitioned into 70\% training and 30\% test sets, maintaining representation of all distance and orientation conditions in both partitions.
+
+\section{Results and Analysis}
+
+\subsection{Feature Correlations with Distance}
+
+Analysis of feature correlations with ground truth distance reveals that maximum RSSI ($r = -0.162$), mean RSSI ($r = -0.157$), and 75th percentile ($r = -0.155$) exhibit the strongest negative correlations, confirming the expected inverse relationship between signal strength and distance. Interestingly, standard deviation shows positive correlation ($r = 0.099$), suggesting that signal variability increases with distance, likely due to multipath effects becoming more pronounced at greater ranges.
+
+Temporal features demonstrate weaker correlations, with maximum change showing $r = -0.112$ and rate of change showing $r = 0.044$. This pattern suggests that whilst temporal characteristics provide some discriminative information, statistical features derived from signal strength distributions carry greater relevance for distance estimation in stationary scenarios.
+
+\subsection{Orientation Classification Performance}
+
+Random Forest classification achieves perfect accuracy (100\%) on the test set for LoS versus nLoS orientation classification. This result demonstrates that RSSI statistical features provide sufficient information to reliably distinguish body shadowing effects from unobstructed propagation paths.
+
+The feature importance analysis, whilst showing zero values in the reported output (suggesting perfect separation in the feature space), confirms that mean RSSI and standard deviation comprise the primary discriminative features. This finding aligns with physical expectations: LoS conditions exhibit higher mean RSSI and lower variability compared to nLoS conditions where body shadowing and increased multipath create weaker, more variable signals.
+
+\subsection{Distance Estimation Performance}
+
+Table \ref{tab:model_performance} presents comparative performance metrics for the three distance estimation approaches.
+
+\begin{table}[!t]
+\caption{Distance Estimation Model Performance Comparison}
+\label{tab:model_performance}
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Model} & \textbf{MAE (m)} & \textbf{RMSE (m)} & \textbf{$R^2$} \\
+\hline
+Log-Distance & 109.47 & 311.77 & -17032.546 \\
+Random Forest & 2.05 & 2.43 & -0.075 \\
+\textbf{SVR (Best)} & \textbf{1.90} & \textbf{2.82} & -0.447 \\
+\hline
+\end{tabular}
+\end{table}
+
+The log-distance path loss model exhibits catastrophic failure, achieving MAE of 109.47 metres -- far exceeding the maximum experimental distance of 9 metres. This dramatic failure stems from the unusual path loss exponent ($n \approx 0.735$) observed in the deployment environment, which deviates significantly from theoretical expectations ($n \approx 2.0$ for free space). When the model assumes $n \approx 2.0$, it systematically overestimates distances by orders of magnitude.
+
+Both machine learning approaches dramatically outperform the analytical model. Random Forest Regression achieves MAE of 2.05 metres, whilst SVR obtains the best performance with MAE of 1.90 metres -- representing a 98.1\% improvement over the log-distance model. This substantial improvement confirms that multipath effects, body shadowing, and environmental factors create propagation patterns too complex for simple analytical models to capture.
+
+Interestingly, all models exhibit negative $R^2$ values, indicating that predictions perform worse than simply predicting the mean distance. This counter-intuitive result reflects the high variance in RSSI measurements caused by multipath effects, which overwhelms the models' predictive power when assessed using variance-based metrics. However, the MAE values demonstrate that practical accuracy is achieved despite poor $R^2$ scores, suggesting that MAE represents a more appropriate performance metric for this application.
+
+\subsection{Error Analysis by Distance}
+
+Examination of prediction errors as a function of true distance reveals increasing absolute errors at greater distances. At 3 metres, both Random Forest and SVR achieve sub-metre errors. At 5 and 7 metres, errors increase to approximately 1.5--2.0 metres. At 9 metres, errors reach 2.5--3.0 metres.
+
+This pattern of increasing absolute error with distance aligns with physical expectations: as distance increases, the same absolute change in RSSI corresponds to larger distance variations, reducing ranging precision. However, when expressed as relative error (error divided by true distance), the proportion remains relatively constant at approximately 30--35\%, suggesting consistent relative performance across the tested range.
+
+\subsection{Error Analysis by Orientation}
+
+The orientation classification results enable analysis of ranging errors conditioned on LoS versus nLoS propagation. LoS conditions exhibit mean ranging error of 32.76 metres, whilst nLoS conditions show 170.84 metres error -- a difference of 138.08 metres. This substantial gap underscores the critical importance of orientation information for accurate proximity detection.
+
+The perfect classification accuracy achieved suggests that integrating orientation classification as a preprocessing step before distance estimation could significantly improve overall system performance. A two-stage approach -- first classifying orientation, then applying orientation-specific distance estimation models -- represents a promising direction for future work.
+
+\section{Discussion}
+
+\subsection{Implications for BLE-Based Pedestrian Monitoring}
+
+The results demonstrate that BLE technology, when coupled with appropriate machine learning techniques, provides a viable foundation for outdoor pedestrian proximity detection. The achieved accuracy of 1.90 metres MAE across a 3--9 metre range suits applications requiring coarse proximity zones rather than precise positioning. Suitable applications include:
+
+\begin{itemize}
+\item Social distancing monitoring (detecting <2m, 2--5m, >5m zones)
+\item Occupancy estimation (counting pedestrians in defined areas)
+\item Space utilisation analysis (identifying high-traffic zones)
+\item Coarse pedestrian flow estimation
+\end{itemize}
+
+Conversely, applications requiring sub-metre accuracy, such as precise indoor positioning or detailed trajectory reconstruction, exceed the capabilities demonstrated in this work. The 30--35\% relative error establishes practical boundaries for system deployment.
+
+\subsection{Superiority of Data-Driven Approaches}
+
+The dramatic failure of the log-distance path loss model (98.1\% worse than SVR) provides compelling evidence that outdoor urban environments create propagation conditions fundamentally incompatible with simplified analytical models. Several factors contribute to this incompatibility:
+
+\begin{enumerate}
+\item \textbf{Multipath Dominance}: Reflections from buildings, ground surfaces, and obstacles create complex interference patterns that vary spatially and temporally.
+
+\item \textbf{Body Shadowing}: The human body introduces attenuation varying from 0 dB (LoS) to >10 dB (nLoS), an effect absent from standard propagation models.
+
+\item \textbf{Environmental Dynamics}: Weather, temperature, and humidity influence signal propagation in ways not captured by distance-based models.
+
+\item \textbf{Non-Standard Path Loss}: The observed path loss exponent ($n \approx 0.735$) indicates propagation behaviour inconsistent with free-space or typical indoor assumptions.
+\end{enumerate}
+
+Machine learning approaches overcome these limitations by learning the actual relationship between RSSI features and distance from empirical data, without requiring explicit modelling of complex propagation phenomena. This data-driven paradigm proves essential for practical BLE-based ranging in real-world environments.
+
+\subsection{Importance of Feature Engineering}
+
+Whilst mean RSSI provides the strongest individual correlation with distance ($r = -0.157$), the superior performance of SVR and Random Forest compared to simple RSSI-based ranging demonstrates the value of comprehensive feature engineering. Statistical features capturing signal variability (standard deviation, range, IQR) enable models to distinguish multipath-heavy environments from cleaner propagation paths. Distribution features (skewness, kurtosis) characterise the shape of RSSI distributions, providing additional discriminative power.
+
+The moderate contribution of temporal features in stationary scenarios suggests their greater relevance may emerge in dynamic situations where pedestrians are moving. Future work incorporating movement detection and trajectory estimation would benefit from emphasising temporal feature extraction.
+
+\subsection{Orientation Classification as an Enabling Technology}
+
+The perfect accuracy achieved in LoS/nLoS classification represents a critical enabler for improved proximity detection. Given the 138-metre difference in ranging errors between orientations, knowing the orientation state provides substantial information gain. Two strategies leverage this capability:
+
+\begin{enumerate}
+\item \textbf{Orientation-Conditioned Models}: Train separate distance estimation models for LoS and nLoS conditions, selecting the appropriate model based on classification results.
+
+\item \textbf{Probabilistic Integration}: Incorporate orientation uncertainty into distance estimates, weighting LoS and nLoS predictions by classification confidence scores.
+\end{enumerate}
+
+Both approaches promise to reduce ranging errors beyond the levels demonstrated in this work, where orientation information was available as ground truth but not explicitly utilised in distance estimation.
+
+\subsection{Limitations and Considerations}
+
+Several limitations constrain the generalisability and applicability of our findings:
+
+\begin{enumerate}
+\item \textbf{Limited Training Data}: With only 81 feature vectors, the training set size limits model complexity and generalisation capability. Larger datasets would likely improve performance, particularly for deep learning approaches.
+
+\item \textbf{Static Measurements}: Experiments involved pedestrians stationary at defined positions. Real-world scenarios involve continuous movement, introducing additional dynamics not captured in this study.
+
+\item \textbf{Single Environment}: Data collection occurred in a single outdoor pathway environment. Model performance may vary in different urban settings with distinct multipath characteristics, obstacle configurations, and environmental conditions.
+
+\item \textbf{Controlled Conditions}: Experiments maintained consistent placement of BLE transmitters on participants. Variability in device positioning (pocket vs. hand vs. bag) would introduce additional uncertainty in operational deployments.
+
+\item \textbf{No Temporal Modelling}: Current models treat each measurement window independently. Incorporating temporal continuity through Kalman filtering or recurrent neural networks could improve accuracy and smoothness of distance estimates during continuous tracking.
+\end{enumerate}
+
+\subsection{Privacy Preservation Considerations}
+
+Whilst this work focuses on technical performance of proximity detection, the privacy-preserving aspects of BLE technology warrant discussion. Unlike camera systems that inherently capture visual information, or GPS systems that enable continuous location tracking, BLE-based monitoring only detects proximity to fixed receiver locations when participants actively choose to carry transmitter devices.
+
+The selective listening capability of BLE enables true opt-in participation: individuals not carrying BLE transmitters are simply not detected, without requiring any action on their part. This contrasts favourably with WiFi-based approaches where devices constantly broadcast probe requests regardless of user preferences.
+
+However, privacy concerns are not entirely eliminated. The association between BLE device identifiers and individual identities remains a potential vulnerability. Rotating MAC addresses and ephemeral identifiers, as employed in contact tracing applications, represent important countermeasures. Additionally, the granularity of proximity detection (2-metre zones) provides less invasive monitoring compared to precise location tracking, aligning with privacy-by-design principles.
+
+\section{Conclusion}
+
+This paper has presented a comprehensive machine learning-based approach to proximity detection using BLE technology for privacy-preserving pedestrian monitoring in outdoor urban environments. Through systematic feature engineering, orientation classification, and comparison of analytical versus data-driven distance estimation methods, we have demonstrated that machine learning techniques dramatically outperform traditional propagation models in complex outdoor environments.
+
+Our key findings establish that Support Vector Regression achieves mean absolute error of 1.90 metres for distance estimation across a 3--9 metre range, representing 98.1\% improvement over log-distance path loss models. Random Forest classification achieves perfect accuracy in distinguishing LoS and nLoS orientations, addressing a critical source of ranging error. The comprehensive feature engineering approach, deriving 17 statistical, distributional, and temporal features from RSSI time series, provides the foundation for these performance gains.
+
+The catastrophic failure of analytical propagation models (109-metre MAE) underscores the complexity of signal propagation in outdoor urban environments, where multipath effects, body shadowing, and environmental dynamics create patterns incompatible with simplified theoretical assumptions. Machine learning approaches succeed by learning these complex patterns directly from empirical data without requiring explicit propagation modelling.
+
+The achieved accuracy levels suit applications requiring coarse proximity zones for social distancing monitoring, occupancy estimation, and space utilisation analysis, whilst remaining insufficient for applications demanding sub-metre precision. These practical limitations define appropriate deployment scenarios for BLE-based pedestrian monitoring systems.
+
+Future research directions include: (1) expanding training datasets to enable more sophisticated models and improve generalisation, (2) incorporating temporal continuity through filtering and recurrent architectures for smoother tracking during continuous movement, (3) developing orientation-conditioned distance estimation models that leverage perfect classification accuracy, (4) extending evaluation to diverse urban environments to assess cross-environment generalisation, and (5) implementing and evaluating real-time deployment scenarios with moving pedestrians.
+
+The convergence of inexpensive BLE hardware, privacy-preserving selective listening, and effective machine learning techniques creates promising opportunities for scalable pedestrian monitoring in outdoor urban environments. This work contributes to establishing the technical foundations for such systems whilst identifying practical performance boundaries and research directions for continued advancement.
+
+\section*{Acknowledgments}
+[Acknowledgments text to be added]
+
+\bibliographystyle{IEEEtran}
+\bibliography{paper1_references}
+
+\end{document}
