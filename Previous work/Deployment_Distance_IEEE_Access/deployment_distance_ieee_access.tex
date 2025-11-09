@@ -197,3 +197,123 @@ Whilst existing literature demonstrates the viability of BLE for pedestrian moni
 
 This work addresses this gap by providing a systematic experimental evaluation of horizontal deployment distances using statistical validation (ANOVA, Tukey's HSD) and small-scale fading analysis (Rician distribution fitting), establishing empirical evidence for optimal Observer placement at 3~m and 5~m distances for outdoor linear pathways.
 
+\section{Methodology}
+\label{sec:methodology}
+
+\subsection{Design and Development of BLE Measurement System}
+Before identifying suitable hardware platforms and software tools, requirements from devices concerning BLE specifications were examined. Amongst the two BLE roles, Central and Observer, that allow devices to scan advertisements, the Observer role was identified as a suitable option as it prevents the device from establishing a connection, thereby, enhancing the privacy preservation aspect of the system. In a similar way, the Broadcaster role was selected over the Peripheral role.
+
+Cost, availability, and community presence were identified as key \textit{principles} for the selection of tools to conduct the experiments. These parameters facilitate a greater likelihood of garnering the attention of other researchers and allow easier access to replicate or extend the experiments. Live monitoring of collected data was also identified to be of great value as it provided a means to identify any errors preventing measurements.
+
+\subsubsection{Observer Device}
+A Raspberry Pi (RPi) \cite{rpi2024} was selected as the platform to act as the Observer as it met the identified principles. In particular, RPi model 4B variant with 8~GB RAM was selected. RPi provided on-board BLE 5.0 support which also reduces the need for the integration of any additional components on top of the device. RPi was housed in a weather-proof enclosure \cite{enclosure2024} with a power bank \cite{ansmann} to run the device, and a real-time clock (RTC) module \cite{ds3231} was added to the RPi to keep a tab on the time.
+
+A Python application was developed for the RPi, utilising the \textit{bluepy} library \cite{bluepy} to interact with the BLE chipset. This library was modified to simulate the \textit{whitelisting} feature of the BLE protocol standard that automatically discards advertisements emanating from non-whitelisted devices, another feature that enhances the privacy preservation aspect of the system. Additionally, a simple moving average (SMA) filter with a window size of 10 samples was implemented in the library itself to reduce the effect of fluctuations in the RSSI. The database connection and storage of measurements in the database were also integrated into the library itself. \textit{InfluxDB} \cite{influxdb} was selected as the database for storing the measurements as it is specifically designed for time-series data, enabling ingestion of high-throughput data and fast querying on time ranges. Moreover, it provides a feature, \textit{ephemerality}, where the stored data can be programmed to be deleted automatically at a chosen expiry interval. Whilst this feature was not employed, it provided a future real-world deployable architecture where the privacy of pedestrians can be further prioritised. Finally, a MEAN stack dashboard was developed to provide live measurement statistics. Fig.~\ref{fig:rpi_enc} showcases the RPi connected to a powerbank inside the enclosure.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{figures/rpi orientation.jpg}
+\caption{Raspberry Pi Observer device inside weatherproof enclosure.}
+\label{fig:rpi_enc}
+\end{figure}
+
+\subsubsection{Broadcaster Device}
+An off-the-shelf BLE beacon was selected as the Broadcaster. These beacons typically require no programming and broadcast advertisements at a manufacturer-defined advertisement interval. Specifically, a RuuviTag beacon \cite{ruuvi}, broadcasting at an interval of 500~ms, was selected for this experiment. The MAC address of the beacon was added to the whitelist of the Observer device. Fig.~\ref{fig:ruuvi} showcases the selected RuuviTag beacon.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{figures/ruuvi.jpg}
+\caption{RuuviTag Broadcaster beacon.}
+\label{fig:ruuvi}
+\end{figure}
+
+\subsection{Experimental Location}
+A simple topology was identified for conducting these experiments. The rationale behind this was to allow an understanding of the mechanism of the technology in a fundamental setting, limiting the external influences. A location was identified in the TU Dublin's Grangegorman campus. The selected location featured a 5-storey tall building, composed of brickwork and large glass windows, on one side and open ground on the other, as illustrated in Fig.~\ref{fig:satellite_exp}. The building also had an open ramp with a railing along the side, which was used as a spot to deploy the Observer. The orientation of deployment of the Observer is depicted in Fig.~\ref{fig:plane}, where the 90$^\circ$ faces the open ground. The open ground is less trodden and features no pathways and access to any other building. Therefore, it was an unshared space, devoid of any other pedestrians or cyclists. The location thus offered the flexibility to mark pathways at different distances from the deployed Observer to examine different deployment distances.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{figures/experimental ground satellite view.png}
+\caption{Satellite view of the experimental location with overlaid pathways and key points.}
+\label{fig:satellite_exp}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{figures/axis v6 (1).png}
+\caption{Orientation of the Observer deployment showing 90$^\circ$ facing open ground.}
+\label{fig:plane}
+\end{figure}
+
+Four pathways of 24~m in length were marked on the open ground, at a distance of 3~m, 5~m, 7~m, and 9~m respectively from the deployed Observer. Five equidistant key points were identified -- namely, \textit{start}, \textit{approach}, \textit{centre}, \textit{depart}, and \textit{end} -- and marked on each pathway.
+
+It is necessary to clarify why deployment distances of over 9~m were not selected for this study. The pathways under examination in this study were all linear and 24~m in length. The Observer was deployed at the midpoint across the pathway, that is, with 12~m of pathway on either side of the Observer. The closest location between the Observer and pathways was the respective \textit{centre} key point, directly opposite to the Observer, whereas, the farthest point on pathways from the Observer were the respective \textit{start} and \textit{end} key points. Therefore, at a deployment distance of 3~m, an Observer receives advertisements from distances varying between 12.37~m at the farthest (\textit{start} and \textit{end}) key points and 3~m at the closest (\textit{centre}) key point. This can be calculated using Pythagoras's theorem expressed in (\ref{eq:pytha}) and the difference in the closest and farthest points are illustrated in Fig.~\ref{fig:distances}.
+
+\begin{equation}
+\label{eq:pytha}
+\text{hypotenuse} = \sqrt{\text{base}^2 + \text{perpendicular}^2}
+\end{equation}
+where hypotenuse is the distance between Observer and \textit{start} key point, base is the distance between \textit{start} point and \textit{centre} point, and perpendicular is the distance between the Observer and \textit{centre} point on the pathway.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{figures/changing_angles.png}
+\caption{Closest and farthest measurement key points for different pathways.}
+\label{fig:distances}
+\end{figure}
+
+As seen in Fig.~\ref{fig:distances}, the difference between the hypotenuse (distance between Observer and farthest key point) and perpendicular (distance between Observer and closest key point) reduces as the deployment distance increases. This reduction indicates that the difference between the greatest and the smallest distance a signal travels on the pathway becomes progressively smaller with increased deployment distance, proving to be inconsequential to produce recognisable and meaningful patterns at large deployment distances. The drop in the ratio with increasing deployment distance is presented in Fig.~\ref{fig:ratio}.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{figures/ratio_distances.png}
+\caption{Ratio of distances between closest and farthest measurement key points for different pathways.}
+\label{fig:ratio}
+\end{figure}
+
+\subsection{Data Collection Protocol}
+Advertisements were collected for 3~minutes, in three 1-minute segments at each key point on all pathways from the Broadcaster provided to a volunteer pedestrian. Two scenarios were identified for data acquisition, first, where the volunteer was instructed to hold the Broadcaster facing towards the Observer, that is LoS, and second, where the volunteer was instructed to hold the Broadcaster facing away from the Observer, that is nLoS. These scenarios were chosen as they typically resemble real-world situations where there is no knowledge of which side a BLE device is held by the pedestrians. The nLoS case, in particular, offered several scenarios extending beyond complete occlusion between the Broadcaster and the Observer. Complete occlusion was only an instance of the nLoS scenario. At the \textit{start} and \textit{end} key points, there was almost a full LoS, and at \textit{approach} and \textit{centre} key points, a partial occlusion. This is due to the angle between the Observer and the hand of the volunteer holding the Broadcaster. This is easily understood from the illustration in Fig.~\ref{fig:occ}.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{figures/occ.png}
+\caption{Different occlusions in the nLoS scenario showing full, partial, and near-full LoS conditions.}
+\label{fig:occ}
+\end{figure}
+
+The collected data comprised MAC address, timestamped RSSI, and SMA of RSSI. The following protocol was used to collect the data for this experiment:
+
+\begin{enumerate}
+\item Select one of the four pathways for data acquisition.
+\item Instruct the volunteer to stay stationary at the first key point on the selected pathway, holding the Broadcaster in an orientation corresponding to the scenario being examined (LoS or nLoS). Ensure that the Broadcaster is not clenched within their fist.
+\item Start a timer to measure a 1-minute round of data acquisition and execute the script on the Observer. Ensure data is being acquired through the live dashboard. Repeat this step for two more rounds taking a break of approximately 1~minute in between.
+\item Upon completion of three rounds of data measurement on one key point, instruct the volunteer to move to the next key point and repeat the above steps.
+\item When measurements are taken at all key points on each pathway, repeat the above steps for the next scenario.
+\end{enumerate}
+
+Measurements from this experiment were spread across two different days. All the cases for LoS scenarios were acquired on the 1st of February 2023 between 1143 hours and 1317 hours, Irish time. Whereas, the measurements for nLoS scenario were acquired on the 10th of February 2023 between 1205 and 1405 hours, Irish time. The weather conditions during the two measurement periods are presented in Table~\ref{tab:weather}.
+
+\begin{table*}[!t]
+\caption{Weather Information on the Days of Data Acquisition}
+\label{tab:weather}
+\centering
+\begin{tabular}{llcccccc}
+\toprule
+\textbf{Measurement} & \textbf{Time} & \textbf{Rain} & \textbf{Air Temp} & \textbf{Wet Bulb} & \textbf{Dew Point} & \textbf{Humidity} & \textbf{Pressure} \\
+\midrule
+LoS Scenarios & 12:00 & 0.0 mm & 9.4$^\circ$C & 7.8$^\circ$C & 6.0$^\circ$C & 79\% & 1024.1 hPa \\
+Feb 1, 2023 & 13:00 & 0.0 mm & 10$^\circ$C & 8.0$^\circ$C & 5.6$^\circ$C & 74\% & 1023.7 hPa \\
+\midrule
+nLoS Scenarios & 12:00 & 0.0 mm & 10.7$^\circ$C & 9.5$^\circ$C & 8.2$^\circ$C & 84\% & 1032.6 hPa \\
+Feb 10, 2023 & 13:00 & 0.0 mm & 11.2$^\circ$C & 9.8$^\circ$C & 8.4$^\circ$C & 82\% & 1032.3 hPa \\
+ & 14:00 & 0.0 mm & 11.8$^\circ$C & 10.1$^\circ$C & 8.4$^\circ$C & 80\% & 1032.2 hPa \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Data Analysis}
+The first analytics is descriptive statistics for which the median of RSSI acquired at each key point was calculated for all pathways. These median values were averaged for every key point on all pathways for both scenarios, LoS and nLoS. Through this, a general sense of signal strength emerging from the BLE device on all of those pathways was obtained. Subsequently, an average across all key points for each scenario and pathway was also evaluated to understand a general blueprint of signal strength in each of those scenarios for all pathways. Finally, the LoS and nLoS RSSI were also averaged for all pathways to obtain a single descriptive RSSI indicator for each of those candidate pathways. Through this final value, a general sense of expected signal strength at those deployment distance was obtained.
+
+Whilst the previous analytical technique was simple, it was used to determine whether some candidate deployment distances can be discarded simply on the merit of their signal quality. However, this technique only used median values of the collected RSSI, therefore, it overlooks other determinants in the data. For example, as seen in Section~\ref{sec:background}, BLE signals are prone to fluctuations in outdoor environments -- which means that even with a stationary source, the RSSI values measured over a period of time vary in a range -- and this technique fails to measure or highlight the variability in the measured RSSI. Since RSSI is affected by any change in the environment, which is common in a noisy outdoor environment, RSSI collected over an extended period (a total of 3~minutes in this study) should demonstrate fluctuations or deviations in the collected values. Thus, the ANOVA test was performed to identify statistically significant differences amongst the groups of RSSI values for each pathway. The data obtained from all rounds were combined but were separately used for the LoS and nLoS scenarios. However, the ANOVA results only informed the existence of statistically significant differences. In order to identify the groups exhibiting significant differences, a post-hoc analysis, Tukey's HSD was performed. This examination is suitable to identify which pathways produce similar results, or rather, do not produce statistically different RSSI from one another.
+
+Finally, the Rician factor was computed for each pathway only for the LoS scenario. The nLoS scenario was not considered for this approach because SS fading assessed through the Rician factor provides empirical representation of the dominance of LoS components in the collected data, which will be diminished in the nLoS scenario. The Rician factor provided an assessment of the fluctuation at each pathway by identifying the influence of the environmental topology on each of the pathways resulting from an increased effect of the propagation mechanism.
+
