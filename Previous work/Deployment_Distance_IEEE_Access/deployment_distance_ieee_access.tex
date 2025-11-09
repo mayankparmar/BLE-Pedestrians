@@ -317,3 +317,175 @@ Whilst the previous analytical technique was simple, it was used to determine wh
 
 Finally, the Rician factor was computed for each pathway only for the LoS scenario. The nLoS scenario was not considered for this approach because SS fading assessed through the Rician factor provides empirical representation of the dominance of LoS components in the collected data, which will be diminished in the nLoS scenario. The Rician factor provided an assessment of the fluctuation at each pathway by identifying the influence of the environmental topology on each of the pathways resulting from an increased effect of the propagation mechanism.
 
+\section{Results}
+\label{sec:results}
+
+\subsection{Descriptive Statistics: Median RSSI Analysis}
+The first approach, computing and assessing the means of medians, was implemented in phases. In the first phase, a median RSSI from each round of measurements for each key point on every pathway was computed for both, LoS and nLoS scenarios. These median values were then averaged to represent the three rounds of measurement for every case with a single value. The term \textit{averaged median} will be used to refer to this value in this paper. In the second phase, averages of averaged medians that belonged to a single pathway, a combination of ten values from all key points for LoS and nLoS scenarios, per pathway were computed. These values depict the LoS and nLoS representative RSSI for each pathway. In the third phase, the average of LoS and nLoS representative values, obtained from the second phase, were averaged to obtain a single descriptive statistic representing the expected signal strength for each pathway. The results are described in Table~\ref{tab:means_medians}.
+
+\begin{table*}[!t]
+\caption{Comparison of Median RSSI Values Across Deployment Distances}
+\label{tab:means_medians}
+\centering
+\begin{tabular}{lcccccccc}
+\toprule
+\multirow{3}{*}{\textbf{Key Point}} & \multicolumn{8}{c}{\textbf{Median RSSI of All Three Rounds (dB)}} \\
+\cline{2-9}
+& \multicolumn{2}{c}{\textbf{3~m}} & \multicolumn{2}{c}{\textbf{5~m}} & \multicolumn{2}{c}{\textbf{7~m}} & \multicolumn{2}{c}{\textbf{9~m}} \\
+\cline{2-9}
+& LoS & nLoS & LoS & nLoS & LoS & nLoS & LoS & nLoS \\
+\midrule
+Start & $-62.10$ & $-74.10$ & $-66.30$ & $-69.70$ & $-69.10$ & $-69.95$ & $-66.29$ & $-71.55$ \\
+Approach & $-47.85$ & $-47.10$ & $-48.10$ & $-51.42$ & $-54.68$ & $-55.60$ & $-50.95$ & $-49.40$ \\
+Centre & $-45.60$ & $-72.89$ & $-54.68$ & $-73.50$ & $-54.65$ & $-76.95$ & $-54.30$ & $-72.31$ \\
+Depart & $-56.60$ & $-62.00$ & $-48.10$ & $-51.42$ & $-56.68$ & $-64.45$ & $-48.10$ & $-60.94$ \\
+End & $-68.80$ & $-67.10$ & $-64.80$ & $-72.10$ & $-63.75$ & $-68.20$ & $-67.45$ & $-73.10$ \\
+\midrule
+\textbf{Average RSSI} & \multirow{2}{*}{$-56.19$} & \multirow{2}{*}{$-64.64$} & \multirow{2}{*}{$-56.39$} & \multirow{2}{*}{$-63.62$} & \multirow{2}{*}{$-59.77$} & \multirow{2}{*}{$-67.03$} & \multirow{2}{*}{$-57.41$} & \multirow{2}{*}{$-65.46$} \\
+\textbf{per scenario (dB)} & & & & & & & & \\
+\midrule
+\multirow{2}{*}{\textbf{Overall Average (dB)}} & \multicolumn{2}{c}{\multirow{2}{*}{$-60.41$}} & \multicolumn{2}{c}{\multirow{2}{*}{$-60.01$}} & \multicolumn{2}{c}{\multirow{2}{*}{$-63.40$}} & \multicolumn{2}{c}{\multirow{2}{*}{$-61.02$}} \\
+& \multicolumn{2}{c}{} & \multicolumn{2}{c}{} & \multicolumn{2}{c}{} & \multicolumn{2}{c}{} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Statistical Analysis: ANOVA and Tukey's HSD}
+For detecting statistically significant differences in the measurements between the selected deployment distances, ANOVA followed by Tukey's HSD were implemented. As previously stated, data acquired from all rounds at every key point on the pathway were combined, and grouped by the LoS or nLoS scenarios. Whilst data from these scenarios could also be combined to gain an overall understanding of each deployment distance, they were analysed separately to identify if there was any difference in the way the measurements for these scenarios were influenced. The results of ANOVA were plotted using notched box plots with whiskers and presented in Figs.~\ref{fig:anova_los} and \ref{fig:anova_nlos} respectively for LoS and nLoS scenarios. The red line in the notch of the box plot depicts the median value of the RSSI corresponding to the deployment distance on the x-axis. The upper and lower bounds of the box signify the 75th percentile and 25th percentile values. The notch is based on 5\% significance levels, where the overlapping notches amongst groups depict insignificant differences.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/anova.jpg}
+\caption{ANOVA results for LoS scenario showing median RSSI and confidence intervals across deployment distances.}
+\label{fig:anova_los}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/anova_nlos.jpg}
+\caption{ANOVA results for nLoS scenario showing median RSSI and confidence intervals across deployment distances.}
+\label{fig:anova_nlos}
+\end{figure}
+
+Tukey's HSD was then performed to identify the groups that demonstrate significant statistical differences. The outcome of Tukey's HSD for the LoS and nLoS scenarios are presented in Tables~\ref{tab:hsd_los} and \ref{tab:hsd_nlos} respectively. In the tables, the confidence interval (CI) represents the range between which there is a likelihood of finding the difference of means. If the values within the lower and upper bounds of CI contain a 0, that is if those intervals have opposite signs, then there is no statistically significant difference between the two groups. The $p$-value represents the measure of the probability of obtaining extreme results, with the assumption that the \textit{null} hypothesis is true. The null hypothesis dictates that there exists no significant difference between the groups. The threshold for comparing the value of $p$-value, $\alpha$, is chosen as 0.05. Figs.~\ref{fig:hsd_los} and \ref{fig:hsd_nlos} visually represent the outcome of Tukey's HSD test for LoS and nLoS scenarios respectively. In the figures, the error bars represent the CI with a marker pointing to the difference of means, and the dotted horizontal line represents the zero difference crossing signifying no significant difference between the groups.
+
+\begin{table*}[!t]
+\caption{Outcome of Tukey's HSD for the LoS Scenario}
+\label{tab:hsd_los}
+\centering
+\begin{tabular}{ccccccl}
+\toprule
+\textbf{Group 1} & \textbf{Group 2} & \textbf{CI Lower} & \textbf{Mean Diff} & \textbf{CI Upper} & \textbf{$p$-value} & \textbf{Inference} \\
+\midrule
+3~m & 5~m & $-0.61$ & 0.68 & 1.97 & 0.5249 & No significant difference \\
+3~m & 7~m & 2.62 & 3.91 & 5.20 & 0.0000 & Significant difference \\
+3~m & 9~m & 0.35 & 1.64 & 2.93 & 0.0059 & Significant difference \\
+5~m & 7~m & 1.94 & 3.23 & 4.52 & 0.0000 & Significant difference \\
+5~m & 9~m & $-0.33$ & 0.96 & 2.25 & 0.2223 & No significant difference \\
+7~m & 9~m & $-3.56$ & $-2.27$ & $-0.98$ & 0.0000 & Significant difference \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[!t]
+\caption{Outcome of Tukey's HSD for the nLoS Scenario}
+\label{tab:hsd_nlos}
+\centering
+\begin{tabular}{ccccccl}
+\toprule
+\textbf{Group 1} & \textbf{Group 2} & \textbf{CI Lower} & \textbf{Mean Diff} & \textbf{CI Upper} & \textbf{$p$-value} & \textbf{Inference} \\
+\midrule
+3~m & 5~m & $-1.53$ & $-0.08$ & 1.38 & 0.9992 & No significant difference \\
+3~m & 7~m & 0.16 & 1.62 & 3.07 & 0.0222 & Significant difference \\
+3~m & 9~m & $-0.55$ & 0.90 & 2.36 & 0.3810 & No significant difference \\
+5~m & 7~m & 0.24 & 1.69 & 3.15 & 0.0148 & Significant difference \\
+5~m & 9~m & $-0.48$ & 0.98 & 2.43 & 0.3090 & No significant difference \\
+7~m & 9~m & $-2.17$ & $-0.72$ & 0.74 & 0.5870 & No significant difference \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/tukeys_los.jpg}
+\caption{Tukey's HSD confidence intervals for LoS scenario showing mean differences and zero-crossing line.}
+\label{fig:hsd_los}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/tukeys_nlos.jpg}
+\caption{Tukey's HSD confidence intervals for nLoS scenario showing mean differences and zero-crossing line.}
+\label{fig:hsd_nlos}
+\end{figure}
+
+\subsection{Small-Scale Fading Analysis: Rician Distribution}
+Finally, fluctuations experienced by BLE advertisements travelling from each of the pathways were analysed through the assessment of SS fading. This was performed using Rician distribution fitting and subsequently obtained the Rician factor. As previously stated, this analysis was performed only on the LoS scenario. The obtained results are presented in Figs.~\ref{fig:rician_3m}, \ref{fig:rician_5m}, \ref{fig:rician_7m}, and \ref{fig:rician_9m}. In the figures, the curves represent the fitted Rician distribution for data collected for each candidate deployment distance. The peak position of the curves indicates the most probable value of SS fading. A curve peaks at a positive value for SS fading, represented on the x-axis in the figures, indicating a high LoS component in the measurements. Conversely, curves peaking on the left side of the x-axis represent high nLoS component or, a high multipath scattering.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/small_scale_fading_3m.png}
+\caption{Rician distribution fitting to RSSI at each key point on 3~m pathway showing varying LoS dominance.}
+\label{fig:rician_3m}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/small_scale_fading_5m.png}
+\caption{Rician distribution fitting to RSSI at each key point on 5~m pathway showing strong LoS dominance.}
+\label{fig:rician_5m}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/small_scale_fading_7m.png}
+\caption{Rician distribution fitting to RSSI at each key point on 7~m pathway showing multipath effects.}
+\label{fig:rician_7m}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{figures/small_scale_fading_9m.png}
+\caption{Rician distribution fitting to RSSI at each key point on 9~m pathway showing predominantly scattered signals.}
+\label{fig:rician_9m}
+\end{figure}
+
+The height of the curves represents the probability density, that is, a taller peak indicates less variability in the RSSI. Conversely, lower and flatter curves suggest greater fluctuations. The spread of the curve is an indication of the degree of fluctuation, with wider curves signifying greater variation in the RSSI. Asymmetry and tail in the curve indicate an uneven multipath effect on the signal.
+
+As previously stated, the Rician factor (or, the \textit{shape parameter}), $K$, is the ratio of power of LoS and nLoS components. The greater value of $K$ signifies a larger LoS component. \textit{Scale parameter}, another outcome of Rician fitting, indicates the spread of the nLoS component. The larger the scale parameter, the greater the spread of multipath components. The outcome of Rician fitting is summarised in Table~\ref{tab:rician}.
+
+\begin{table}[!t]
+\caption{Scale and Shape Parameters for Different Deployment Distances}
+\label{tab:rician}
+\centering
+\begin{tabular}{cccc}
+\toprule
+\textbf{Distance} & \textbf{Location} & \textbf{$K$ (Shape)} & \textbf{$\sigma$ (Scale)} \\
+\midrule
+\multirow{5}{*}{3~m} & Start & 37.18 & 5.47 \\
+ & Approach & 0.20 & 13.93 \\
+ & Centre & 0.14 & 17.14 \\
+ & Depart & 0.00 & 6.12 \\
+ & End & 0.00 & 5.04 \\
+\midrule
+\multirow{5}{*}{5~m} & Start & 117.84 & 5.45 \\
+ & Approach & 86.35 & 3.13 \\
+ & Centre & 7.26 & 5.71 \\
+ & Depart & 0.00 & 8.26 \\
+ & End & 0.15 & 17.72 \\
+\midrule
+\multirow{5}{*}{7~m} & Start & 0.33 & 14.03 \\
+ & Approach & 0.00 & 2.15 \\
+ & Centre & 0.00 & 2.23 \\
+ & Depart & 0.00 & 5.04 \\
+ & End & 0.10 & 16.00 \\
+\midrule
+\multirow{5}{*}{9~m} & Start & 0.64 & 15.95 \\
+ & Approach & 843.80 & 3.90 \\
+ & Centre & 0.00 & 2.11 \\
+ & Depart & 0.00 & 2.21 \\
+ & End & 0.00 & 5.16 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
