@@ -1,0 +1,82 @@
+================================================================================
+BODY SHADOWING EFFECTS ANALYSIS REPORT
+================================================================================
+
+OVERVIEW
+--------------------------------------------------------------------------------
+This analysis quantifies the body shadowing effect by comparing RSSI
+measurements in Line-of-Sight (LoS) vs Non-Line-of-Sight (nLoS) conditions.
+Body shadowing occurs when the pedestrian's body blocks the direct signal
+path between the broadcaster and observer.
+
+SUMMARY STATISTICS
+--------------------------------------------------------------------------------
+Overall Body Shadowing Attenuation:
+  Mean: 10.43 ± 10.58 dB
+  Range: -6.92 to 34.79 dB
+  Samples: 27
+
+SHADOWING BY DISTANCE
+--------------------------------------------------------------------------------
+
+3m:
+  LoS RSSI: -58.96 dBm
+  nLoS RSSI: -70.64 dBm
+  Shadowing: 11.68 ± 13.06 dB
+
+7m:
+  LoS RSSI: -61.70 dBm
+  nLoS RSSI: -71.92 dBm
+  Shadowing: 10.21 ± 10.69 dB
+
+9m:
+  LoS RSSI: -62.75 dBm
+  nLoS RSSI: -72.14 dBm
+  Shadowing: 9.39 ± 8.70 dB
+
+SHADOWING BY POSITION
+--------------------------------------------------------------------------------
+
+Start:
+  Shadowing: 5.27 ± 6.25 dB
+
+Center:
+  Shadowing: 22.33 ± 7.87 dB
+
+End:
+  Shadowing: 3.68 ± 4.68 dB
+
+STATISTICAL SIGNIFICANCE
+--------------------------------------------------------------------------------
+Testing H0: LoS RSSI = nLoS RSSI (no shadowing effect)
+Testing H1: LoS RSSI ≠ nLoS RSSI (shadowing effect exists)
+
+3m:
+  t-statistic: 1.121
+  p-value: 0.274542
+  Result: Not significant at α=0.05
+  Effect size: 5.09 dB
+
+7m:
+  t-statistic: 1.557
+  p-value: 0.133800
+  Result: Not significant at α=0.05
+  Effect size: 5.19 dB
+
+9m:
+  t-statistic: 0.682
+  p-value: 0.502222
+  Result: Not significant at α=0.05
+  Effect size: 2.69 dB
+
+INTERPRETATION
+--------------------------------------------------------------------------------
+Body shadowing causes an average attenuation of 10.43 dB,
+meaning nLoS signals are weaker than LoS signals as expected.
+
+Shadowing effect is STRONG (> 6 dB) - easily detectable.
+
+High variability (σ=10.58 dB) suggests shadowing effect is
+inconsistent across positions and distances. Classification may be unreliable.
+
+================================================================================

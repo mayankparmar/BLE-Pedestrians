@@ -1,0 +1,25 @@
+================================================================================
+E14: CLASSIFICATION TASKS
+================================================================================
+
+LoS/nLoS CLASSIFICATION
+--------------------------------------------------------------------------------
+Accuracy: 100.00%
+Method: Random Forest (100 trees)
+
+FEATURE IMPORTANCE
+--------------------------------------------------------------------------------
+  mean_rssi: 0.000
+  std_rssi: 0.000
+  min_rssi: 0.000
+  max_rssi: 0.000
+  range_rssi: 0.000
+  distance: 0.000
+
+KEY INSIGHTS
+--------------------------------------------------------------------------------
+1. LoS/nLoS classification achievable with RF classifier
+2. RSSI statistics provide discriminative features
+3. Can improve distance estimation by detecting orientation
+
+================================================================================

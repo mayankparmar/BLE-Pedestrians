@@ -1,0 +1,77 @@
+================================================================================
+B7: TRAJECTORY RECONSTRUCTION ANALYSIS
+================================================================================
+
+OVERALL TRACKING ACCURACY
+--------------------------------------------------------------------------------
+Total trajectory points: 36
+Mean absolute error: 10.96 m
+Root mean square error: 12.09 m
+Mean relative error: 221.8%
+Mean bias (signed error): 9.11 m
+
+ACCURACY BY DISTANCE
+--------------------------------------------------------------------------------
+3m:
+  MAE: 12.15 m
+  Std: 9.73 m
+  Relative error: 405.1%
+5m:
+  MAE: 10.71 m
+  Std: 8.02 m
+  Relative error: 214.3%
+7m:
+  MAE: 10.94 m
+  Std: 7.57 m
+  Relative error: 156.3%
+9m:
+  MAE: 10.03 m
+  Std: 7.78 m
+  Relative error: 111.4%
+
+ACCURACY BY ORIENTATION
+--------------------------------------------------------------------------------
+LOS:
+  MAE: 10.96 m
+  Std: 8.06 m
+  Relative error: 221.8%
+
+ACCURACY BY POSITION
+--------------------------------------------------------------------------------
+center:
+  MAE: 4.88 m
+  Std: 6.29 m
+  Relative error: 78.1%
+end:
+  MAE: 14.00 m
+  Std: 2.34 m
+  Relative error: 293.7%
+start:
+  MAE: 14.00 m
+  Std: 2.34 m
+  Relative error: 293.7%
+
+KEY INSIGHTS
+--------------------------------------------------------------------------------
+1. Best distance accuracy: 9m (MAE: 10.03m)
+2. Worst distance accuracy: 3m (MAE: 12.15m)
+3. LoS only: 10.96m MAE
+4. Overall relative error: 221.8%
+
+RECOMMENDATIONS
+--------------------------------------------------------------------------------
+• Log-distance path loss model shows limited accuracy for trajectories
+• Consider ML-based distance estimation (see B5) for better accuracy
+• Combine RSSI with other sensors (IMU, GPS) for robust tracking
+• Use Kalman filtering to smooth trajectory estimates
+• Define tracking zones rather than precise positions
+
+LIMITATIONS
+--------------------------------------------------------------------------------
+• Static milestone measurements (not continuous walking trajectories)
+• No GPS ground truth for continuous path validation
+• Path loss model (from A1) not optimized for distance estimation
+• Multipath interference creates large errors
+• Body orientation changes affect signal strength
+
+================================================================================

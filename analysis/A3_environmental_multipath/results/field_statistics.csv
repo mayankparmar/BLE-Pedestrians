@@ -1,0 +1,5 @@
+configuration,distance_m,occluded,config_key,mean_rssi,median_rssi,std_rssi,min_rssi,max_rssi,range_rssi,iqr_rssi,count
+bt,3,False,bt_3m,-66.35064935064935,-67.0,9.88656893727685,-96,-37,59,15.0,770
+bt,3,True,bt_3m_occ,-69.11018711018711,-70.0,9.921059259974049,-93,-43,50,16.0,481
+bt,5,False,bt_5m,-64.59365994236312,-63.0,11.190895614676828,-93,-43,50,16.0,347
+bt,5,True,bt_5m_occ,-67.54232804232804,-68.0,11.42125882670262,-95,-47,48,18.0,378

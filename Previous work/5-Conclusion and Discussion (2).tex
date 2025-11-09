@@ -1,0 +1,415 @@
+\chapter{Discussion and Contributions} \label{ch:disc}
+
+\vspace{1cm}
+\noindent\enquote{\itshape The woods are lovely, dark and deep, \\  
+But I have promises to keep. \\
+And miles to go before I sleep,   \\
+And miles to go before I sleep.}\bigbreak
+\hfill $\thicksim$ \textit{Robert Frost}
+\vspace{1cm}
+
+
+The research presented in this dissertation is a proof of concept study to demonstrate the capabilities of using \gls{ble} to detect heterogeneous pedestrian activities and movement dynamics in a privacy-preserving manner. This research was undertaken as an extension of previous work by a fellow researcher in the research group, Ahlam AlAnbouri, to study the use of \gls{ble} for understanding pedestrian behaviour. AlAnbouri's work started before my research and was aimed at the design and conduct of large-scale pedestrian studies. In AlAnbouri's work, multiple campus-wide locations were scrutinised to understand the behaviour of pedestrians. My work, as presented in this dissertation, is differentiated from her work as it focuses on a single-location with a single-Observer. This work is a deeper dive into the mechanism of \gls{ble} and the use of its features to conform to privacy preservation, thereafter, evaluating the use of \gls{ble} in the detection of a set of selected pedestrian movement dynamics and activities.
+\\
+
+This research presents a series of outdoor experiments, all conducted in the same outdoor location. This deliberation of using the same outdoor location was to create a harmonised set of outcomes, that are coherent with the topology of the environment. While \gls{ble}, as described in Section \ref{sec:lit/ble} in Chapter \ref{ch:lit}, is affected by subtle environmental changes, such as weather conditions, these parameters are outside the control of the experiments. However, keeping the experiments' location constant meant that the studies are performed under the same topology, where the surrounding infrastructures do not differ in shape, size, density, and material and can therefore be considered as a set. 
+\\
+
+In alignment with the \gls{ro}s, outlined in the Section \ref{obj} of Chapter \ref{ch:intro}, a platform was developed, a research configuration was identified, and a series of experiments were conducted to develop and evaluate the usability of the \gls{ble} platform for monitoring pedestrian activity and movement in linear pathways. In this chapter, a discussion on the results of the analysis of experiments outlined in Chapter \ref{ch:res} is presented. Each of the subsequent sections of this chapter, categorically detail a discussion based on the corresponding \gls{ro}s highlighted in \ref{obj} in Chapter \ref{ch:intro}.
+
+\section{Design and Development of an Experimental Platform}
+% 1. Design and development of an experimental platform
+%     a. Identify suitable technology for pedestrian movement and activities
+% 	b. Identify hardware and software that support \gls{ble} and its inherent features that facilitate privacy preservation of pedestrians out of the box.
+% 	c. Ensure the platform's capability to support live data collection and monitoring.
+% 	d. Identify suitable supporting technologies that are required to conduct the experiments.
+
+The first Objective, \ref{o1}, was divided into four parts: identifying suitable technology for detecting pedestrian movement and activities (\ref{o1a}), identifying the hardware and software that supports the technology (\ref{o1b}), validating the capability of the platform to support live data collection and monitoring (\ref{o1c}), and identifying the supporting technology to facilitate the experimental exploration (\ref{o1d}).
+\\
+
+\subsection{Identifying a Suitable Technology for Detecting Pedestrian Movement and Activities}
+For the first part (\ref{o1a}), a literature review was conducted to compare various technologies that are used for measuring and detecting pedestrian activities and movement. The technologies reviewed included imaging sensors, \gls{gps}, WiFi, and \gls{ble}. A detailed comparison of these technologies is highlighted in Section \ref{sec:lit/modalities} and summarised in Table \ref{tab:lit/comparison}, both in Chapter \ref{ch:lit}. In the early stages of this PhD project, experiments were conducted with thermal imaging and acoustic measurements. \gls{ble} was ultimately selected as the potential research avenues in the use of \gls{ble} technology, and its privacy preservation features, its simplicity of use, cost effectiveness, and availability, as discussed in the Chapter Summary (\ref{sec:lit/chapter_summary}) of Chapter \ref{ch:lit}. This satisfied Research Objective \ref{o1a}
+\\
+
+\subsection{Identifying the Hardware and the Software Supporting \gls{ble} and its Features for Privacy Preserving Measurements}
+After selecting \gls{ble}, the necessary hardware and software were identified to meet Research Objective \ref{o1b}. \gls{sbc}s were selected as a suitable platform for their portability and availability. Among commonly available \gls{sbc}s, \gls{rpi} 4B+ was selected for its optimal balance between its availability, cost, power requirements, and strong community support. \gls{sbc}s were preferred over other development boards such as Arduino and ESP32 due to their ability to use privacy preserving features in other aspects of the measurement process such as local data storage and processing. For instance, on other development boards, the measurements would have been stored in textual format, whereas, \gls{rpi} allows for the use of a database supporting ephemerality, such as InfluxDB. While other development boards have the capability to support databases \citep{siara_esp32_sqlite3_2024}, the requirement of their storage through SD cards means that additional daughter boards are required to support that capability. Further, hosting a local dashboard for live monitoring and running a database simultaneously with acquiring \gls{ble} signals can impose increased computational demands on those development boards. \gls{ble} beacons were chosen for the Broadcaster device due to their cost-effectiveness and ease of use. A \gls{rpi} was also used as a Broadcaster in one of the experiments that requires changes to the advertisement interval, as the beacons do not offer the required flexibility in that experiment to modify the advertisement parameters. This is presented in Section \ref{subsub:obsbro} in Chapter \ref{ch:meth}.
+\\
+
+Python was selected as the main language for programming a \gls{ble} Observer to acquire advertisements, due to the availability of the versatile BluePy, \citep{bluepy}, library. Although libraries are available for C and C++, previous expertise in Python and the simplicity of libraries/APIs for both \gls{ble} and database connectivity made Python the preferable choice. BluePy supports configuring the device to the observer role of \gls{ble} defined by the \gls{gap} layer, as described in Section \ref{sec:lit/ble} in Chapter \ref{ch:lit}, and simplifies the process of simulating the White List feature of \gls{ble} at the application layer. NodeJS with the NoBLE \citep{noble} library by Abadonware was also used for broadcasting \gls{ble} advertisements for one of the experiments as BluePy did not support changing the advertisement interval. NodeJS with NoBLE also allowed controlling the information contained within the advertisement packet, ensuring only essential information was transmitted, as described in Subsection \ref{subsec:meth/nodejs_broadcaster}. These design choices satisfied the Research Objective \ref{o1b}.
+
+
+\subsection{Ensuring the Capabilities of the Platform to Support Live Data Collection and Monitoring}
+To store the measurements, InfluxDB was chosen for its ephemerality feature, which supports automatic data deletion after a user-defined duration. This feature of InfluxDB was purposefully included in the design choice to develop an \textit{ephemeral by design} system. This aligns with the guiding principles for the system design outlined in Section \ref{principles} in Chapter \ref{ch:intro}. None of the research listed in the Section \ref{sec:lit/ble_meth} in Chapter \ref{ch:lit} focused on the data storage aspect. For live monitoring of measurements, the \gls{mean} stack was used to develop a dashboard, selected for its ease of use and prior experience of the researcher. These measures fulfilled Research Objective \ref{o1c}. 
+
+
+\subsection{Identifying the Supporting Technology to Facilitate the Experimental Exploration}\label{sec:disc/supporting_tech}
+
+Finally, to meet Research Objectives \ref{o1d}, the Blue Dot and GPSLogger Android applications were utilised for capturing ground truth data, selected based on their utility and high ratings on the Play Store.
+\\
+
+The analytical techniques employed in this dissertation align with one of the design principles, described in Section \ref{principles} in Chapter \ref{ch:intro}, that is aimed at the data analysis phase. This principle states that wherever possible, the analytical technique must be selected on the basis that it is computationally inexpensive to execute on the selected \gls{sbc} (\gls{rpi} in this case) itself. The principle was established keeping real-world deployment in mind, where, the collected raw data is not transferred over to any cloud services, thereby, limiting the privacy concerns associated with the collected data.
+\\
+
+In Section \ref{subsec:meth/analysis/sma} in Chapter \ref{ch:meth}, \gls{sma} was described as a choice for filtering the raw \gls{rssi} measurements. Such a filter was required to reduce the effect of fluctuations of \gls{rssi} caused by propagation mechanisms, described in Section \ref{sec:lit/ble/signal} in Chapter \ref{ch:lit}. The fluctuations of \gls{rssi} in \gls{ble} is well established in the literature and is seen throughout the Section \ref{sec:lit/ble_meth} in Chapter \ref{ch:meth}. The size of window for \gls{sma} was selected as $10$, despite the fact that the $10^{th}$-order filter is an aggressive choice and has an impact on the temporal sensitivity of the system. 
+\\
+
+To understand the effect of this filter, the temporal dynamics can be calculated for an assumed walking pace of $1.5$ metres per second, a sampling frequency of $2Hz$, and a window size of 10 as follows:\\
+
+As per Equation \ref{eq:meth/cutoff} expressed in Section \ref{eq:meth/sma} in Chapter \ref{ch:meth}, the cutoff frequency ($f_c$) is calculated equals $1/k$, where $k$ is the window size. Therefore, the cutoff frequency for a window size $10$ filter is: 
+\\\\
+
+\tab$f_c(10) = 1/10 = 0.1 \text{ cycles$/$sample}$
+\\
+
+To calculate the time domain equivalent of the cutoff frequency Equation \ref{eq:meth/cutoff_hz}, expressed in Section \ref{eq:meth/sma} in Chapter \ref{ch:meth} can be used.
+\\\\
+
+\tab$f_{c(Hz)}(10) = 0.1 \times 2 = 0.2 \text{ }Hz$
+\\
+
+The cutoff frequency ($f_{c(Hz)}$) of $0.2$ $Hz$ means that the \gls{sma} filter will smooth out changes that happen more frequently than over the corresponding cutoff frequency, which equates to $5\text{ }seconds$ ($1/f_{c(Hz)}$).
+\\
+
+In $5$ seconds, with an assumed walking pace of $1.5\text{ }m/s$, a pedestrian would travel:
+\\
+
+$\text{Distance travelled in 5 seconds} = 1.5 \times 5 = 7.5\text{ }metres$
+\\
+
+Therefore, a \gls{sma} filter will allow changes in \gls{rssi} that happen over a distance of 7.5 metres to pass through relatively unchanged, but it will attenuate variation in the \gls{rssi} that occur over distances shorter than 7.5 metre. Thus, the filter is aggressive for this scenario.
+\\
+
+However, as stated in Section \ref{eq:meth/sma} and expressed in Equation \ref{eq:meth/sma}, both in Chapter \ref{ch:meth}, the window size for the first nine samples is equal to the sequence of the sample itself, that is, for the $n_{th}$ sample the window size in $n$. This variable window size means that the filter progressively becomes aggressive until the $9^{th}$ sample. 
+\\
+Based on the sampling frequency of $2$ $Hz$, it takes $4.5$ seconds to reach the $9^{th}$ sample. With the assumed walking pace of $1.5$ $m/s$, a pedestrian would have covered $6.75$ metres in distance, $\approx28\%$  of the total length of the selected pathway.
+\\
+
+While this does mean that the $10^{th}$ order \gls{sma} is an aggressive filter, the priority in the presented research was to accommodate a mechanism of using the technology which required suppressing noise aggressively over increasing temporal sensitivity of the system. Identifying an optimal balance between the two is beyond the scope of this work and is a worthwhile avenue for future studies.
+\\
+
+In summary, the choices for the system design presented in this dissertation offer the following advantages:
+
+\begin{enumerate}
+    \item Flexibility to adapt in accordance with the requirements of the various experiments outlined in this dissertation.
+    \item Open source and easily accessible resources to facilitate reproduction and extension of the presented work.
+    \item Relatively inexpensive and fewer hardware components allows relatively simple assembly and deployment, making it easier to use.
+    \item Use of hardware features, such as observer/broadcaster roles and whitelisting, as preventative measures against pedestrians' personal data exposure, self-expiring features of the database, and relatively inexpensive beacons that can be distributed to participants and, being non-personal devices, can be left behind when they do not want to participate, provides control to the participants, all contribute to a privacy prioritising system design.
+\end{enumerate}
+
+
+\section{Assessment of the Suitability of the Platform} \label{sec:disc/obj2}
+% 2. Assess the suitability of the platform
+% 	a. Evaluate selected environmental and hardware characteristics that may affect the data collection process and add context to the analysis. (RTC, Antenna Characteristics, Effect of Occlusion)
+% 	b. Assess a suitable deployment distance for the experimental platform.
+
+
+Research Objective \ref{o2} is concerned with the suitability of the platform developed to satisfy Research Objective \ref{o1} in measuring \gls{ble} advertisements to understand pedestrian movement and activity. A number of methodological decisions and experimental evaluations were performed to assess the goal set by \ref{o2}. 
+
+
+\subsection{Evaluate Selected Environmental and Hardware Characteristics}
+
+As discussed in Section \ref{sec:lit/ble} of Chapter \ref{ch:lit}, \gls{ble} signals are susceptible to environmental factors that affect the measured \gls{rssi} emerging from the Broadcasters. This necessitates the evaluation of the usefulness of the measured \gls{rssi} in the detection of pedestrian activities and movement and the characteristics of the hardware selected for the development of the platform. The first layer of the hardware with which these Advertisements interact is the antenna of the platform. Configuration and design of the antenna on the Observer, therefore, could affect the measured \gls{rssi} and therefore requires investigation. Assessment of the antenna aligns with the Research Objective \ref{o2a}.
+\\
+
+To assess this, the directional sensitivity of the \gls{rpi}'s (Observer's) antenna was assessed in both an anechoic chamber and an outdoor setting. The methodological approach is described in Section \ref{subsec:meth/antenna} of Chapter \ref{ch:meth} and the results are presented in Section \ref{subsec:res/antenna} of Chapter \ref{ch:res}. The results concluded that the directional sensitivity of the Observer was the greatest towards the signals emerging from between 0\textdegree{} and 45\textdegree{} angles of the horizontal plane of the \gls{rpi} in the anechoic chamber when the distance between the Observer and Broadcaster is 3 $metres$, meaning that a peak was obtained around this region. This was identified through a comparison of measured \gls{rssi} in the anechoic chamber for an extended period of time emerging from selected representative angles. A lesser peak was also obtained between the 135\textdegree{} and 180\textdegree{} region. Such a depiction has been referred to as a \textit{double hump} pattern in this study. This directional sensitivity was found to be more prominent in the outdoor setting when the Broadcaster was held by a stationary volunteer around the deployed Observer for an extended period of time at all the deployment distances, 3 $metres$, 5 $metres$, 7 $metres$, and 9 $metres$. Figures \ref{fig:res/polar_anechoic} and \ref{fig:res/polar_outdoor} showcase the results obtained in the anechoic chamber and outdoor setting respectively. Finally, \gls{rssi}s were measured at five selected equidistant key points on a marked linear pathway. In this experimental scenario, the double hump pattern was not observed. This could be attributed in part to dissimilar distances between the Observer and the Broadcaster at each of those five key points on the pathway, as depicted in Figure \ref{fig:meth/ant_layout} in Chapter \ref{ch:meth}. This directional sensitivity provided an important insight which was employed for a later experiment to detect pedestrian movement.
+\\
+
+While the outcome of this experiment was beneficial in the identification of the directional sensitivity and thus, aids in the estimation of the pedestrian's travel direction, as presented in Section \ref{sec:res/direction} in Chapter \ref{ch:res}, it is noteworthy that the approach is hardware dependent. Different \gls{sbc}s, including different versions of the same \gls{sbc}s, are likely to employ distinct architectural designs in their hardware, including the antenna type and layout of IO components such as USB ports. This is a known concern highlighted in the literature where, as presented in Section \ref{sec:lit/ble/signal} in Chapter \ref{ch:lit}, the effect of obstruction, from IO components in this case, can result in the attenuation of signals. This may have varying effects on signals arriving from different directions in a manner deviating from the patterns identified with the selection of hardware in the research presented in this dissertation. Therefore, while the process of identifying directional sensitivity, that is assessment of \gls{rssi} measurements arriving from a fixed distance but varying direction in both the anechoic chamber and the chosen outdoor location, is generally applicable, the outcome might differ from what was obtained in this research. Moreover, there is a likelihood that the obtained results are specific to the particular instance of device that was used to conduct the experiment. Where, other devices of same model may not display the same directional sensitivities. This was however not assessed in the research carried out in this dissertation and can be taken up as a future work to assess the general applicability of the results on the across the same model of \gls{rpi}s.
+\\
+
+When technology such as \gls{ble} is used for measurements, the reliance on signal propagation in the environment introduces several factors that can potentially degrade the accuracy and quality of collected data. As presented in Sections \ref{sec:lit/ble} and \ref{sec:lit/ble_meth} in Chapter \ref{ch:lit}, the literature lists environmental obstructions, the presence of large metal objects and varying weather conditions as some of those factors affecting the quality of signals, and hence the necessity for calibration. Studies such as \citep{Hasan2022b}, as presented in the Section \ref{sec:lit/ble_meth} in Chapter \ref{ch:lit}, have recognised environmental obstructions hampering \gls{los} of signals, but have failed to provide a robust solution. Thus, an experimental investigation of an environmental 'signature' at the location for experiments during the course of this research is conducted.
+\\
+
+In partial fulfillment of Research Objective \ref{o2a}, \gls{ls} and \gls{ss} fading at the experimental location were evaluated, and were presented in the Sections \ref{subsec:meth/evalexp/fading} and \ref{sec:res/fading} in the Chapters \ref{ch:lit} and \ref{ch:meth} respectively. The \gls{ls} fading analysis indicates that the standard path loss model does not provide satisfactory prediction of \gls{rssi} trends, indicating that the standard path loss model is not applicable at this experiment location. This conclusion is based on significant residuals (that is the difference between measured \gls{rssi} and model-predicted \gls{rssi}), particularly obtained at the  \textit{start} and \textit{centre} key points, suggesting that consideration of additional factors such as reflection might need to be incorporated into the model to improve its accuracy. The \gls{ss} fading highlights the importance of considering multipath components. The Rician Shape parameter, $K$, reveals that the signal at the \textit{start} key point is dominated by \gls{los} component (fewer multipath components), while the other key points exhibit increased fading characteristics. The varying Scale parameter, $\sigma$, suggests that the severity of \gls{ss} fading differs across different key points, with the most substantial fluctuations observed at the  \textit{centre} key point.
+\\
+
+Overall, this experiment demonstrated the complex relationship between \gls{ls} and \gls{ss} fading at the location of the experiment. While \gls{ls} fading provided a general trend of signal attenuation with distance, \gls{ss} fading provided insights into intricate variations caused by environmental factors. The insights from this experiment can be employed to improve the path loss model, tailored for this experimental location. The improved model can then be used to predict \gls{rssi} values and the deviations from the predicted values could also be used to indicate pedestrian movement dynamics, which may subsequently be asserted as specific pedestrian activities. For instance, if a model is tailored to incorporate both \gls{los} and \gls{nlos} orientations between Observer and Broadcaster on walk starting from either side of the pathway, the \gls{rss} values obtained from a pedestrian straying from the pathway will deviate from the \gls{rssi} predicted by the model. This information can be used to infer that the pedestrian, for instance, may be walking a pet, the likelihood of which could be increased or decreased through other form of analytics, however, the effectiveness of such an approach requires further investigation.
+\\
+
+Studies in the literature that utilise \gls{ble} lack investigation of hardware or environment specific aspects that may affect signal quality. Section \ref{sec:lit/ble_meth} described the work of Bessho and Sakamura \citep{Bessho2022} who presented their study in which manufacturer specific data was employed to understand the correlation between device manufacturers and their detection by contact tracing applications. While this study by Bessho and Sakamura delves into topic pertaining essentially to the device chipset and its detection, it is insufficient to understand the effect of the hardware itself. The two experiments presented in this dissertation, \ref{subsec:meth/antenna} and \ref{subsec:meth/evalexp/fading}, incorporate the effect of hardware and the environment on the measurements in a practical manner, which is missing in the literature. And thus, the presented work opens new avenues for research by demonstrating the usefulness of such aspects in the measurement of pedestrian movement.
+
+
+\subsection{Assess a Suitable Deployment and Measurement Capabilities for the Experimental Platform}
+
+To partially address the Research Objective \ref{o2b}, the optimal deployment distance of the Observer from the selected linear pathway for the experimental configuration outlined in this dissertation is assessed. In Section \ref{sec:lit/ble} of Chapter \ref{ch:lit}, it is noted that the \gls{rssi} attenuated with the increase in distance propagated by the signal. This is expressed through the log-path model described in Equation \ref{eq:lit/pl} in Chapter \ref{ch:lit}. Therefore, it necessitates identifying the optimal distance that results in recognisable patterns in the collected \gls{rssi} measurements from all the key points on the identified pathway. The methodology of the experiment is described in Section \ref{subsec:meth/evalexp/depdist} and the outcome is presented in Section \ref{sec:res/deployment_distance}. The candidate distances of 3 $metres$, 5 $metres$, 7 $metres$, and 9 $metres$ were selected for the deployment of the Observer from the pathway. The goal was to identify which distance provided the most reliable data indicative of pedestrian movement and activities, the distances beyond 9 $metres$ were not selected as candidates due to the degradation of the signals as a result of  \gls{ls} fading based on the log-distance path loss model, as described in Section \ref{sec:lit/ble} of Chapter \ref{ch:lit} and \ref{sec:res/deployment_distance} of Chapter \ref{ch:res}. 
+\\
+
+The experiment was designed with pathways laid out at those candidate distances, each with five equidistant key points marked as \textit{start}, \textit{approach}, \textit{centre}, \textit{depart}, and \textit{end}, as showcased in Figure \ref{fig:meth/depdist_layout}. The volunteer pedestrian was instructed to remain stationary at each point for three repetitions of one-minute pauses, both in \gls{los} and \gls{nlos}.
+\\
+
+The collected data included the \gls{uuid}, timestamped \gls{rssi} and \gls{sma} of the \gls{rssi}. The analysis involved calculating the median \gls{rssi} for each location across all rounds of measurements and averaging these medians to obtain a representative \gls{rssi} for each path. This approach accounted for an assessment for both overall and localised signal strength.
+\\
+
+The results indicated that the deployment distances of 3 $metres$ and 5 $metres$ provided better results than those at 7 $metres$ and 9 $metres$ at the experimental location. This was determined though statistical analysis using \gls{anova} and Tukey's \gls{hsd} test, which revealed statistically significant differences in the signal strength between these distances. For the case of \gls{los}, 3 $metres$ and 5 $metres$ showed superior performance, with 3 $metres$ deployment distance being particularly notable. Likewise, for \gls{nlos} case, 3 $metres$ deployment distance demonstrated better results compared to 7 $metres$. However, for the \gls{nlos} case, the deployment distance of 3 $metres$ did not present a significant improvement in signal strength over 5 $metres$ and 9 $metres$ distances. The outcome for the \gls{los} case is summarised in Table \ref{tab:res/depdist/tukeys_los} and in Figure \ref{fig:res/depdist/tukeys_los}, whereas, for the \gls{nlos} case, Table \ref{tab:res/depdist/tukeys_los} and Figure \ref{fig:res/depdist/tukeys_los} present the findings. 
+\\
+
+The statistical analysis also highlighted the presence of a \textit{double hump} pattern in the \gls{rssi} at 5 $metres$ and 9 $metres$, as presented in Figure \ref{fig:res/depdist/fluctuations_los} in Chapter \ref{ch:res}. While the double hump pattern is present in all the scenarios in the case of \gls{nlos}, as seen in Figure \ref{fig:res/depdist/fluctuations_nlos} in Chapter \ref{ch:res},  the presence of the pattern is inevitable. This is because the case of \gls{nlos} results in full body occlusion when the volunteer pedestrian is directly in front of the Observer, as presented in Figure \ref{fig:meth/depdist_occ_vs_partial} in Section \ref{subsec:meth/antenna} of Chapter \ref{ch:meth}. This distinct presence of the double hump pattern in the case of \gls{nlos} also suggests the likelihood of detecting the presence of body occlusion between the Observer and the Broadcaster and is confirmed through tests conducted in another experiment, discussed later in this section.
+\\
+
+Another experiment that was conducted to evaluate the suitability of the platform was to understand the effect of body occlusion on the acquisition of \gls{ble} advertisements. This experiment is important in not only understanding the impact of body occlusion, but also to assess whether \gls{rssi} measurements acquired from a body-occluded Broadcaster result in recognisable patterns, reflecting pedestrian activities and movement. Occurrences of occlusions can be common in the real-world as many \gls{ble} enabled devices include key finders and beacons that may be kept in pockets or bags facing away from the deployed Observer. If \gls{ble} signals lose significant strength while traversing through a pedestrian's body, the utility of the technology could be limited in real-world applications. Such body occlusion could also be an artefact of the environment, where the pathway is shared by several pedestrians at the same time, meaning that body occlusion does not necessarily result from the body of the pedestrian carrying the Broadcaster. Therefore, this experiment aligns with both, Research Objective \ref{o2a} and Research Objective \ref{o2b}.
+\\
+
+Measurements were taken from three different sub-experiments: \gls{rssi} emitting from a stationary pedestrian at key points on the pathway, \gls{rssi} emitting from distant points and \gls{rssi} emerging during a pedestrian walk. All three sub-experiments were conducted for both \gls{los} and \gls{nlos} cases. \gls{mad} technique, described in Section \ref{subsec:meth/analysis/mad} in Chapter \ref{ch:meth}, was applied to the collected measurements to identify the differences in dispersion between the two cases for every sub-experiment. In addition, the percentage of dropped advertisements are also calculated. For the third sub-experiment, measurements within the 10\% range of the peak or the maximum measurement and the difference between the maximum measurement and the median of measurements are also evaluated.
+\\
+
+For sub-experiment 1, the outcome summarised in Table \ref{fig:res/occ/point} and Figure \ref{fig:res/occ/point} demonstrated the higher \gls{mad} values ($>1\text{ }dB$) in \gls{nlos} case compared to the \gls{los} case ($<1\text{ }dB$). For sub-experiment 2, all the identified key points for the \gls{los} case produced lower \gls{mad} values ($<1\text{ }dB$). However, unlike sub-experiment 1, for the \gls{nlos} case, two out of four key points resulted in lower ($<1\text{ }dB$) \gls{mad} values. This could be the influence of metal infrastructure in the experimental area closer to the far key points, however, this requires further investigation. The average advertisement drop percentage for the \gls{nlos} case was found to be sufficiently larger than for the \gls{los} case for sub-experiment 1 of the experiment, signifying that body occlusion affects the propagation of the signals to an extent that some of those signals are completely attenuated before reaching the Observer. This is shown in Table \ref{tab:res/occ/droppath}. It is noteworthy that the difference between advertisement drop percentage for \gls{los} and \gls{nlos} cases in sub-experiment 2, that is for the far points, is negligible, as presented in Table \ref{tab:res/occ/dropfar}. While this suggests that the effects of body occlusion are nullified for greater distances, more investigation is required to conclude this hypothesis.
+\\
+
+Finally, for the third sub-experiment, distinct patterns in the measurements are visible for the \gls{los} and \gls{nlos} cases in Figures \ref{fig:res/occ/se_los} and \ref{fig:res/occ/es_los}, showing sharper peaks in the former case and flatter in the latter. The ratio of advertisements within 10\% of the maximum \gls{rssi} to the total number of advertisements numerically indicated the sharpness and flatness in the two cases respectively, with the mean ratio for \gls{los} being $\approx0.2$ and  $\approx0.3$ for \gls{nlos}. The gap between the median and peak/maximum \gls{rssi} further supported the presence of occlusion numerically, with \gls{los} case showing larger gaps of $\approx12-14\text{ }dB$ compared to \gls{nlos} case with gaps of $\approx9-10\text{}dB$, as presented in Table \ref{tab:res/occ/gap}.
+\\
+
+The experiment conclusively demonstrates that body occlusion introduces a filtering effect on the \gls{rssi} time series, resulting in a flatter \gls{rssi} time series compared to the unoccluded scenarios. This characteristic plateau can be quantified using simple statistical measures such as median and \gls{mad} values, enabling the indication of body occlusion in most cases. The results also indicate the \gls{rssi}s for the \gls{nlos} case are sufficiently strong to study pedestrian activities and movement, with only the presence of a stronger effect of body occlusion present when the pedestrian is directly opposite to the Observer. 
+\\
+
+The final experiment was conducted to evaluate the effect of the \gls{ble} advertisement interval on the capturing capabilities of the Observer. Such an examination of the device is necessary to ensure accurate and reliable measurements are taken, and as highlighted in Section \ref{sec:lit/ble} in Chapter \ref{ch:lit}, the advertisement rate or the advertisement interval was identified as an important factor that influences measurements \citep{Montanari2017}. The lack of such an examination in the literature, as presented in Section \ref{sec:lit/ble_meth} in Chapter \ref{ch:lit}, presented a gap in the knowledge. This experiment addresses both, Research Objectives \ref{o2a} and \ref{o2b}. Understanding this parameter is important for optimising the deployment of \gls{ble}-enabled systems for pedestrian activities and movement. Different advertisement rates can impact the number of intercepted signals, thereby affecting the reliability and granularity of the data collected. The experiment tested three advertisement intervals: 100 $ms$, 500 $ms$ and 1000 $ms$. As described in the methodology of the experiment in Section \ref{subsec:meth/advert_rate}, a \gls{rpi}-based Advertiser was utilised in the experiment as it provided the flexibility to change the rate of advertisement, and additionally facilitated storing the number of advertisements emitted.
+\\
+
+The number of advertisements emitted was compared against the measured number of advertisements to determine packet loss. The results, summarised in Table \ref{tab:res/advrate/droppedpercent} and illustrated in Figures \ref{fig:res/advrate/los} and \ref{fig:res/advrate/nlos}, demonstrated that the 100 $ms$ rate had a significantly higher percentage of dropped packets, often ranging in the high 80s and 90s. In contrast, the 500 $ms$ and 1000 $ms$ rates had a much lower drop percentage, typically around 40-50\%. Despite the high packet loss at 100 $ms$, the total number of intercepted advertisements was comparable to those at 500 $ms$ and 1000 $ms$. However, the distribution of captured advertisements was erratic for the 100 $ms$ rate as seen in figure \ref{fig:res/advrate/geo_100_los_se} and \ref{fig:res/advrate/geo_100_los_es}. This inconsistency can potentially hinder the detection of discernible patterns in \gls{rssi} data.
+\\
+
+The findings reveal that while a shorter advertisement interval leads to a greater number of packets being transmitted, it also results in significant packet loss and irregular capture pattern. On the other hand, advertisement intervals of 500 $ms$ and 1000 $ms$ provided comparatively more reliable and consistent data capture. The 500 $ms$ interval particularly demonstrated a balance between sufficient granularity and manageable data processing for the Observer.
+\\
+
+Another notable insight from this experiment is the likelihood of a bottleneck in the Observer's capability to process advertisements, as it never captured more than two advertisements per second, regardless of the broadcast rate. This point however requires more exploration to identify whether it is caused by the hardware, the\gls{rpi} or by the \gls{ble} library, BluePy. This insight suggests further investigation to optimise the Observer's performance by testing other candidate \gls{sbc}'s and libraries.
+\\
+
+In summary, the experiment successfully identified that for the experimental configuration presented in this dissertation, the advertisement interval of 500 $ms$ and 1000 $ms$ are optimal advertisement intervals providing a balance between the data acquisition, granularity, and Observer's processing capabilities. This outcome is important for design and implementation of reliable and effective \gls{ble}-based pedestrian activities and monitoring systems in real-world scenarios. This experiment demonstrates the importance of determining the optimal advertisement interval of \gls{ble} Broadcasters for reliable measurements in future studies. Through examination of a suitable advertisement interval, as one that is presented in this dissertation, the optimal rate which an Observer can effectively measure can be identified. Broadcasters can then be selected or fine-tuned to broadcast advertisements at the identified rate to ensure effective measurements are collected in future studies.
+ \\
+
+% The findings contribute to the broader understanding of \gls{ble} deployment for pedestrian monitoring systems, and emphasised the need for consideration of hardware and software specification of the Observer to ensure accurate and reliable data collection before real-world deployment.
+
+All the experiments discussed above contribute to Research Objective \ref{o2}. One methodological choice was opted for in addition to the experiments to support this objective. \gls{rtc}, as presented in Section \ref{subsub:obsbro} in Chapter \ref{ch:meth}, was used as part of the architecture of the platform to facilitate capturing real-world timestamps. The recording of accurate timestamps enables the time of a pedestrian walk to be captured, providing context for the walk. For instance, for a known deployment location with offices in the vicinity, activity during business opening and closing hours might indicate the purpose of the walk is to commute to work.
+
+\section{Design and Implementation of Data Collection Procedure}
+	
+% 3. Design and implement data collection procedure
+% 	a. Establish protocols for data collection, including parameters required for detecting a selection of pedestrian movement and activities.
+
+The guiding principles outlined in Chapter \ref{ch:intro} placed emphasis on the design and implementation of tailored data collection procedures. The focus was on collecting only essential parameters for understanding pedestrian activities and movement. The procedures are presented in Section \ref{subsec:meth/data_collection_protocol} in Chapter \ref{ch:meth}. 
+\\
+
+The only parameter acquired from the Broadcaster that is potentially an identifiable parameter is the \gls{uuid} of \gls{ble} device. \gls{uuid} of the device can provide insight into the manufacturer, device type, and services offered by the device, as described in Chapter \ref{ch:lit}. However, the \gls{uuid} in the configuration described in this dissertation is only used for the purpose of experimentation. Barring the distinction between the devices when multiple Broadcasters are used, \gls{uuid}s have no use in the analysis. The presence and measurement of multiple devices are however expected in a real-world deployment, and therefore, the need to measure this parameter is inevitable. Despite that, measures such as hash encoding, described in Chapter \ref{ch:lit} can be used to obfuscate the parameter and assign a new unique identifier, internal to the platform, based on the original \gls{uuid}s. Such a method would acquire \gls{uuid}s only to evaluate a new identifier and discard the original one before corresponding measurements are stored in the database. The measurements stored in the database will only retain hash encoded strings calculated using the original \gls{uuid}s. This approach can be further strengthened by either truncating the portion of calculated hash encoded values or by frequently changing the salt that calculates the hash encoded values, say, every 24 hours. The former method will result in the association of the same hash encoding for devices for the entire span of observation using such a platform. However, it also means that hash encoded identifiers can be used to know if the same device is visible frequently over the entire span of experiments. The latter method, although it prevents the identification of hash encoded values beyond the duration of the salt change, 24 hours in this example, it also prevents the association of devices in a long term study and may deprive the study of useful nuances. However, if the objective is not about tracking people, the approach to frequently change the salt will provide a useful insight to space utilisation regardless. These factors should be considered by urban planners, based on the purpose of their study, if such a platform is employed. All the other parameters measured were necessary for the analysis. Section \ref{subsec:meth/data_collection_protocol} in Chapter \ref{ch:meth} corresponds and satisfies Research Objective \ref{o3}.
+
+\section{Experiments and Analysis} \label{sec:disc/experiments_analysis}
+
+% Specifically, these experiments were designed to saisfy the following research objective:
+
+% 4. Evaluate \gls{ble} performance in indicating selected pedestrian activities and movement
+% 	a. Build scenarios pertaining to a selection of pedestrian activities and movement.
+% 	b. Identify and/or develop numerical analysis to evaluate the usability of the platform in understanding pedestrian activities and movement.
+
+To address \ref{o4}, experimental scenarios were identified and selected, and statistical methods were identified and developed to suit those experimental scenarios. These scenarios are discussed in Section \ref{sec:meth/experiments} in Chapter \ref{ch:meth}. The statistical methods are discussed in Section \ref{sec:meth/analysis} in Chapter \ref{ch:meth} and implemented in Section \ref{sec:res/experiments} in Chapter \ref{ch:res}.
+
+
+Experiment \ref{subsec:meth/pause} was developed to satisfy the Research Objective \ref{o4a} and the data was analysed in section \ref{res/pause} to meet the Research Objective \ref{o4b}, both, in partial fulfillment of Research Objective \ref{o4}. This experiment focused on whether \gls{ble} can capture information to indicate pauses in the movement of passing pedestrians.
+\\
+
+As discussed in Section \ref{res/pause}, pauses in pedestrian movement are important for understanding both pedestrian and environmental interactions, and to support data-driven urban (re-)development plans. To detect a pause in the movement of pedestrians using \gls{ble}, a comprehensive analysis was performed on the measured \gls{rssi}. The methodology included curve fitting, sliding window \gls{sd}, and thresholding techniques, as listed below:
+
+\begin{enumerate}
+    \item Curve Fitting
+    \begin{enumerate}
+        \item Polynomial order was examined to balance the underfitting and overfitting, ensuring that the curve represents the \gls{rssi} measurements without being overly influenced by fluctuations.
+    \end{enumerate}
+    \item Sliding window \gls{sd}
+    \begin{enumerate}
+        \item This method was used to indicate flatness in the resulting curve of curve fitting based on detecting a region of measurement with relatively similar \gls{rssi} range, generally a feature of a stationary source. The size of the sliding window was optimised by testing various sizes and comparing the resulting accuracy and false positives through retrofitting it against captured ground truth data.
+    \end{enumerate}
+    \item Thresholding:
+    \begin{enumerate}
+        \item Identified the value of \gls{sd} that can be considered as flat patch.
+    \end{enumerate}
+    \item Fine Tuning:
+    \begin{enumerate}
+        \item The duration for which flatness was sustained in \gls{sd} was then identified for the consideration of it as a pause in the movement.
+    \end{enumerate}
+\end{enumerate}
+
+The results as detailed in Section \ref{subsec:meth/pause} of Chapter \ref{ch:res}, confirmed that the adopted approach effectively identified \textit{significant} pauses in pedestrian movement. Significant pauses, defined as pauses with a duration of over 15 $seconds$, were detected with high accuracy with minimal false positives in the results of this experiment, when verified against the collected ground truth. This is noteworthy as these significant pauses are more likely to correspond to meaningful interactions between pedestrians and their surroundings, such as engagement in conversation, interaction with features of the environment, or taking in the views in the surroundings. The concept of a significant pause is synonymous to 'standing to talk to someone' and 'standing for a while' categories of staying, as were identified in the literature by \citep{gehl2011life} and highlighted in Section \ref{subsec:lit/act_move_behave} in Chapter \ref{ch:lit}. However, the method was less effective in the detection of shorter pause durations (5 $seconds$), which are generally less meaningful as they pertain to 'stopping for a moment' (activities such as tying shoe laces) category in \citep{gehl2011life}, presented in Section \ref{subsec:lit/act_move_behave} in Chapter \ref{ch:lit}.
+\\
+
+While the method produced satisfactory results for the configuration used in this study, the steps, described in Section \ref{subsec:meth/pause}, can be a recommended approach for any similar future study using \gls{ble} signal strength. The general applicability of the approach arises from the logical reasoning emerging from the understanding of the propagation of \gls{ble} advertisements and their acquisition by the selected Observer. The \gls{rssi} of measured advertisements has the propensity to demonstrate oscillation when they are plotted against the time or sequence of their acquisition, which may pose a challenge in identifying local and global trends in the measurements. Curve fitting is one of the techniques that can be employed to approximate the measurements, reducing the impact of oscillations, and revealing the trends in the measurements. This approach is generally applicable to any type of signal. Further, to identify different local trends present in the resulting curve, the curve can be divided into several regions and dispersion within those regions can be evaluated. Sliding window \gls{sd} is one of the techniques that allows for breaking the curve into regions specified by window size, and measuring dispersion within those regions. Identifying a threshold for the amount of acceptable dispersion to be considered as being stationary can also be generally applied. And finally, the measure of the duration for which the \gls{sd} sustains under the threshold is a generally applicable approach. The first step is to reduce the effect of dispersion, as performed using curve fitting in the presented approach.  These steps can be formalised into a novel protocol for such studies:
+
+\begin{itemize}
+    \item Reduce the effect of measurement fluctuation and anomalies, with curve fitting as a candidate method.
+    \item Assessing the appropriate polynomial order of curve fitting using metrics such as the \gls{sse}.
+    \item Evaluating dispersion in the curve with sliding window \gls{sd}, and optimising the window size through simulation experiments run with volunteers.
+    \item Determining the correct threshold length for detection of flat patches on the pause duration of interest, considering factors that may affect this length, such as the Doppler effect.
+\end{itemize}
+
+In partial fulfilment of RO \ref{o4}, the experiment successfully demonstrated that it is possible to use \gls{ble}'s potential for detecting significant pauses for the configuration specified in Section \ref{res/pause}, however, the methodology that emerged through the analysis of this experiment can be generally applied. This capability offers the possibility of gaining valuable insights into pedestrian interactions with their environment and other pedestrians, thereby contributing to Objective \ref{o4}.
+\\
+
+The outcome of this experiment contributes a novel method of application of these statistical techniques to detect pedestrian pauses using a single \gls{ble} Observer in the linear pathways of the subject matter. This experiment also results in a minor contribution of the identified protocols for any such future studies.
+\\
+
+In Section \ref{sec:lit/ble_meth} in Chapter \ref{ch:lit}, studies such as that by Centorrino \citep{Centorrino2020} used \gls{ble} to study visitors to a museum. Despite this being an indoor study and an ideal opportunity, the study however failed to investigate interactions between visitors. Such interactions are often investigated between pedestrians and vehicles but not between pedestrians and pedestrians, as seen in Section \ref{sec:lit/ble_meth}. An extension of Experiment \ref{subsec:meth/pause} was performed to understand the likelihood of detecting pedestrian interaction as they encounter each other on a walk using \gls{ble} \gls{rssi} values incorporating two pedestrians. This built on the experiment described previously. It was decided to test the hypothesis that the technique developed for detecting pauses could be effectively applied when multiple \gls{ble} advertisements are measured simultaneously to detect the interaction. The methodology of this experimental scenario, meeting the Research Objective \ref{o4a}, is described in Section \ref{subsec:meth/interaction}, and the results are presented in Section \ref{subsec:res/interaction}, meeting the Research Objective \ref{o4b}.
+\\
+
+The results of the experiment showed that the pause detection approach was successful in identifying pauses for both Broadcasters, for the location and configuration used in this experiment, thereby detecting pedestrian interaction, in many scenarios. However, the accuracy in pinpointing the exact pause location was compromised with detected pauses often exceeding actual pause zones. These actual pause zones were identified using the ground truth data, captured by the GPSLogger application. 
+\\
+
+To assess the outcome of this experiment, the findings are revisited. Three configurations were tested for the pair of Broadcasters: when both were in \gls{los}, when both were in \gls{nlos}, when one was in \gls{los} while the other was in \gls{nlos}, for pauses at \textit{approach}, \textit{centre}, and \textit{depart} key points on the pathway, as depicted in Figure \ref{fig:meth/layout}, the following are the summarised outcome for those configurations. 
+
+\begin{itemize}
+    \item For \textit{approach} point: Detection of pauses in the \gls{los}-\gls{los} configuration were successful, though with extended pause regions. Mixed results were obtained for both \gls{los}-\gls{nlos} and \gls{nlos}-\gls{nlos} configurations. Extended pause regions were also identified in these two configurations.
+    \item For \textit{centre} point: Detection was less reliable in the\gls{los}-\gls{los} configuration, with pause identification for only one Broadcaster. Whereas, in the other two configurations, viz. \gls{los}-\gls{nlos} and \gls{nlos}-\gls{nlos}, pauses were detected for both Broadcasters, albeit with extended pause regions.
+    \item For \textit{depart} points: Detection was successful for both Broadcasters in all configurations, however, extended pause regions persisted even at this key point on the pathway.
+\end{itemize}
+
+Significant differences in \gls{rssi} were observed between two Broadcasters during detected pause regions. This could be an effect of increased collision between competing \gls{ble} advertisement packets. However, more exploration is required to reach a conclusion. Another reason for the differences in \gls{rssi} could be an effect of partial occlusion from the other pedestrian volunteer, as depicted in Figure \ref{fig:res/interaction/obstruct}.
+\\
+
+While the outcome of the experiment demonstrates the success in the extension of the method used in \ref{subsec:meth/pause} for detecting pauses from \gls{rssi} of two Broadcasters simultaneously, no evidence was found to assert those pauses as interactions. The inaccuracies in pinpointing the exact location of these pauses remain a challenge. Hence, even if two or more pauses can be detected simultaneously, the occurrence of those pauses at the same location on the path is yet to be solved. The presence of more Broadcasters may present increased packet collision and therefore could hamper interaction detection in a real-world deployment.
+\\
+
+The third experiment, asserting a pedestrian's travel direction using a single Observer, was conducted to assess Research Objective \ref{o4}. The methodology, attributing to the Sub-Objective \ref{o4a}, is described in Section \ref{subsec:meth/direction}, whereas, the outcome, attributing to the Sub-Objective \ref{o4b}, is presented in Section \ref{sec:res/direction}. The experiment builds on the earlier experimental work, leveraging the characteristics of the antenna identified in Section \ref{subsec:res/antenna}. The primary goal was to determine if the direction of travel could be inferred by analysing the \gls{rssi} values collected at a single point during the pedestrian's journey. The presented approach deviates from the approach used in the literature where multiple devices are strategically deployed to detect the direction of travel of pedestrians (\citep{Alanbouri2019}), as pointed in Section \ref{sec:lit/ble_meth} in Chapter \ref{ch:lit}.
+\\
+
+The antenna on the \gls{rpi} used for the Observer was found to be more sensitive to signals emerging from the 0\textdegree{} to 90\textdegree{} region around the Observer, which could be utilised in the identification of the direction of travel. The experiment was conducted with two paths defined at 3 metres and 5 metres away from the Observer, for both the \gls{los} and \gls{nlos}cases, for both travel directions from \textit{start} to \textit{end} and from \textit{end} to \textit{start}, repeated three times for each scenario. The collected \gls{rssi} for each journey were divided into two segments: \textit{start} to \textit{centre} and \textit{centre} to \textit{end}. Median \gls{rssi} for each segment were calculated and compared.
+\\
+
+The result shows that the median \gls{rssi} values were higher for the segment between the \textit{start} and \textit{centre} points compared to the \textit{centre} and \textit{end} segment. This pattern was consistent across most scenarios, as presented in Table \ref{tab:res/direction/mean_rssi}, indicating the directional sensitivity of the antenna and/or the effect of environmental topology, and subsequently, asserting the direction of travel. The \gls{rssi} values and the number of advertisements received per second were affected by the \gls{los} and \gls{nlos} configurations. The received sample rate was consistently lower in the \gls{nlos} case compared to the \gls{los} case, indicating higher signal attenuation and potential packet loss. These results suggest that simple median calculations of the collected \gls{rssi} can be used to infer the direction of travel with a high degree of likelihood, provided that antenna characteristics are investigated and such features of the antenna are identified. Thus, the outcome for this experiment, while not generally applicable, showcases an approach where the directional sensitivity of the antenna can be assessed and subsequently employed in the detection of pedestrian movement dynamics and activities. These results also strengthen the findings from Experiment \ref{subsec:res/antenna}, establishing that such antenna characteristics identified in noiseless environments persist in outdoor environments.  However, as explained in Section \ref{sec:meth/location}, this study was only performed on one pathway, and future studies can extend this work on multiple pathways in multiple locations to assess the general applicability of this approach.
+\\
+
+Although they are based on a relatively simple building topology, the key findings nevertheless also underscore the potential of using topological features of the surrounding environment to artificially create features useful for detecting the direction of travel. For instance, an experimental pathway with a large structural element that significantly attenuates \gls{ble} advertisements can be intentionally chosen, this is also mentioned in the literature by AlAnbouri et al. \citep{Alanbouri2019}. This setup ensures that when walking from an end closer to the structural element, the \gls{rssi} pattern shows a significant dip after a brief increase, followed by its continuous rise to the peak. Conversely, walking from the other end results in the \gls{rssi} increasing to its maximum, then dropping sharply due to the obstruction, rising briefly again, and finally continuing to fall. This creates a striking artefact on the \gls{rssi} pattern which can be detected by applying statistical or signal processing techniques, and subsequently, used to detect the direction of pedestrians without the use of multiple Observers in real-world scenarios. 
+\\
+
+Finally, the last experiment aimed to analyse pedestrian behaviour on a university campus over an extended period. The methodology of the experiment is described in Section \ref{subsec:meth/gg} in Chapter \ref{ch:meth} and the results are described in Section \ref{sec:res/gg} in Chapter \ref{ch:res}. These sections partially fulfil the Research Objectives \ref{o4a} and \ref{o4b} respectively.
+\\
+
+The study leveraged \gls{ble} to gather \gls{rssi} from Broadcasters provided to 28 participants to understand the space utilisation of pedestrians. Aligning with the guiding principles described in Chapter \ref{ch:intro}, measures were taken to ensure that the privacy of participants was not compromised. Therefore, beacons were provided to the participants instead of using their personal devices. This ensured that signals were only captured from the devices that were meant for the study. This design choice also provided control to the participants providing them with the flexibility to not carry the beacons on the days they did not wish to participate in the study. Two types of Observers, \gls{rpi} 3B+ based and ESP32 based, were deployed across 17 locations on the campus and a total of 126,130 \gls{ble} advertisements were collected from the participants in the study period of 24 days.
+\\
+
+Through the measured data, insights into the space utilisation of the campus were obtained. Table \ref{tab:bleevents} provides an insight into the number of \gls{ble} events registered at each of the locations where Observers were deployed. Through this, the frequency of the usage of those areas can be identified. This is important information which can be used by planning authorities to derive data-driven (re-)development plans which can in turn improve the utilisation of outdoor spaces.
+\\
+
+In addition, through journey analysis, the pace of the participants was calculated. For example, Figure \ref{fig:journey_rssi} and \ref{fig:journey} depict a walk by one of the participants through the university campus. Through the inspection of \gls{ble} advertisements from corresponding Observers, a journey was obtained and the difference in time from one Observer to the other was used along with the distances between the two deployments,obtained from open mapping software. This allowed for the calculation of the walking pace of the pedestrian. In the example, the mean walking pace of 0.8 m$/$s was observed. This information, along with context, such as the time of walk, can provide meaningful assertions. For instance, again in the same example, the time of the walk is between 8:30am and 8:40am, as seen in Figure \ref{fig:journey_rssi}. This suggests the likelihood of a brisk morning walk. 
+\\
+
+The approach however has a privacy issue. Although the method did not require any personal information, a high advertisement count from specific volunteers at particular locations suggested their frequent presence in those areas. This poses a potential privacy risk. However, this can be addressed through the hash encoding of \gls{uuid} with a frequently changing salt, as previously mentioned. Another challenge is with specific volunteers residing in the observable range of an Observer. This would result in their presence being detected for major parts of the day, revealing the likelihood of their residence. One potential solution for this could be to truncate \gls{rssi} entries that are present in the same location for substantial proportions of the day.
+\\
+
+The study shows that \gls{ble} technology can be a powerful tool for monitoring pedestrian behaviour and activities, with applications in urban planning, campus management, and beyond. However, it also highlights the importance of addressing privacy concerns and refining data analysis methods that support obfuscation.
+\\
+
+All the experiments and the associated results discussed in this section fulfil Research Objective \ref{o4}. While the experiments do not encompass every aspect of pedestrian movement and activities, they build a strong foundation with a heterogeneous set of those activities and movements.
+
+\section{Protocol for Using \gls{ble} to Understand Pedestrian Activities and Movement}\label{contrib:protocol}
+
+A protocol can be formulated by leveraging the knowledge gained through the work carried out during this PhD, as presented in this dissertation. This protocol outlines the recommended steps to employ \gls{ble} for the analysis of pedestrian activities and movement. This protocol differs from the work of AlAnbouri as her work, and the potential protocol arising as an outcome of her research, is targeted towards a large-scale measurement of pedestrians. In the case of her research, a number of Observers are employed and are deployed to cover a large region. Her work focuses on a macro-level aspect of pedestrians and through the use of qualitative information gathered in the form of surveys and questionnaires, her research focuses on pedestrian behaviour. Whereas, my research, as presented in this dissertation, is focused on micro-level pedestrian dynamics. The presented research in an investigation of the technology and its features to aid measurement of pedestrian dynamics using a single Observer device on a single linear pathway.
+
+\begin{enumerate}[label={}, ref=\thestep]
+    \item \step{Define the objective.}{step:1}\\
+    Clearly define the specific objectives that are required for the study. Examples include identifying the direction of the flow of the pedestrians and identifying locations of interest in a study area.
+    \item \step{Prepare the equipment.}{step:2}
+    \begin{enumerate}
+        \item Hardware
+        \begin{enumerate}
+            \item Observer        
+            \begin{itemize}
+                \item Identify the type of hardware equipment based on the Objective. Development boards such as Arduinos and ESP32s for a functional system with limited processing capabilities, \gls{sbc}s for greater processing power and additional functionalities offered by an Operating System, or a custom board for tailored features.
+                \item Assess the choice of library for the required features of \gls{ble} stack. For instance, as identified during this PhD, the selected library, BluePy, for Python do not support whitelisting feature, as highlighted in Section \ref{sec:meth/pbd} in Chapter \ref{ch:meth}.
+                \item Evaluate hardware characteristics and design components that may affect the reception of signals, such as the antenna characteristics. Another factor could be the presence of additional large components on the hardware platform that physically occlude the antenna from signals originating from any particular direction.
+                \item Identify the processing bottleneck of the hardware and software that may limit the parsing of multiple advertisements or more frequently received advertisements.
+            \end{itemize}
+            \item Broadcaster        
+            \begin{itemize}
+                \item Identify the type of Broadcaster required. If the study is conducted consensually, mobile phone applications can be distributed to the participants. Otherwise, beacons can be provided to the participants. For any tailored requirements, purpose-built beacons could be considered.
+                \item If mobile applications are used, attention must be paid to application development to preserve the privacy of the participants. For instance, the application must be programmed to use \gls{ble} in \textit{broadcaster} mode as opposed to \textit{peripheral}. The information contained in the advertisement packet also requires close attention. For instance, a pedestrian may have assigned \textit{local name} on a personal device, which when processed may reveal the personal information of the participating pedestrian.
+                \item Identify suitable advertisement rates for the purpose of the study. Higher advertisement rates provide increased granularity. The selection based on these criteria works in tandem with the capabilities of the Observer to measure and process those advertisements.
+            \end{itemize}
+        \end{enumerate}
+        \item Software
+        \begin{enumerate}
+            \item Data acquisition software
+            \begin{itemize}
+                \item Ensure that the software package inherently supports, or provides \gls{api}s or libraries for using \gls{ble}. In addition, ensure that the capabilities of the software stack support the use of privacy-preserving features such as \textit{observer} mode and whitelisting.
+                \item Check for any bottlenecks that software of library may introduce and its effect on the goals of the study. Choose another software and/or library if the limitations hamper achieving the goals of the study.
+                \item Ensure pre-processing of data is performed before storing it in the database. For instance, the \gls{uuid} contained in the advertisements are either obfuscated or completely truncated based on the nature of the study and the consent of the participants.
+                \item Program the sensitive information, such as database credential in a location on the device where unauthorised access could be prevented. Use of obfuscation to encode these files can also be opted for additional security.
+            \end{itemize}
+            \item Database
+            \begin{itemize}
+                \item Identify if the database provides privacy preserving capabilities of the database, such as \textit{ephemerality}.
+                \item Ensure the database is encrypted and secured.
+            \end{itemize}
+            \item Dashboard
+            \begin{itemize}
+            \item If a dashboard is required for live monitoring, ensure that only necessary information is presented on it. For instance, if the Observer captures \gls{uuid}, timestamp, and \gls{rssi}, steps must be taken to ensure that either \gls{uuid} is not presented, and if necessary for distinguishing between multiple Broadcasters, the dashboard receives the data after obfuscation is performed by the main script (e.g. through use of aliases).
+            \end{itemize}
+
+            \end{enumerate}
+        \end{enumerate}
+    \item \step{Experimental Location}{step:3}
+    \begin{itemize}
+        \item Identify any useful feature in the topology that can aid the identification of pedestrian activities and movement. 
+        \item Ensure that the location has no elements in the surrounding environment that may affect the propagation of signals. For instance, presence of large metal infrastructure or close proximity of experimental location to a busy road.
+        \item Evaluate \gls{ls} and \gls{ss} fading in the experimental environment. Perform \gls{ls} fading analysis for the entire pathway to understand the effect of the topology on the signal, whereas, \gls{ss} fading evaluation at various location on the pathway to understand the how different regions impact \gls{los} components of the signals.
+    \end{itemize}
+\end{enumerate}
+
+In addition, to these protocols, this dissertation also presents the use of a set of simple statistical tools to analyse the data that do not require heavy computational cost and hence, can be performed on-board on \gls{sbc}s such as \gls{rpi}. This enables on-the-fly processing, that is, processing is performed on-board right after a Broadcaster moves out of the observable range of the Observer. This can greatly facilitate the privacy preservation of such platform, where raw data is truncated quickly after processing, further strengthening the privacy preservation of the platform. However, based on the requirements of the study, preserving the raw data may be essential to future analysis that may require greater computational resources.
+
+
+\section{Contributions}
+
+This dissertation presents an exploration of pedestrian activities and movement analysis using \gls{ble} technology across various experimental setups. Through a series of design choices, detailed methodology, and effective analytics, this dissertation provides significant advancements in understanding and monitoring pedestrian activities and movements in a privacy preserving manner. The contributions of this research are categorised into major and minor contributions as follows:
+
+\subsection{Major Contributions}
+\begin{enumerate}
+    \item \textbf{Development of a Methodology for Pedestrian Activities and Movement Analysis using \gls{ble}}\\
+This research and dissertation provides a methodology for analysing pedestrian activities and movement in the vicinity of a single \gls{ble} Observer on a linear path, involving multiple experiments conducted in varied environments such as an anechoic chamber and a linear pathway in a university campus. This approach leverages mainly a \gls{rpi}-based Observer to collect extensive \gls{rssi} data pertaining to a heterogeneous set of pedestrian activities and movement, and presents the use of a basic statistical toolkit to detect and identify those activities and movement dynamics, thereby, contributing to a robust framework for pedestrian movement analysis.
+    \item \textbf{Development of a Protocol to Perform Pedestrian Activities and Movement Measurement}\\
+In Section \ref{contrib:protocol} of this chapter, a protocol is presented, derived from the understanding developed through conducting several experiments using \gls{ble} devices. These protocols offer nuances learnt throughout the course of this research, aimed at facilitating researchers and stakeholders in implementing \gls{ble}-based monitoring platforms for future research and commercial projects.
+    \item \textbf{Innovative Approach to Detect Direction of Travel with a Single Observers}\\
+This research introduces a novel approach for determining the direction of travel of a pedestrian using a single Observer by exploiting the antenna characteristics of the Observer. This method, validated through experiments conducted at different deployment distances and orientations (\gls{los} and \gls{nlos}), offers a cost-effective alternative to traditional multi-Observer setups, highlighting the potential of \gls{ble} technology.
+\item \textbf{Approach to Detect Pauses in Pedestrian Movement}\\
+This dissertation presents a methodological approach, validated through experiments, for detecting pauses in the movement of both a single pedestrian and two pedestrians. This study validates each step in the methodological approach by testing the polynomial order for curve interpolation, studying the effect of window size on \gls{sd} through frequency response and retrofitting the outcome of each window size to the ground truth data, and testing thresholding technique in detecting pauses. 
+    \item \textbf{Unconventional Privacy Preserving Techniques in Pedestrian Activities and Movement Measurement}\\
+This dissertation presents the use of technological features to facilitate the privacy preservation of the platform to measure pedestrian activities and movement. The study highlights the use of off-the-shelf techniques such as hash-encoding, to obfuscate necessary but sensitive information. The study also suggests that aggregated \gls{rssi} measurements can yield significant insights into pedestrian behaviour without compromising individual's privacy, setting a precedent for ethical data collection practices in pedestrian-related research.
+\item \textbf{Use of Simple Statistical Techniques for Analysing \gls{rssi} Data}\\
+The research presented in this dissertation moves away from the use of complex AI and Machine Learning techniques that require a large dataset and extensive computational processing capabilities. Through experimental analysis, this dissertation justifies the capabilities of simple and less computationally intensive techniques in identifying patterns in the \gls{rssi} data. This allows for on-board "edge-based" use of these techniques to understand pedestrian activities and movement.
+\end{enumerate}
+
+\subsection{Minor Contributions}
+\begin{enumerate}
+    \item \textbf{Impact and Subsequent Use of Environmental Factors on \gls{ble} Advertisements}\\
+This research considered both \gls{los} and \gls{nlos} conditions on \gls{ble} signal propagation in every experiment, contributing to a deeper understanding of the influence of environmental factors on the \gls{rssi}. Although, the research only considered the body occlusion aspect of environmental influence, the impact of this factor on the \gls{rssi}, as seen in every experiment, is significant. This dissertation, through the understanding gained about the impact of occlusion on \gls{rssi}, also offers a novel manner of using structural elements in the environment to assert a pedestrian's walking direction.
+\item \textbf{\gls{ble} Dataset Pertaining to Heterogeneous Pedestrian Activities and Movement at a Single Outdoor Location}\\
+This research includes eight different experiments addressing a variety of aspects of pedestrian activities and movement, covering different orientations and configurations, such as \gls{los}, \gls{nlos}, walking from different directions, and various deployment distances. A large dataset is acquired through these experiments, some of which are already posted on \href{https://github.com/mayankparmar/BLE-Pedestrians}{Github}\footnote{https://github.com/mayankparmar/BLE-Pedestrians}, and the remaining will be uploaded once the research is complete.
+\item \textbf{Inferring Walking Pace and Type of Walk Using Contextual Information}\\
+In the experiment conducted to understand pedestrian behaviour in a university campus, the pace of pedestrian was estimated through the time of their visibility by different Observers and the distances between those Observers. The pace estimation allowed the classification of walking (purposeful or leisurely). Considering the time of the day when the walk took place, the walk was inferred as morning walk. This presents a novel way of using limited contextual information in categorising the type of pedestrian activity.
+\item \textbf{Identification of Detectable Pause Duration using \gls{ble} For Presented Configuration}\\
+Through the experiment to detect pauses in pedestrian movement, presented in \ref{res/pause} in Chapter \ref{ch:res}, the notion of a \textit{significant} pause was identified. The significant pause refers to the duration of pauses that are detectable by the Observer. The experiment recommended a pause duration of 15 seconds or longer to be effectively detected using the approach specified in Section \ref{subsec:meth/pause} in \ref{ch:meth}. While asserting the general applicability of this finding requires testing more cases, it is not a baseless assumption that a pause with a shorter duration, when seen on observed \gls{rssi}, has a strong likelihood of corresponding to normal fluctuations in those \gls{rssi} values.
+
+\end{enumerate}
+
+
+
+%-----------------------------------------------------------------------
+
+
+% Pauses are one of the important aspects of pedestrian movement, as outlined in section 1.., providing insights into both pedestrian activities and the environment, and contributing to data-driven urban (re-)development plans. To detect a pause in the movement of pedestrians using \gls{ble}, a comprehensive analysis was performed on the measured \gls{rssi}. 
+
+% This analysis included curve fitting, sliding window \gls{sd}, and thresholding. The order of curve-fitting polynomials was first examined. This step was essential to assess the balance of the underfitting and overfitting of the curve. It ensured that the resulting curve was not excessively influenced by fluctuation in \gls{rssi} measurements and represented the actual measurements optimally. 
+
+% The sliding window \gls{sd} was then employed to detect the flatness in the curve that resulted from curve fitting. The flatness was representative of fewer and smaller fluctuations in the measurements which are more likely to have resulted from a stationary source, and hence, indicative of a pause. However, before using the sliding-window \gls{sd}, the size of the sliding window was first optimised by testing a range of window sizes and comparing the accuracy and false positives resulting from those windows. Since the experiment was orchestrated, the awareness of pauses, their temporal locations, and duration were readily available from ground truth data to assess the windows. This methodical approach to analysing the collected data ensures that the effect of anomalies and fluctuations in the measurements is minimised, and increases the accuracy of pause detection.
+	
+% 	The results presented in the section \ref{res/pause} of Chapter \ref{ch:res} provide evidence that the adopted approach effectively identifies \textit{significant} pauses in pedestrian movement. Significant pauses, defined as pauses with a duration of over 15 seconds, were detected with high accuracy with minimal false positives. This is noteworthy as these significant pauses are more likely to correspond to meaningful interactions between pedestrians and their surroundings, such as engagement in conversation, interaction with features of the environment, or admiration of the views in the surroundings. However, the method was less effective in the detection of shorter pause durations (5 seconds). This limitation, however, is not detrimental, as shorter pauses are likely to signify trivial actions or insignificant interactions with the environment and/or other pedestrians. 
+	
+% 	While the method of analysis produced satisfactory results for the particular experimental configuration opted in the presented dissertation, the steps are generally applicable and can be a recommended approach for any similar future study using signal strength. Any future study scrutinising similar pedestrian activity and movement dynamics could benefit from the investigation of optimal parameters for analytics before applying this method. The following steps and examination of parameters can be formalised into a protocol for such studies:
+
+% 	\begin{itemize}
+% 		\item Mitigate the effect of fluctuations and anomalous measurements: The candidate method tested in this dissertation is curve fitting.
+% 		\begin{itemize}
+% 			\item Assess the order of polynomial suited to the measurements: The candidate method tested in this dissertation is a comparison of \gls{sse}.
+% 		\end{itemize}
+% 		\item Evaluate dispersion in the curve, or flat patches in the fitted curve: The candidate method tested in this dissertation is sliding-window \gls{sd}.
+% 		\begin{itemize}
+% 			\item Assess the optimal size of the sliding window that results in high accuracy by simulating the activity with the help of volunteers.
+% 		\end{itemize}
+% 		\item Identify the correct threshold length of the flat patched obtained from sliding-window \gls{sd}: The value for the threshold depends on the pause duration that the stakeholder is interested in understanding. For instance, if the threshold length for the flat patch is chosen to be 15 seconds, it will not detect a pause duration of less than 15 seconds. Therefore, in the experiments listed in this dissertation, the threshold length was individually chosen for each pause duration. Another factor to consider that may affect the threshold parameter is the Doppler effect. When the pedestrian comes to a sudden pause, the advertisements emitted by the Broadcaster held by the pedestrian will not represent the pause instantly. The pause event represented through the duration of the flat patch may produce a delayed onset and may not be as long as the pause itself. Hence, the threshold must be identified for such an experiment at the site of proposed deployment through simulated testing first.
+% 	\end{itemize}
+	
+% 	In summary, in partial answer to RO X and RO Y, the results of this experiment successfully demonstrated the potential of \gls{ble} for detecting longer or significant pedestrian pauses, providing a valuable indication of pedestrian interactions with the environment and/or other pedestrians. The outcome of this experiment contributes to Objective \ref{obj:4}. Future studies can build on these findings to further refine and expand the applications of \gls{ble} in urban planning and pedestrian behaviour analysis.

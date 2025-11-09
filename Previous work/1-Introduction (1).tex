@@ -1,0 +1,190 @@
+% Chapter 1
+
+\chapter{Introduction} % Main chapter title
+
+\label{ch:intro} % For referencing the chapter elsewhere, use \ref{Chapter1} 
+
+\vspace{1cm}
+\noindent\enquote{\itshape Study hard what interests you the most in the most undisciplined, irreverent and original manner possible.}\bigbreak
+\hfill $\thicksim$ \textit{Richard Feynman}
+\vspace{1cm}
+
+%----------------------------------------------------------------------------------------
+
+Unprecedented urbanisation has placed already resource-constrained cities under more pressure. With more than half the world’s population now living in cities \citep{Nations2018}, it is a challenge to not only maintain standards of living for the entire global population but also to safeguard and promote sustainability. Due to rapid urbanisation, modern cities face several challenges such as poverty, hunger, inadequate shelter, social segregation, unemployment, pollution and degrading urban biodiversity \citep{Konijnendijk2004}. However, cities also have always been an epicentre of innovation and novel solutions have been devised for the problems humanity has faced \citep{Girardet1996}. Through the explosive growth in technology and data analytics, it is reasonable to expect sustainable solutions for cities to accommodate the challenges emerging from this exponential rise in urban populations.
+\\
+
+The increasing population in cities results in a corresponding increase in population mobility. While modern cities offer a wide range of transportation options within and outside their boundaries, walking remains the most sustainable and one of the most important modes of transportation. Several benefits of walking have been pointed out across disciplines. \citep{Moura2017} identified walking as the basis of a sustainable city that provides social, economic, and environmental benefits. Their publication also identifies indicators such as pedestrian characteristics, walking purpose, urban context, and other environmental and cultural aspects as essential defining parameters for measuring walkability.\\
+
+There is a need to understand the utilisation of the built environment to improve pedestrian mobility. Since such an understanding has real-world implementation merit in planning and re-purposing pedestrian-centric built environments, a foundational understanding of space utilisation would benefit from empirical data. This need has been duly noted in the literature and is also reflected through the research in the recent past. For instance, the interest in pedestrian monitoring has seen a sharp increase in the engineering disciplines. This interest is evident in the literature based on the number of articles published each year from 2000 to 2024\footnote{This data was retrieved in July 2024 and therefore, is not an accurate representation of all publications in that year} \citep{Dimensions2023}, as presented in Figure \ref{fig:interest}. This increased research around the topic is a clear indication of its growing importance. \\
+
+\begin{figure}[th]
+    \centering
+    \includegraphics[width=\linewidth]{Figures/Ch1/publications_history.png}
+
+    \decoRule
+    \caption{Year-Wise Comparison of Articles Published in Engineering Disciplines, Retrieved with Search Query "'Pedestrian' AND 'Monitoring'"}
+    \label{fig:interest}
+\end{figure}
+
+With \gls{iot} systems becoming ubiquitous and mature, empirical observation of pedestrian activities and movement has also been simplified. \gls{iot} systems have facilitated researchers worldwide to easily capture pedestrian data to understand underlying patterns that represent their activities, movement, and behaviour. Technologies such as \gls{gps}, cameras, WiFi, and \gls{ble} have been employed to gather such data. Indoor environments are a more common subject of investigation in comparison to outdoor environments, as can be deduced through the publication history in the last 10 years, as presented in Figure \ref{fig:indoorvsoutdoor}. 
+\\
+
+\begin{figure}[th]
+    \centering
+    \includegraphics[width=\linewidth]{Figures/Ch1/indoor_vs_outdoor.png}
+
+    \decoRule
+    \caption{Comparison of Articles Published in Engineering Disciplines in the Last 10 Years for Queries "'Pedestrian' AND 'Monitoring' AND 'Indoor'" and "'Pedestrian' AND 'Monitoring' AND 'Outdoor'"}
+    \label{fig:indoorvsoutdoor}
+\end{figure}
+
+One of the reasons behind this disparity could be that as the use of security cameras is more prominent in outdoor public areas, their data can be repurposed for pedestrian studies, however, doing the same in indoor environments, such as office spaces, would require the permission of each occupant. This could produce more effort in the research for using unconventional sensors, such as WiFi and \gls{ble} signals, for the indoor environment, whereas, the outdoor environment is less focused upon. However, due to public and regulatory push-backs against privacy-invasive technologies such as cameras in public spaces, those unconventional technologies are now finding their use in outdoor contexts. This is however difficult as outdoor environmental conditions, such as weather, are frequently changing, which adds greater complexity in using such technologies as they rely on the acquisition of signals that propagate in the environment to understand pedestrian dynamics. The research direction of the work presented in this dissertation therefore focuses primarily on these two parameters. First, the identification and assessment of technology suitable for use in outdoor environments since it aligns with the application area of this research: measurement and analysis of pedestrian movement and activities in outdoor urban linear pathways. Second, the identification and use of privacy-preserving methods and features of the identified technology to facilitate privacy preservation.
+% %----------------------------------------------------------------------------------------
+
+\section{Background}
+
+\subsection{Walking}
+Walking is the most fundamental form of human movement. It is an integral part of daily life for the majority of the population and is not just a simple means of transportation. A walk does not always involve having a purpose. Frederic Gros in his book, A Philosophy of Walking \citep{Gros2009}, illustrates the philosophical aspects of the act of walking. He emphasises the divergence of walking from any sport \textemdash{} where there is no score-keeping, and no competition. Gros illustrates walking as a process to relieve stress and identifies the links that great philosophers such as Nietzsche and Kant had with walking -- the opportunity it offers for rumination, the leisurely and purposeful aspects of walking from a socio-cultural point of view, and the means to discover both melancholy and well-being.\\
+%
+
+Walking has been considered and widely studied as a means of well-being beyond the periphery of philosophy. It is a 'typical dynamic aerobic activity' which is convenient, therapeutic, easy to regulate to personal physiological conditions, and is a self-reinforcing activity \citep{Morris1997}. Therefore, it can be considered either as a mere physical activity or an exercise. Studies have shown positive links between walking and the prevention of coronary heart disease, mortality, adiposity, mental health, and colon cancer \citep{Coon2011, Ogilvie2007, Fox2004, Martin2014, Mishra2012, Gatrell2013, Eyre2004, Kramer1999, Boyle2007}. Moreover, the effects of walking are also correlated with social cohesion \citep{Toit2007, Leon2009, Wen2007, Mason2013}.
+\\
+
+Walking is also considered the most sustainable form of transportation \citep{Rafiemanzelat2017}. Moreover, the core element of an urban transportation network and the most basic form of transportation, to date, is foot traffic \citep{Feng2021}. However, it is also complex to study walking as opposed to other travel modes since the infrastructure associated with walking is heterogeneous, for instance, sidewalks, crossings, buildings, shopping malls, etc. \citep{Timmermans2009}. The characterisation and features of the built environment in urban areas play a vital role in encouraging or discouraging walking, subsequently impacting public physical and mental health, and `social capital', a phrase coined by \citep{Loury1976}, to include the characteristics of society that determine a symbiotic relationship between the built environment and social capital \citep{Kawachi1999}. These characteristic traits include interpersonal mutual trust, reciprocity, and density of civic belonging between groups. In an urban environment, designers, developers, and authorities have applied several means such as the development of pedestrian-friendly neighbourhoods, accessible park areas, and robust public transportation networks to encourage social interaction and subsequently, increase social capital through the adoption of a "New Urbanist" paradigm \citep{Mazumdar2018}. \citep{Mazumdar2018} thoroughly presents 23 studies comparing the features of the built environment with social capital. These 23 studies span across 7 different nations and the distribution is illustrated in fig \ref{fig:maz_geo}. \citep{Mazumdar2018} has drawn significant relationships between social cohesion, destination accessibility, and walkability that overarch the idea of social capital with aspects of the built environment with regards to walking.
+\\
+\begin{figure}[th]
+\centering
+\includegraphics[width=\linewidth]{Figures/Ch1/mazumdar studies geography.eps}
+\decoRule
+\caption{Geographic Distribution of Studies Considered by \citep{Mazumdar2018}}
+\label{fig:maz_geo}
+\end{figure}
+
+This exhaustive study by Mazumdar highlights the need to revitalise the built environment to support walking. To facilitate this, the behaviour of the pedestrian in a space must be studied. This is a multifaceted challenge as the behaviour spans several regimes. For instance, at a personal level, the behaviour could be about the choice of route or the time of travel, which may lead to information about the purpose of the journey. Such information can help illuminate whether the space is being used disproportionately more for work commutes or recreational walks. The same behaviour can have another implication straying away from the personal level, does the pathway and its immediate surroundings feature characteristics that allow or even encourage people to take a pause and engage? Group dynamics also emerge in such situations. To understand this multifaceted problem, there is a need to collect data regarding the behaviour of the people using a particular space. \textit{Human-sensing} techniques make use of such information to gain useful insights \citep{Teixeira2010}. However, with great power comes great responsibility \citep{Lee1962}. In the information age, the abundance of data collected has aroused concerns related to the ownership of the data, and more importantly the infringement of personal privacy through that data.
+
+\subsection{Privacy Concerns}
+Privacy concerns in data collection are paramount in today's digital age. As cities expand and transportation systems become more complex, the collection of pedestrian movement data has become an important tool for urban planning and management. However, this pursuit of knowledge must be balanced with the preservation of individual privacy rights. Traditional data collection methods, such as video surveillance and manual counting, often inadvertently or otherwise, capture a wealth of personal information, raising significant ethical and legal issues. The indiscriminate gathering of personal data not only infringes upon individual privacy but also has the potential for misuse and abuse. This raises concerns about the consent, anonymity, and security of the collected data of the individuals whose movements are being tracked, potentially leading to public backlash and mistrust in data collection efforts.
+\\
+
+Privacy concerns become more complex in public spaces. Entering public spaces in cities means providing an implicit consent to the governing rules of the space \citep{Kudina2018}. Additionally, in this technological age, the authorities in charge of public spaces see surveillance as an intrinsic feature of cities \citep{Kudina2018}. As public urban spaces are subject to constant monitoring, there is a need to secure any personal data that is captured during the process. People are often also averse to being observed, since it represses their "perceived level" of privacy, safety, and personal space \citep{Little2005}. Therefore, the authorities behind the surveillance are the parties entrusted with safeguarding any \gls{pii} of the urban dwellers.
+\\
+
+The importance of understanding privacy concerns in data collection cannot be overstated. Privacy preservation is not only an ethical imperative but also a practical necessity. Failing to address these concerns, particularly in a shared public space, can result in public resistance and reluctance to participate in data collection initiatives, hindering the effectiveness of urban planning efforts. Moreover, in an era of increased data protection regulations and growing public awareness of privacy rights, overlooking these concerns can lead to legal ramifications and reputational damage for organisations and researchers involved in data collection. Therefore, a comprehensive understanding of privacy preservation is not just about ensuring compliance with regulations; it is a strategic imperative for ensuring the success and ethical integrity of data collection processes in the modern urban landscape.
+
+\subsection{Data Collection Methods for Pedestrian Behaviour Monitoring}
+Pedestrian behaviour has piqued the attention of researchers for decades. While the studies circumscribing group behaviours, for instance, the study of crowd and mob dynamics, originated as early as  1896 in the writings of Bon \citep{Bon1896}, pedestrian behaviour research leading up to the modern studies has its origins in the 1970s. For instance Shapalov \citep{Shapovalov1975} studied the optimal behaviour of pedestrians in a flow. The early days of pedestrian research employed manual approaches of observations, surveys, and questionnaires. With the advent of modern technology, the data collection process has been revolutionised. Contemporary data collection can be carried out in either an \textit{opportunistic} manner or in a \textit{participatory} manner. Opportunistic monitoring entails unobtrusive acquisition of data utilising existing resources or situations to collect it \citep{Cardone2014}. Participatory monitoring, on the contrary, requires the active participation of the contributors of the data \citep{Mckenzie2006}. Access to cameras meant that the actual movement could be investigated several times to assert the behaviour of the pedestrians. The development of modern computer vision and image processing techniques further established the dominance of this technology to automatically identify trajectories \citep{Liao2014}, assess pedestrians' pauses and pace \citep{Azzawi2007}, and even track the movement and interactions of pedestrians\citep{Duives2014b}. This approach however introduces serious privacy concerns as the video recordings inadvertently capture personally identifiable information. Solutions to privacy concerns emerged within the discipline with the emergence of thermal cameras and depth cameras \citep{Martani2017, Kristoffersen2016}, and 3D wireframes \citep{Kunchala2023}. These cameras capture the spectrum of the light beyond visible radiation. However, the analysis of such data is more computationally expensive than the already costly computational models for normal visible light cameras.
+\\
+
+\gls{gps} has been employed in studies to understand the movement and the behaviour of pedestrians. This technology makes the study easier since the intended purpose of the technology is navigation and tracking. \gls{gps} offers easy and inexpensive means to understand pedestrian behaviour and movement, and offers real-time responses accurately in outdoor environments \citep{Alia2022}. The data captured with \gls{gps} is also less computationally expensive to analyse compared to the data captured with cameras. However, the inherent and pervasive tracking capability of \gls{gps} also raises privacy concerns. Moreover, the studies mostly use the \gls{gps} on the personal devices of the participating pedestrians using a phone application that restricts participation due to the expenditure of personal resources in terms of battery consumption of the participant's device \citep{Kitazato2018}. Even uploading collected data to the cloud uses up the network resources of the participants which further encourages reduced participation. There is also a potential privacy threat where eavesdropping in the network stream may lead to the leakage of personal data. This technology is also prone to the possibility of continuous monitoring of locations beyond the physical scope of the study space. This has been circumvented by using a geofencing approach \citep{Blanke2014}.
+\\
+
+WiFi is another technology that has been used to study pedestrian behaviour that bypasses many of the limitations of the other technologies. The availability of WiFi on smartphones and the existence of several access points offering WiFi connectivity provide a suitable test bed to perform extensive studies to understand pedestrian behaviour. It works on the notion of network scans \citep{Schauer2014}. Personal devices with their WiFi feature enabled, constantly perform WiFi discovery in the region by sending packets of information across the environment \citep{Schauer2014}. These packets contain useful information to establish a connection with the network. One of the parameters that is useful is the \acrfull{rssi}. This parameter signifies the strength of the signal when it is received by an access point. The \gls{rssi} is inversely related to the distance the signal travels before reaching the access point \citep{Dimitrova2012}. This can be used to give an indication of the location of the device broadcasting the signal, therefore, indication of the location of the user of the device. A continuous monitoring of this parameter provides an indication of the movement of the device and hence, the pedestrian, in an albeit peculiar manner using only two parameters -- the strength of the received signal and the time of the reception of the signal at the access point. This technique significantly reduces privacy concerns when compared to the other methods discussed above. However, WiFi has its own limitations. In the context of privacy, one huge disadvantage of the technique is that there is no means to perform participatory monitoring using the infrastructure to provide access to the internet, which is the typical usage of WiFi in public spaces. The only way to opt out of such a study is to turn the WiFi off on the personal device. This lack of selective listening by the access point hinders the privacy-preservation aspect of WiFi as a technology for measuring pedestrian movement. Another limitation is that the infrastructure to set up participatory monitoring using WiFi is expensive \citep{Faragher2015}. There are no inexpensive devices that can be used in lieu of smartphones and the use of existing access points for the study introduced increased network traffic.
+
+\section{A Case for \gls{ble}}
+\gls{ble} offers all the advantages that WiFi offers over the other modalities. In addition, \gls{ble} also provides an added advantage over WiFi, such as relatively inexpensive setup, selective listening, and the ability to listen without being able to connect to other \gls{ble} devices. The advent of \gls{ble} introduced additional features to the technology that allows it to be more suitable for the purpose of pedestrian behaviour monitoring \citep{BT2014}. These features enable the technology to selectively listen for \gls{ble} advertisements while preventing the devices from establishing connections, effectively preventing data transfer. Additionally, the availability of comparatively inexpensive \gls{ble} devices facilitate easy setup without incurring additional resource costs or burdening existing infrastructure demands. \gls{ble} technology also allows participants to  opt out from the studies at their discretion. Furthermore, the simplicity of \gls{ble} advertisements data reduces storage needs and eliminates the need for complex, computationally expensive algorithms for information extraction in comparison to the data acquired through other modalities such as optical sensors. These features are comprehensively discussed in Chapter \ref{ch:lit}. However, as previously pointed out, as signal propagation relies on the environmental conditions it is operating in and as they may be frequently changing, a careful examination of the hardware and the environment must be undertaken to understand their impact. Subsequent analysis could then aim at associating the patterns in those signals to pedestrian activities and movement dynamics.
+
+\subsection{Principles for System Design} \label{principles}
+A set of principles were formalised to steer the presented research. Some of these principles arise from the key aspects for extending the current knowledge boundaries, taking inspiration from present needs and limitations in the research, such as identifying privacy preserving techniques. Whereas, other principles are meant to govern the development process of the experimental platform that allows rapid successive experiment execution once the platform is built. These principles are the following:
+
+\begin{enumerate}
+    \item Employ privacy preservation techniques in design and development, wherever incorporating them does not compromise the time-frame for achieving the research objectives. 
+    \item Identify and employ cost-effective and easily accessible components to facilitate replication of the experiments.
+    \item Ensure scalability of the platform to smoothly translate to large regions for measurements, if required.
+    \item Identify and utilise existing technologies, wherever required, that has strong community presence and is open source to ensure that support is available for anyone in pursuit of replicating the presented research or any experimental part of this research.
+    \item Apply consistent schema for storing datasets into a database to facilitate cross-experiment data pre-processing using a single script.
+    \item Identify fundamental and commonly known analytical tools and techniques, ensuring that wherever possible, those tools and techniques can be executed for as the measurements are taken and on the measurement device itself without the need for offloading measurements to cloud.
+\end{enumerate}
+
+
+%% Research Question
+
+\section{Research Question}\label{sec:rq}
+The dissertation thus far establishes the importance of measuring, to subsequently understand, pedestrian dynamics in urban canyons. This dissertation has also highlighted common modalities, including \gls{ble}, that are used for this purpose, eliciting the advantages \gls{ble} offers over the others. Although pedestrian measurements using \gls{ble} have seen significant advancements in recent years, most studies focus on indoor environments, leaving outdoor applications underexplored. Moreover, privacy concerns associated with traditional monitoring techniques remain a persistent challenge. Addressing these gaps, which will be covered in detail in Section \ref{sec:gaps} in Chapter \ref{ch:lit}, is critical for effectively measuring pedestrian activities and movement dynamics in a privacy-preserving manner in outdoor urban areas. The challenges associated with \gls{ble} underscore the need for an investigation of the technology for the specified purpose. To address these challenges and gaps, following research question is identified.
+
+% \subsection{Primary Research Question}
+% Following is the central focus of the research presented in this dissertation.
+
+\begin{enumerate}[label={}, ref=\thereq]
+    \item \researchq{\textit{How can \gls{ble} technology be leveraged to measure and analyse heterogeneous pedestrian activities and movement dynamics in outdoor urban environments while preserving individual privacy?}}{crq}
+\end{enumerate}
+
+% \subsection{Secondary Research Questions}
+% Understanding pedestrians using this unconventional modality is a multidimensional approach. Therefore, following sub-questions were identified to refine the understanding of the central or primary research question.
+
+% \begin{enumerate}[label={}, ref=\thereq]
+%     \item \researchq{\textit{What environmental and hardware factors influence the performance of \gls{ble} in pedestrian dynamics measurement, and how can these be accounted for in system design?}}{srq1}
+    
+%     \item \researchq{\textit{How can a BLE-based system ensure privacy preservation without compromising the quality and usability of pedestrian measurements?}}{srq2}
+    
+%     \item \researchq{\textit{What are the optimal methodologies for designing, deploying, and evaluating \gls{ble}-enabled experimental platforms for pedestrian measurements?}}{srq3}
+% \end{enumerate}
+
+
+
+\section{Aims \& Objectives}
+Through the research questions presented in Section \ref{sec:rq}, the aim and objectives of the research presented in this dissertation are identified.
+\subsection{Aims}\label{aims}
+\begin{enumerate}[label={}, ref=\theaim]
+    \item \aim{Design and develop a platform for measuring heterogeneous pedestrian activities using \gls{ble} at a single location using a single measurement device, incorporating a comprehension of the characteristics of the hardware used and the influences of the surrounding environment, while utilising features of the technology to facilitate privacy preservation.}{a1}
+\end{enumerate}
+
+\subsection{Objectives} \label{obj}
+\begin{enumerate}[label={}, ref=\theobjective]
+    \item \objective{Design and develop an experimental platform}{o1}
+    \begin{enumerate}[label={}, ref=\thesubobjective]
+        \item \subobjective{Identify suitable technology for pedestrian movement and activities}{o1a}
+        \item \subobjective{Identify hardware and software that support, out of the box, \gls{ble} and its inherent features to facilitate privacy preservation of pedestrians.}{o1b}
+        \item \subobjective{Ensure the platform's capability to support live data collection and monitoring.}{o1c}
+        \item \subobjective{Identify suitable supporting technologies that are required to conduct the experiments.}{o1d}
+    \end{enumerate}
+    \item \objective{Assess the suitability of the platform.}{o2}
+    \begin{enumerate}[label={}, ref=\thesubobjective]
+        \item \subobjective{Evaluate selected environmental and hardware characteristics that may affect the data collection process and add context to the analysis.}{o2a}
+        \item \subobjective{Assess suitable deployment and measurement capabilities for the experimental platform.}{o2b}
+    \end{enumerate}
+    \item \objective{Design and implement data collection procedures.}{o3}
+    \begin{enumerate}[label={}, ref=\thesubobjective]
+        \item \subobjective{Establish protocols for data collection, including parameters required for detecting a selection of pedestrian movement and activities}{o3a}
+    \end{enumerate}
+    \item \objective{Evaluate \gls{ble} performance in indicating selected pedestrian activities and movement}{o4}
+    \begin{enumerate}[label={}, ref=\thesubobjective]
+        \item \subobjective{Build scenarios pertaining to a selection of pedestrian activities and movement.}{o4a}
+        \item \subobjective{Identify and/or develop numerical analysis to evaluate the usability of the platform in understanding pedestrian activities and movement.}{o4b}
+    \end{enumerate}
+
+\end{enumerate}
+
+    % \subsubsection{Platform Development and Platform Efficacy Evaluation Objectives}
+    %     In order to assess the usefulness of \gls{ble} to understand pedestrian behaviour, a supporting platform needs to be built. The objectives in this subsection are targeted towards building the platform and evaluating the capability of the platform to capture \gls{rssi} in the outdoor environment.
+    %     \begin{enumerate} [label=\textbf{O\arabic*:}]
+    %         \item Design and build a \gls{ble}-based pedestrian behaviour monitoring platform capable of collecting anonymous movement data in a participatory manner.
+    %         \item Identify the optimal deployment of the \gls{ble}-based pedestrian monitoring platform.
+    %         \item Use features of \gls{ble} that can improve the privacy-preservation of the platform to ensure minimal intrusion into any individual pedestrian's personal information.
+    %         \item Conduct experiments to evaluate the usefulness and reliability of the platform for capturing data.
+    %     \end{enumerate}
+
+    % \subsubsection{Pedestrian Behaviour Understanding Objectives}
+    %     These objectives are targeted towards using the platform to categorically detect and identify pedestrian behaviours.
+    %     \begin{enumerate} [label*=\textbf{O\arabic*:}]
+    %         \setcounter{enumi}{4}
+    %         \item Identify the taxonomies of pedestrian behaviours and select example behaviour categories to be used for the evaluation of the usability of the platform.
+    %         \item Develop and execute experiments to evaluate the usability of the \gls{ble} platform to monitor selected pedestrian behaviour in real-world scenarios.
+    %         \item Analyse the data obtained from the experiments and compare it against ground truths to evaluate the efficacy of the platform in identifying pedestrian behaviours.
+        % \end{enumerate}
+
+%----------------------------------------------------------------------------------------
+
+\section{Summary of Chapters}\label{FillingFile}
+This report will investigate, in Chapter \ref{ch:lit}, the existing literature. At the start of that chapter, a distinction between \textit{crowd} and \textit{pedestrian} is described, which is the basis of selecting the literature in the subsequent sections of the chapter. This chapter will provide a comprehensive review of existing literature on different modalities used for pedestrian measurement systems and associated privacy concerns. Key methods and their limitations will be discussed to set the stage for methodological innovations presented later.
+\\
+
+Chapter \ref{ch:meth} will present the research design, data collection methods, and analytical techniques employed during this research undertaking. The experimental setup and rationale behind the chosen method will also be revealed in the chapter.
+\\
+
+Chapter \ref{ch:res} will inform the findings of the experiments undertaken during this research, and Chapter \ref{ch:disc} provide interpretation of the results obtained in the broader context of the research questions and objectives. The implication of findings and limitations of the study will also be discussed. Contributions, both major and minor, emerging through this research are will be underscored in the chapter.
+\\
+
+This dissertation will conclude in Chapter \ref{ch:conc}, where the entire research will be summarised and future avenues, based on the contributions of this research, will be presented. 
+
+%----------------------------------------------------------------------------------------

@@ -1,0 +1,1587 @@
+\chapter{Research Design and Methodology} \label{ch:meth}
+
+\vspace{1cm}
+\noindent\enquote{\itshape I have been impressed with the urgency of doing. Knowing is not enough; we must apply. Being willing is not enough; we must do.}\bigbreak
+\hfill $\thicksim$ \textit{Leonardo da Vinci}
+\vspace{1cm}
+
+\section{Introduction} \label{sec:meth/intro}
+
+Based on the review of the literature in the previous chapter, Chapter \ref{ch:lit}, it is clear that the potential and possibilities of using \gls{ble} for measuring pedestrians are significant. However, to facilitate the conduct of research within the stipulated deadline for the completion of PhD, a clear demarcation of the scope and research constraints is necessary. 
+\\
+
+From the literature review, it is clear that the presented research is focused on pedestrians, specifically, movement characteristics and activities of pedestrians. It is also evident from Chapter \ref{ch:intro} and Chapter \ref{ch:lit}  that the environment under scrutiny in this research is urban outdoors. The range of outdoor \glspl{urban canyon} is diverse -- a quiet pedestrianised street, a pathway in a park, or even a city shopping district -- each with its own distinct features. Moreover, the topologies of outdoor urban environments are also lively and predisposed to frequent changes due to factors such as road works, building construction, and festivals and rallies. However, since this research is largely a feasibility study, a space with limited external influence is suitable for the first stage of critically assessing the suitability of the technology. Therefore, an area of open ground which is not shared by passing pedestrians or vehicular traffic was selected for the presented study.  The use of the open ground allows different \glspl{linear pathway} to be marked out for detailed evaluations, as will be presented in Section \ref{subsec:meth/evalexp/depdist}. Similarly, other complex factors such as change in direction during a walk, straying and turning by pedestrians could impede the feasibility study of the technology for understanding pedestrian dynamics. Therefore, a linear pathway is selected for the study, which mitigates additional fluctuations in the measurements caused due to complex pedestrian movement and allows exploration of the suitability of the technology. Thus, this work seeks to build a foundation for complex movement and activity detection in future studies, if the measurement technology is found to be viable and reliable. Regardless, the decision to select a linear pathway does not necessarily compromise on the detection of some of the complex pedestrian dynamics either, and even single-file movement can provide insights into complex pedestrian dynamics \citep{Seyfried2005}, as stated in Section \ref{subsec:lit/act_move_behave} in Chapter \ref{ch:lit}. More details regarding the selection of location will be provided in Section \ref{sec:meth/location} of this chapter.
+\\
+
+\begin{wrapfigure}{l}{0.45\textwidth}
+    \begin{tcolorbox}[
+        colframe=Teal, % Border color
+        colback=MintCream, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{Quick Recap}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=MidnightGreen, colframe=Teal, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{\textit{Observer}: \gls{ble} device in a role that allows it to only listen for \gls{ble} advertisments.
+        \\\\
+        \textit{Broadcaster}: \gls{ble} device in a role that allows it to only send advertisements.}
+    \end{tcolorbox}    
+\end{wrapfigure}
+
+Before presenting the research design and methodology, it is useful to revisit the aim of this PhD. This PhD research is aimed at assessing if a single \gls{ble} Observer is capable of detecting, identifying, and characterising the movement and activities of pedestrians in any unshared outdoor space using only the signal characteristics of \gls{ble} Broadcasters. In a nutshell, the aim can be translated as exploring the presence of recurring patterns in the received \gls{ble} signals that can be linked to particular aspects of a pedestrian's movement or activity. But how can one use the patterns in signals to identify patterns corresponding to any activity or movement when there exist several manufacturers, antenna types, and features in \gls{ble} devices?
+\\
+
+This question highlights the need to first understand the \gls{ble} devices themselves. But again, the devices used by the pedestrians are not in the control of the researcher performing the experiments or the agency using the technology to understand the movement of the pedestrians. Therefore, due diligence is required with the choice of the Observer device, the device that is chosen by the researcher or relevant agencies. This means that the characteristics of the Observer's antenna, its deployment, and the effect of different Broadcasting devices and their configuration on the resulting patterns in the captured signals must be investigated before evaluating the usefulness of the technology for the detection and identification of pedestrians' movement and activities. Thus, this research design and methodology chapter is divided into four sections. The first is elucidating design choices to develop a platform for conducting experimental work, the second, identifying the characteristics of the selected inventory for the experiments and assessing the selected experimental location. The third, evaluating the efficacy of the \gls{ble} technology in the detection of the patterns corresponding to select pedestrian movement and activities, and the fourth, describing the analytical tool-set used for understanding the measurements.
+
+\section{Design and development of a \gls{ble} Observer device capable of selectively listening to \gls{ble} Advertisements}
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+    \vspace{-3mm}
+    \begin{tcolorbox}[
+        colframe=Teal, % Border color
+        colback=MintCream, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{Quick Recap}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=MidnightGreen, colframe=Teal, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{\textit{\gls{pbd}}: System's design philosophy that focuses on \textit{minimising} data collection, hiding personal data, \textit{separating} storage and processing of data, \textit{aggregating} data, informing the collection and processing of data, providing \textit{control} of the data to contributors, \textit{enforcing} privacy policies, and \textit{demonstrating} data collection and processing process.}
+    \end{tcolorbox}    
+    \vspace{-6mm}
+\end{wrapfigure}
+
+The rationale behind the selection of \gls{ble} was discussed in Chapter \ref{ch:lit}. This research prioritises privacy preservation at each design step of the system for capturing pedestrian movement and activities. While this research does not aim to develop a fully privacy-preserving technique, it investigates off-the-shelf techniques to restrict privacy infringements. While the security aspect of privacy is critical to any system, it is outside the immediate scope of the work presented in this dissertation. Thus, the system development follows the \gls{pbd} approach.
+\\
+
+This chapter details the design process and methodology for the experiments to test the research hypothesis. It covers \gls{ble} technology from a design perspective and highlights features that support the \gls{pbd} philosophy. Additionally, it explores the usability of \gls{ble} for identifying and characterising pedestrian movement and activities.
+\\
+
+\subsection{BLE}
+
+\begin{wrapfigure}{l}{0.45\textwidth}
+    \vspace{-4mm}
+    \begin{tcolorbox}[
+        colframe=Indigo, % Border color
+        colback=Lavender, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{General Guide}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=Indigo, colframe=Indigo, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{The term \textit{Observer} refers to both the \gls{ble} \gls{ll} device role (\ref{sec:lit/ble}) and the monitoring platform built for this research. \textit{Advertisers} and \textit{Broadcasters} are used interchangeably for \gls{ble} devices that emit signals.}
+    \end{tcolorbox}    
+    \vspace{-5mm}
+\end{wrapfigure}
+
+To capture \gls{ble} signals, a device can operate in \textit{observer} or \textit{central} roles, as presented in Section \ref{sec:lit/ble} in Chapter \ref{ch:lit}. To protect pedestrian privacy, the monitoring device used in this research operates in \textit{observer} role, which prevents it from initiating connections with other devices, thereby safeguarding against spoofing from nearby devices. 
+\\
+
+Advertisers are set in a \textit{broadcaster} role to add another layer of security against spoofing for all the experiments presented in this dissertation. But, in a real-world deployment, pedestrians may use devices that are in \textit{peripheral} mode, which allows connections to be established with a \textit{central} device and subsequently, data transfers. Even in such a case, the design choices for the monitoring device, based on principles presented in Section \ref{principles}, mitigate privacy risks since the \textit{observer} role is incapable of establishing connections with any \gls{ble} device regardless of its role.
+\\
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+\vspace{-4mm}
+    \begin{tcolorbox}[
+        colframe=Teal, % Border color
+        colback=MintCream, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{Quick Recap}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=MidnightGreen, colframe=Teal, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{\textit{Participatory monitoring} involves data collection with the contributor's awareness and consent. \textit{Opportunistic monitoring} captures data without the contributor's knowledge.}
+    \end{tcolorbox}
+    \vspace{-5mm}
+\end{wrapfigure}
+
+
+The feature of \textit{whitelisting}, as presented in Section \ref{sec:lit/ble} in Chapter \ref{ch:lit}, offers another advantage to the monitoring platform or the Observer. Through this \textit{link layer} feature, a clear list of devices of participants to be monitored is defined. The Observer then, upon processing the received advertisement, checks the \textit{\gls{uuid}} of the device emanating the signals against the \gls{uuid}s in the list. In the case where the signals have emerged from a device whose \gls{uuid} is not mentioned in the list, those advertisement packets are discarded, therefore \textit{selectively listening} to advertisements from specific devices. This feature provides a robust mechanism to encourage and facilitate \textit{participatory monitoring}. Such a feature essentially provides control to the pedestrians, where the pedestrians can choose to not carry their white-listed devices on days when they do not want to participate, thereby adding another layer to the privacy preservation aspect.
+\\
+
+Finally, the availability of relatively inexpensive beacons provides an opportunity for using \gls{ble} for such studies. This means that instead of asking pedestrians to use their own devices to participate in the experiments, beacons can be provided by the investigators for the purpose of studying participating pedestrians. It ensures that the captured signals do not originate from personal user devices. Further, since the range of \gls{ble} devices is constrained, the measurements only take place in relatively close proximity to the Observer. This is akin to hard-geofencing in comparison to the geofencing defined in software in the case of \gls{gps}, as previously mentioned in Section \ref{subsec:lit/privacy/ble} in Chapter \ref{ch:lit}.
+\\
+
+\begin{wrapfigure}{l}{0.45\textwidth}
+    \vspace{-10mm}
+    \begin{tcolorbox}[
+        colframe=Indigo, % Border color
+        colback=Lavender, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{General Guide}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=Indigo, colframe=Indigo, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{The word \textit{observer} here will be used both for the \gls{ble} device role and the monitoring platform built for conducting this research which is programmed to be in the \textit{observer} role. The words \textit{advertiser} and \textit{broadcaster} will be employed interchangeably for the device used for other devices that advertise or broadcast \gls{ble} signals in the vicinity.}
+    \end{tcolorbox}    
+    \vspace{-11mm}
+\end{wrapfigure}
+
+The above reasons provide a solid grounding for \gls{ble} to be the choice of technology in the design of a platform capable of listening to \gls{ble} advertisements for studying pedestrian movement and activities. To summarise, the following are the advantages \gls{ble} offers:
+
+\begin{enumerate}
+    \item \textit{Observer} and \textit{broadcaster} role that mitigate the risk of spoofing to steal personal data.
+    \item \textit{Whitelisting} to facilitate \textit{selectively listening} to \gls{ble} advertisements, thereby enabling \textit{participatory} monitoring.
+    \item Provision of inexpensive beacons as an alternative to the use of personal devices and providing more control to participants over opt-in and opt-out in the study.
+\end{enumerate}
+
+\subsection{Hardware Design} \label{sec:meth/hw_design}
+
+\subsubsection{Observer and Broadcaster} \label{subsub:obsbro}
+Once the monitoring technology is decided, the next step is to identify a portable platform equipped with the technology. One option is to design and build an embedded system that includes \gls{ble}, however, since \gls{ble} has become a ubiquitous technology in personal devices, there are several embedded systems and \gls{sbc} on the market that are well capable of being used as a platform for this development. This reduces the time spent on planning, developing, troubleshooting, and testing circuit designs for a \gls{ble}-enabled platform. Therefore, for an Observer device, the choice of selecting an off-the-shelf device is made.
+\\
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+    \begin{tcolorbox}[
+        colframe=Teal, % Border color
+        colback=MintCream, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{Quick Recap}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=MidnightGreen, colframe=Teal, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{
+        \textit{Advertisement interval} is the duration between subsequent advertisements by a \gls{ble} broadcaster or peripheral. These advertisement intervals are in the range of 20ms to 10.24s in a multiple of 0.625ms.
+        }
+    \end{tcolorbox}    
+\end{wrapfigure}
+
+Similarly, there are several off-the-shelf beacons available that can act as an advertiser. These beacons however are pre-programmed by the manufacturer, and many, if not all, cannot be re-programmed or even re-configured by the user at a later stage. The lack of options to re-program those beacons is, however, not a limiting factor for most of the experimental cases presented in this research. One of the experimental cases where the ability to re-programme/re-configure a beacon/advertiser is useful is to evaluate the effect of the advertisement interval on the correspondence of \gls{rssi} with pedestrian movement and activities. For such experiments, off-the-shelf embedded systems or \gls{sbc}s, similar to the ones used for the Observer, can be selected and programmed to be used as a beacon/advertiser. This will be presented in Section \ref{subsec:meth/advert_rate} in this chapter.
+\\
+
+Since only two hardware devices are required to facilitate the \gls{ble} experimentation, the Observer and Advertiser, an investigation is required to identify the candidate devices to be used in the experiments, and subsequently, select optimal candidates. There are several off-the-shelf \gls{sbc} products available in the market such as the \gls{rpi} 4B \citep{rpi2023}, BeagleBoard BeagleBone \citep{BeagleBoard2023}, and DFRobot LattePanda \gls{sbc} \citep{DFRobot2023} that can be employed as an Observer in the platform. A relative normalised price\footnote{As of November 2023} comparison of a few such components is listed below in Table \ref{tab:meth/sbc} \citep{Farnell2023}. This relative price is computed by dividing each product's price by the price of the most expensive product.
+
+\begin{table}[!htbp]
+    \centering
+    
+    \begin{tabular}{>{\columncolor{MintCream}}c >{\columncolor{MintCream}}c}
+    \hline
+         \rowcolor{MidnightGreen}
+         \textcolor{white}{
+            \textbf{\gls{sbc}}} & \textcolor{white}{\textbf{Relative Price}}\\
+     \hline
+         \gls{rpi} 4B & 0.44\\
+         BeagleBone& 0.85\\
+         DFRobot & 0.71\\
+         Polyhex Debix & 0.14 \\
+         Hackboard 2 & 1\\
+         Asus Tinker Board R2.0 & 0.59 \\
+         \hline\hline
+    \end{tabular}
+    \caption{Price Comparison of Commonly Available Single-Board Computers}
+    \label{tab:meth/sbc}
+\end{table}
+
+\begin{wrapfigure}{l}{0.45\textwidth}
+    \begin{tcolorbox}[
+        colframe=Indigo, % Border color
+        colback=Lavender, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{General Guide}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=Indigo, colframe=Indigo, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{\textit{BlueZ} is the official Linux Bluetooth protocol stack which features command-line interfaces such as \textit{hcitool} and \textit{hciconfig} to use and configure \gls{bt} and \gls{ble} devices \citep{bluez}.}
+    \end{tcolorbox}    
+\end{wrapfigure}
+
+The \gls{rpi} 4B is selected due to its cost, availability, and community adoption. The community presence and size are especially important as it provides greater support through community projects, which reduces the time spent on trivial setup and troubleshooting processes. Furthermore, the popularity, strong community, and availability of \gls{rpi} also mean that it is more likely to garner the attention of other researchers and is easier for them to replicate the published results or extend the research. Therefore, amongst the mainstream choice of components, it is more impactful to select \gls{rpi}. In particular, the \gls{rpi} 4 Model B variant with 8 GB RAM with integrated \gls{ble} 5.0 support is selected as this was the latest and most powerful variant available at the time this research work was initiated. Henceforth in this dissertation, the selected variant, \gls{rpi} 4 Model B, for this research will be referred to simply as \gls{rpi}. Figure \ref{fig:rasp} illustrates the \gls{rpi} board. \textit{The prominent face visible on the figure with the electronic and IO components will be referred to as the \ul{front face} hereon}. Further details about the \gls{rpi} is provided in Appendix \ref{A.D_rpi}.  
+\\
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.4]{Figures/Ch3/rpi.png}
+\decoRule
+\caption{Raspberry Pi 4B (\citep{rpi2023})}
+\label{fig:rasp}
+\end{figure}
+
+ A weather-proof high-density plastic enclosure was used \citep{enclosure2024} for housing the \gls{rpi}. Four pipe straps are mounted on two opposite sides of the enclosure and to facilitate previous related work, a couple of magnets are also secured behind the enclosure to enable it to be mounted on ferromagnetic surfaces such as lamp posts, if required. However, these pipe straps are removed for all of the experiments that do not require deployment of the Observer on metallic objects to reduce the likelihood, if any, of these pipe straps affecting the signals due to any propagation mechanisms highlighted in Section \ref{sec:lit/ble/signal} in Chapter \ref{ch:lit}. The front and back of the enclosure are shown in Figures \ref{fig:ef} and \ref{fig:eb}. Finally, the orientation of \gls{rpi} inside the enclosure is depicted in Figure \ref{fig:meth/rpi_orientation}.
+ \\
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=90mm]{Figures/Ch3/ef.jpg}
+\decoRule
+\caption{Front of the Enclosure for Observer}
+\label{fig:ef}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=90mm]{Figures/Ch3/eb.jpg}
+\decoRule
+\caption{Back of the Enclosure for Observer}
+\label{fig:eb}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=\textwidth]{Figures/Ch3/rpi orientation.jpg}}
+	\caption{Orientation of \gls{rpi} Inside the Enclosure}
+	\label{fig:meth/rpi_orientation}
+\end{figure}
+
+To provide power supply to the \gls{rpi}, an off-the-shelf 10,000 mAh power bank \citep{ansmann}, as shown in Figure \ref{fig:power}, is used. An \gls{rtc} module, DS3231 \citep{ds3231}, shown in Figure \ref{fig:ds3231}, is employed.
+\\
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=90mm]{Figures/Ch3/power.jpg}
+\decoRule
+\caption{Power Bank Housed in the Enclosure to Power the Observer \citep{ansmann}}
+\label{fig:power}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=90mm]{Figures/Ch3/ds3231.jpg}
+\decoRule
+\caption{DS3231 \gls{rtc} Module \citep{ds3231}}
+\label{fig:ds3231}
+\end{figure}
+
+
+For the Broadcaster, a beacon is selected. Beacons are all generally in the same price range, and, as previously stated, since no programming is required on the Broadcaster side, any off-the-shelf Broadcaster is sufficient for this study. The cost benefits of the \gls{ble} beacon make it feasible to distribute them to the participants, thereby, monitoring the behaviour of pedestrians without them having to agree for their own personal devices to be used. The \gls{mac} addresses of the delegated \gls{ble} beacons can be \textit{whitelisted} to facilitate participatory monitoring, thereby, despite \gls{ble}'s ability to be used for opportunistic monitoring the Observer becomes incapable of being opportunistic. A RuuviTag \citep{ruuvi} was selected as a Broadcaster. The rationale behind the selection of the RuuviTag was simply because it was readily available in the \textit{tPOT} research group inventory. Figure \ref{fig:ruuvi} illustrates the Ruuvi Broadcaster that was used for this work.
+\\
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.1]{Figures/Ch3/ruuvi.jpg}
+\decoRule
+\caption[Ruuvi Tag]{Ruuvi Tag \citep{ruuvi}}
+\label{fig:ruuvi}
+\end{figure}
+\FloatBarrier
+An alternative Broadcaster was developed using the \gls{rpi} solely to modify the advertisement rate for one of the experiments, as the RuuviTag does not allow alterations to the advertisement rate. The system includes a \gls{rpi} connected to the same battery pack and \gls{rtc} module as used in the Observer. Along with providing control over the advertisement rate, this \gls{rpi} Broadcaster is also designed to transmit an advertisement sequence number in the message of the advertisement. This number corresponds to the number of the advertisement the Broadcaster is emitting. 
+
+\subsection{Ground Truth}
+Ground truth is essential to validate the results of the experiments pertaining to the selected cases of pedestrian movement and activities. Those selected cases were identified to reflect a diverse range of pedestrian activities and movement, and will be presented in Section \ref{sec:meth/experiments}. Three different approaches were investigated to capture the ground truth. The first approach was hardware-based which was dropped due to its unreliability, and is discussed in Appendix \ref{A.C/foot_button}. The other two were software-based approaches and are presented in the next section.
+
+\subsection{Software}
+
+Scripts to employ \gls{ble} on the \gls{rpi} to facilitate experiments were developed primarily in Python. The core script dealing with capturing and processing the \gls{ble} advertisements was written in Python and will be referred to as \textit{main script} from here on. Since the beacons used for most of the experiments were pre-programmed by the manufacturer and non-reprogrammable devices, they were used without alteration. However, for one study, on the effect of the advertisement rate of the Advertiser on the detection and identification of pedestrian activities, programming was required to adjust the advertisement rate. Therefore, an alternative Advertiser was developed using an \gls{rpi}, which will be presented in Section \ref{subsec:meth/advert_rate} in this chapter. This alternative Advertiser was programmed using NodeJS.
+\\
+
+\gls{mean} stack was also used for the development of a local web app or, an interactive portal, to observe the acquisition of \gls{ble} signals by the Observer in real time. A web app was developed, that also ran on the same \gls{rpi} which was used as an Observer through the \textit{main script}. InfluxDB was used as the preferred database to store data acquired from \gls{ble} devices and ground truth devices, and will be presented in Section \ref{influxdb}. Finally, both MATLAB and Python scripts were used to implement and perform analysis of the acquired data.
+\\
+
+\subsubsection{Main Python Script} \label{sec:meth/mainpythonscript}
+This Python script was developed to continuously scan advertisements from nearby \gls{ble} devices without any sleep cycles to ensure no data point was missed. \textit{BluePy} \citep{bluepy} Python library, based on the \textit{BlueZ} \citep{bluez} stack, was used for this purpose. As presented in Section \ref{sec:lit/tech/wifi_bt} in Chapter \ref{ch:lit}, the \textit{hybrid} approach is selected for capturing measurements. This decision was taken to ensure that both the \gls{rssi} and the time of measurement of \gls{rssi} are captured by the device. This enables spatio-temporal analysis of the measurements which is necessary to study the change in movement of pedestrians.
+\\
+
+The library was modified and two features were added to it. The first code snippet is included to save received \gls{ble} signals to the InfluxDB database. The data stored includes raw timestamped \gls{rssi}, a filtered \gls{rssi} using the sliding-window \gls{sma} algorithm (will be described in Section \ref{subsec:meth/analysis/sma}), and the \gls{mac} address of the Broadcaster. The rationale behind the selection of these parameters will be presented in Section \ref{subsec:meth/data_collection_protocol} in this chapter. The second modification is the addition of the simulation of the \textit{whitelisting} feature to ensure that only the signals emerging from the Advertiser carried by the volunteer pedestrian are intercepted and stored. Signals originating from any other \gls{ble} device are discarded by the library. A flowchart depicting this is presented in Figure \ref{fig:flowchart}. This script and the modified library will be referred to as the \textit{main script} and \textit{library} respectively from here on in this report.
+
+\begin{figure}[!htbp]
+	\centerline{\includegraphics[width=\textwidth]{Figures/Ch3/main python script.png}}
+	\caption{Flowchart for the Main Script and Library with Modification Highlighted in Green Coloured Elements}
+	\label{fig:flowchart}
+\end{figure}
+
+
+\subsubsection{NodeJS Broadcaster Script} \label{subsec:meth/nodejs_broadcaster}
+
+For the alternative Broadcaster, which was developed for the \gls{rpi}, NodeJS was utilised to develop the required software. The choice for NodeJS over Python is because the library for NodeJS allows a simple way to create a Broadcaster which can be invoked with a defined advertisement rate at the time of execution. The library employed is Abandonware's Noble \citep{noble}. The NodeJS script performs two tasks, first, it sets up the advertisement rate defined by the user and second, it sends the sequence number in the advertisement message. This sequence number is the number of the advertisement being broadcast. So, the first advertisement packet contains 1, the second packet contains 2, and the $n^{th}$ contains $n$. The sequence number is included in the message to understand the number of dropped advertisement packets.
+
+\subsubsection{Blue Dot (Ground Truth)} \label{subsec:bluedot}
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+\vspace{-6mm}
+    \begin{tcolorbox}[
+        colframe=Indigo, % Border color
+        colback=Lavender, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{General Guide}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=Indigo, colframe=Indigo, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{\textit{Pairing} is the process of establishing a connection between \gls{bt} and \gls{ble} devices. Two connected devices are called \textit{paired} devices.}
+    \end{tcolorbox}    
+    \vspace{-8mm}
+\end{wrapfigure}
+
+BlueDot \citep{bluedot} is an Android phone application comprised of a blue button on the screen, as shown in Figure \ref{fig:meth/bluedot}. This application allows transmitting the acknowledgement of button presses to an already paired \gls{bt}-enabled device at a time. To use this application, the Android phone employed was paired up with the \gls{rpi} that was used as an Observer.
+\\
+
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Ch3/bluedot.jpg}}
+	\caption{BlueDot Android Application}
+	\label{fig:meth/bluedot}
+\end{figure}
+
+The Python script developed earlier to capture the hardware ground truth was repurposed to listen for messages over \gls{bt}. The only information received from the application is that the the volunteer pedestrian has pressed the button on the application screen, the Python script contains its own list of location aliases. Upon reception of a button press message, this script picks up the first location in the list, records it in the database along with the \gls{timestamp} and moves to the next location to be stored upon the subsequent button press. This happens in a round-robin fashion to ease the repetition in the experiment. 
+\\
+
+Since no crucial information about the location itself is transmitted between the two devices, this approach prevents any spoofing during transmission that may require any \gls{pet} under the "private communication" subsection described in Appendix \ref{A.B/privacy}.
+\\
+
+The Python script described here will be referred to as the \textit{ground truth script} henceforth. Figure \ref{fig:flowchart_bt} describes this process.\\
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=0.7\textwidth]{Figures/Ch3/ground truth.png}}
+	\caption[Flowchart for the Ground Truth Script]{Flowchart for the Ground Truth Script\footnotemark}
+	\label{fig:flowchart_bt}
+\end{figure}
+\footnotetext{Note that "Measurement" in the figure is logically equivalent to "Tables" in SQL in InfluxDB.}
+
+\subsubsection{GPS Logger (Ground Truth)} \label{subsub:gps_logger}
+Another alternative to capturing ground truth data is through logging \gls{gps} locations of the volunteer pedestrians. An Android mobile application, GPS Logger \citep{gpslogger}, is installed on the phone carried by the volunteer pedestrian. This application stores the geo-location of volunteers as they move on the predefined pathway for the purposes of the experiment. The geo-locations captured remain on the phone and are not transmitted to any other device. At the end of the study, the captured data is exported to the laptop for analysis. Since, the micro-level ground truth data, as captured through this method, is only required for some specialised cases, this method was used sparingly. A screen capture of the GPS Logger application is shown in Figure \ref{fig:meth/gpslogger}.
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Ch3/gpslogger.jpg}}
+	\caption{GPS Logger Android Application}
+	\label{fig:meth/gpslogger}
+\end{figure}
+\pagebreak
+\subsubsection{Interactive Portal}
+
+\begin{wrapfigure}{l}{0.45\textwidth}
+    \begin{tcolorbox}[
+        colframe=Indigo, % Border color
+        colback=Lavender, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{General Guide}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=Indigo, colframe=Indigo, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{An \gls{rpi} configured to function without keyboard, mouse, and monitor means that the \gls{rpi} is running in \textit{\gls{headless}} \citep{rpiheadless}.}
+    \end{tcolorbox}    
+\end{wrapfigure}
+
+A \gls{mean} stack application is developed to monitor incoming advertisements instantaneously as they are intercepted by the Observer. This application runs on the Observer where it constantly queries the database to check for newly stored data. As new data arrives, it is loaded and plotted in real-time on the landing page of the web app. Since the Observer runs in headless mode, the dashboard of the \gls{mean} application is accessed via VNC software. The image in Figure \ref{fig:mean} presents the UI in real-time. The \textit{\gls{mean} app} will be used to refer to this application moving forward.\\
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=\textwidth]{Figures/Ch3/mean.png}}
+	\caption{UI of \gls{mean} App}
+	\label{fig:mean}
+\end{figure}
+
+\subsubsection{Database} \label{influxdb}
+InfluxDB \citep{influxdb} is used as the database to store all the data locally on the Observer. InfluxDB is selected for two reasons, first, it boasts a feature called \textit{ephemerality}, and second, it is a purpose-built database for time-series data. As it is a time series database, InfluxDB specialises in indexing, collecting, and storing data based on their timestamps. It enables fast querying on time ranges and ingesting high-throughput data which is ideal for the application presented in this dissertation where data is continuously generated and is centred around its time of acquisition. The former reason, \textit{ephemerality}, implies that the database has an expiry, after which, the data is permanently deleted by the database itself. This strengthens the core principle of privacy-preservation which is a common theme throughout this PhD research. The latter reason is due to the correlation between the features of \gls{ble} Advertisements and any other time-series signal. While the literature has no evidence of \gls{ble} signals as time-series data, the signals can be treated as noisy or scrambled time-series data as explained below.
+\pagebreak
+\vspace{10pt}
+\begin{tcolorbox}[
+        colframe=white, % Border color
+        colback=Ivory, % Background color
+        coltitle=white, % Title text color
+        title=Highlights, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=DarkSlateGray, colframe=SlateBlue, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+    There is an underlying default advertisement rate at which any \gls{ble} Broadcaster advertises. The signals when intercepted continually correspond to regularly sampled time-series data. However, the Observer may not always be able to reproduce the received advertisements as regularly-sampled signals. This is due to several limitations of the environment and the antenna characteristics such as packet collision, multipath collision, or even the delay in the reception of the data due to latency of the software to process the signals on the Observer. However, for all but the most aggressive advertisement rates, the short delay in reception and processing of signal on the Observer should not be a major concern. This is because the non-aggressive rates will correspond to macro level pedestrian movement dynamics, as opposed to finer granularity of movement that aggressive advertisement rates are able to capture. Therefore, for the case of aggressive rate, say $100$ $ms$ for example, even a delay of a second in reception and processing of that signal by an Observer might mean that the pedestrian has covered just over 1 metre distance as per a slow-walking pace of 4 kilometres per hour. Moreover, other signals might be intercepted by the Observer before the delayed signal, which might introduce an anomaly in the dataset. Since the non-aggressive advertisement rate corresponds to spatio-temporally dispersed signals, short latencies do not pose significant concerns. This analogy of \gls{ble} advertisements with sparsely populated, regularly sampled time-series signals also opens avenues for the application of time-series techniques to analyse the data.
+\end{tcolorbox}
+
+\subsection{Protocol for Data Collection}\label{subsec:meth/data_collection_protocol}
+In line with the guiding principles outlined in Section \ref{principles} of Chapter \ref{ch:intro}, the following elements are identified for data collection.
+
+\begin{enumerate}
+    \item Main Script
+\begin{itemize}
+    \item \gls{uuid}: While \gls{uuid} does not fit the criteria of the guiding principles since it infringes the privacy of the pedestrian, it is not a necessary element for data analysis. It has been captured only for the sake of experimentation to be able to identify the beacon used. During real-world deployment, methods such as hash encoding, as described in Chapter \ref{ch:lit} can be used for pseudo-anonymisation of the \gls{uuid}s and to generate a unique identifier to distinguish between different devices .
+    \item \gls{rssi}: \gls{rssi} is an important measure since it is one of the main parameters utilised in the data analysis.
+    \item Timestamp: Another important parameter that is used in data analysis. It is important to note that the timestamp here is not the time of the advertisement event at the Broadcaster. It is the time that is assigned to the measured advertisement at the \textit{application} layer in the Observer, therefore, it accounts for the propagation duration and the time it takes for the advertisements to travel through the layers up to the Observer's application layer. This extra duration could be negligible or substantial based on the propagation route and the processing capabilities of the Observer.
+    \item \gls{sma}-filtered \gls{rssi}: This parameter is not acquired through the advertisement but derived from the \gls{rssi}s.
+    \item \gls{sd}: Another parameter that is derived using the acquired \gls{rssi}s.
+    \item Sequence Number: In one of the experiments, to follow in Section \ref{subsec:meth/advert_rate}, sequence number, an incremental number generated by the Broadcaster for each advertisement broadcasted, is enclosed within the advertisement packet. This is performed to understand which packets are not measured by the Observer. Since this number is a system-generated sequence, it aligns with the privacy preservation philosophy presented in this dissertation.
+\end{itemize}
+    \item NodeJS Broadcaster
+\begin{itemize}
+    \item \gls{uuid}: Similar to the \textit{main script}, \gls{uuid} is transmitted for the purpose of identification of the device. In a real-world deployment, many commercial devices frequently change their \gls{uuid}s. Even if a user device is not programmed to change its \gls{uuid}, measures such as hash encoding of \gls{uuid}s in the Observer can preserve the privacy in the data.
+    \item Sequence Number: It is an incremental number sent by the Broadcaster that corresponds to the number of advertisements broadcasted. This is a system-generated parameter and does not correspond to any user data.
+\end{itemize}
+    \item MEAN Stack Dashboard
+\begin{itemize}
+    \item The dashboard only utilises the data acquired by the Observer and displays only measured \gls{rssi} and timestamp. In the case where multiple Broadcasters are simultaneously visible to the Observer since the Observer can hash encode the \gls{uuid}s, only the stored hash encodings are used to differentiate between the whitelisted devices.
+\end{itemize}
+    \item BlueDot and GPS Logger
+\begin{itemize}
+    \item Both of these Android applications are required only to calibrate the deployment in a configuration. These applications are not a necessity for real-world deployment. 
+    \item On a volunteer's device, the BlueDot application only relays the acknowledgement of the button being pressed on the volunteer's phone to the Observer. The Observer associates the button press via Bluetooth Classic to a pseudo-location from a series of locations hard-coded in the Observer, and increments the sequence in the set of locations. The Observer attaches a timestamp to the received location associated with the button press when the information of the button press is received at the application layer. 
+    \item GPSLogger, on the other hand, captures the geolocation of the volunteer during the experimental phase, and the log files are stored on the device provided to the volunteer for the duration of the experiment. The log files contain geolocations along with timestamps on the provided phone. These files are then copied to a local computer for investigation.
+\end{itemize}
+    \item Parameters for Data Analysis
+\begin{itemize}
+    \item \gls{rssi}, \gls{sma}-filtered \gls{rssi}, and timestamps are used for most analysis. In experiments where more than one Broadcaster is employed, \gls{uuid} is used to distinguish the Broadcasters.
+    \item For ground truth obtained from BlueDot, the pseudo-location and timestamps are used.
+    \item For ground truth obtained from GPSLogger, geolocations and timestamps are used.
+\end{itemize}
+\end{enumerate}
+
+\subsection{Privacy by Design} \label{sec:meth/pbd}
+Each element of the platform is designed to minimise privacy concerns. Emphasis has been placed on restricting any collection of non-consensual data, for instance through the use of whitelisting. Furthermore, measures have been implemented to ensure that even consensually collected data is protected against privacy threats in real-world deployment. The steps taken to ensure that privacy preservation is intrinsic to the design of the platform are discussed below. Some of these have already been discussed earlier but are revisited here in this section for further emphasis.
+
+\subsubsection{Hardware} 
+\begin{enumerate}
+    \item \textbf{Observer} 
+        \begin{itemize}
+            \item The device chosen as the Observer is a \gls{rpi} which has an embedded chipset for \gls{ble}. This restricts certain types of cyber attacks such as eavesdropping, that could target the \textit{L1} or the \textit{Perception Layer} of this platform since these attacks occur in the presence of a physical separation of the sensor and the device that processes the data from the sensor.
+            
+            \item As an \textit{Observer} type \gls{ble} device, the device is incapable of establishing a connection with any other \gls{ble} enabled device, and hence, reduces the need for any of the \gls{pet} discussed under \textit{private communication} and overcomes the \textit{inventory} privacy threat, as discussed in Appendix \ref{A.B/privacy}.
+        \end{itemize}
+
+    \item \textbf{Broadcaster}
+        \begin{itemize}
+            \item The Broadcaster employed is a non-personal device. Since it is a device handed out to the volunteer, there is no possibility of a privacy attack establishing a connection with this device through \textit{fingerprinting and impersonation}.
+
+            \item The Broadcaster is also selected as a \textit{Broadcaster} type of \gls{ble} device which is inherently incapable of establishing a connection. Even if this platform is to be deployed in a real-world setting, where the devices used by the public can have \textit{peripheral} roles, \textit{whitelisting} will be useful to disallow interaction with the devices of users who are not on the list, and even if whitelisting is not used, the role of the monitoring platform is \textit{Observer} which will be incapable of connecting to them.
+        \end{itemize}
+\end{enumerate}
+
+\subsubsection{Software}
+\begin{enumerate}
+    \item \textbf{Main Script and Library}
+        \begin{itemize}
+            \item The library is modified to enable whitelisting, and hence captures the data emanating only from the whitelisted Broadcasters of volunteer pedestrians. This modification was necessitated as the Python library, BluePy, employed for the experiment did not support whitelisting. This feature was hence manually written to perform as per the \gls{bt}/\gls{ble} specification \citep{BT2014}, however, in the application layer. Also, the code snippet to add data to the database is written in the library instead of on the script at the user side for future-proofing for real-world deployment as the library can then be obfuscated using a tool such as PyArmor \citep{Zhao2023} and stored in the read-only parts of the OS, to prevent intruders modifying or accessing the sensitive portion of the script. 
+
+            \item The main script is visible to anyone with access to the device but contains no sensitive code. It only \textit{delegates} to the library all the tasks related to the interception of \gls{ble} signals, identification of whitelisted advertisements, and their storage in database.
+        \end{itemize}
+
+    \item \textbf{Database}
+        \begin{itemize}
+            \item The database, InfluxDB, is chosen because it is a suitable option for time-series data. Another feature that InfluxDB offers is the ability to make \textit{ephemeral} data collections, that is the data stored can be given an expiry date after which it is automatically deleted. This means that when the platform is deployed in the real world, this feature can be used to further auto-delete the detailed data captured on the local device. Data expiry can be set such that on-board processing can be performed in chunks in quick succession, and raw data can be deleted in hours if not minutes to prevent leakage of data in case the device itself is accessed in an unauthorised manner. 
+        \end{itemize}
+
+    \item \textbf{Ground Truth Script}
+        \begin{itemize}
+            \item This script only listens to the signals emerging from the \gls{mac} address of the device employed for ground truth storage, which is required to be paired up with the Observer beforehand. The phone application only sends a message to signal to the Observer that the button on the application is pressed and that message contains no information about the location itself. The locations for the experiments are hard-coded in a list and the script associates the timestamp of when an incoming message is received with one location from the list in a round-robin fashion and stores it in the database. Since all the experiments conducted are controlled experiments, the locations are given pseudo-names in the form of alphabets, such as "Location A", "Location B", etc.
+
+
+        \end{itemize}
+
+    \item \textbf{Ground Truth GPS Logger}
+        \begin{itemize}
+            \item The data from the GPS Logger application is never transmitted to any other device. It only stores the data locally which is, at the end of the experiment, copied over to a University laptop for analysis.
+        \end{itemize}
+    
+    \item \textbf{\gls{mean} App}
+        \begin{itemize}
+            \item The dashboard shows the chart of time vs \gls{rssi} in real-time and does not show the \gls{mac} address of the device of origin. 
+        \end{itemize}
+\end{enumerate}
+
+These decisions were carefully taken to approach the system with a \gls{pbd} outlook. Admittedly, the \gls{mean} app is a potential threat where an intruder can access the data to fetch the time and \gls{rssi} of the Broadcaster. This has the potential for a \textit{linkages} privacy threat and a \textit{data inference} privacy attack. However, this application is only made to ensure the experiments are running without any errors by observing the data stream and is not a necessary feature for the platform to function and therefore, can be removed when needed.
+
+\section{Experimental Setup for Evaluation }\label{sec:meth/experiments}
+The evaluation mechanism here is twofold. The first parameter to evaluate is the technology, \gls{ble}, itself. This involves identifying the specifics of the hardware used and its effect on the application including the characteristics of the antenna of the Observer and how it performs outdoors, the range at which the antenna of the device can receive usable signals, and the rate at which it can capture signals that are useful to draw assertions. The second part then, is an investigation of scenarios of pedestrian movement and activities that such a system can detect, identify, and characterise, given that the experiments are conducted using the configuration identified through the experiments from the first part. This section is hence divided into two parts to discuss the aforementioned parts by category. However, before outlining the specifics of the evaluation, it is essential to describe the location of the experiments since except for one, all the other experiments are conducted in the same outdoor space.
+
+\subsection{Experimental Location} \label{sec:meth/location}
+As presented in Section \ref{sec:meth/intro} of this chapter, for assessing the feasibility of \gls{ble} for measuring pedestrian dynamics, a study must first be carried out in an urban canyon with a relatively simple topology. This facilitates more  the technology and clearer understanding of the extent of its application with minimal supplementary influence before extending the application in complex scenarios. Another reason behind this decision is that the research presented in this dissertation is a natural progression of work carried out by Ahlam AlAnbouri, another researcher in the same research group. A key aspect of AlAnbouri's work \citep{Alanbouri2019}, as also seen in Section \ref{sec:lit/ble_meth}, utilised \gls{ble} in an open space, but near a large water body (that reduces the  reflection of signals) with no buildings apart from a pump house and a lighthouse, and with low footfall. The location selected for my research includes a tall vertical wall on one side and an open space on the other. The vertical wall is the side of a 5-storey tall building, mostly covered by glass windows. While the open ground used in the study is not shared by any other pedestrians or vehicles, the immediate surroundings are open to the public, and being inside the university campus, the area is busier than the location of AlAnbouri's related work \citep{Alanbouri2019}. The choice of location in the research presented in this dissertation is hence, a natural extension of the study by AlAnbouri that is applied in a slightly more complex urban canyon. All the outdoor experiments conducted during the course of this PhD were deliberately performed in the same location to have a coherent set with same topology.
+\\
+
+As previously mentioned, since the selected location had an open ground on one side, there were no defined paths, which allowed for marking pathways suited to the experiments. The satellite image of the experimental space is shown in Figure \ref{fig:meth/satellite_exp}. A low wall adjoining a five storey building, composed of brick work and large glass windows, and also provided a suitable place to deploy the Observer. Figure \ref{fig:meth/marker_building_grass} depicts the building on one of the sides of the experimental location and the adjacent low wall where the Observer (in white enclosure) was deployed. For each experiment, the marked path was always 24 metres long, irrespective of the distance of the path from the deployed Observer. The path was also marked with five equidistant key points, \textit{start}, \textit{approach}, \textit{centre}, \textit{depart}, and \textit{end}, each 6 metres apart. Whiteboard markers were used to label those key points, as shown in Figure \ref{fig:meth/marker_building_grass}. The \textit{'path'} was a surface covered with grass and wildflowers with height spanning between $30mm$ to $150mm$, as presented in Figure \ref{fig:meth/marker_building_grass}. As pointed out by Rappaport in \citep{Rappaport2002} and Liao et al. in \citep{liao1990microwave}, the presence of grass may have an effect on \gls{ble} signals caused by diffraction or absorption of signals, described in Section \ref{sec:lit/ble/signal} in Chapter \ref{ch:lit}. The layout is presented in Figure \ref{fig:meth/layout}. The paths used for different experiments varied between the combinations of 3 metres, 5 metres, 7 metres, and 9 metres away from the deployed Observer. For one of the experiments, four points, \textit{P}, \textit{Q}, \textit{R}, and \textit{S}, were also chosen at random to merely highlight the effect of distance on the signal strength, \gls{rssi}.
+\\
+
+\begin{figure}[htbp]
+    	\centerline{\includegraphics[width=\textwidth]{Figures/Ch3/evaluation/experimental ground satellite view.png}}
+    	\caption{Satellite View of the Experimental Location}
+    	\label{fig:meth/satellite_exp}
+    \end{figure}
+
+\begin{figure}[htbp]
+    	\centerline{\includegraphics[width=\textwidth]{Figures/Ch3/marker_building_grass.jpg}}
+    	\caption{Photograph Demonstrating the Building on the Side, the Length of the Grass, and the Marker Used for Marking Pathway at the Experimental Location}
+    	\label{fig:meth/marker_building_grass}
+    \end{figure}
+    
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=\textwidth]{Figures/Ch3/evaluation/layout.eps}}
+	\caption{Experiment Location Layout}
+	\label{fig:meth/layout}
+\end{figure}
+
+The other side of the experimental location was covered by 2-3.5 $metre$ high metal and wooden infrastructure at a distance of approximately 30 $metres$ from the low wall where the Observer was deployed. This is presented in Figure \ref{fig:meth/metal}. The volunteer pedestrian, depending on the specifics of the experiment, was stationary or moving along the selected pathway with a Broadcaster in their hand. Figure \ref{fig:meth/paula} depicts a volunteer pedestrian on a representative experimental pathway.
+\\
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=\textwidth]{Figures/Ch3/metal fence.png}}
+	\caption{Metal Infrastructure on the Far End of the Experiment Location}
+	\label{fig:meth/metal}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=\textwidth]{Figures/Ch3/Paula.jpg}}
+	\caption{Volunteer Pedestrian on Representative Experimental Pathway}
+	\label{fig:meth/paula}
+\end{figure}
+
+\subsection{Experimental Setup for Evaluation of the Technology and its Features}
+
+\subsubsection{Characteristics of the Antenna of the Observer} \label{subsec:meth/antenna}
+Different manufacturers of embedded systems and \gls{sbc} with \gls{ble} may use different chipsets, antenna designs, and transmission characteristics such as antenna gain. In the literature review, it has been noted that devices from different manufacturers have behaved differently and therefore, those researchers have forewarned about the issues that may pertain. If the platform is to be deployed in the real world, it will be difficult to control such characteristics as the chipset and antenna on the user devices. However, it is intuitive that such devices are made to connect and/or communicate with other \gls{ble} devices and therefore, their performance must be comparable. Keeping this in mind, an investigation to understand the antenna on the \gls{rpi} (that is used as an Observer) and its characteristics must be carried out. This is to ensure that there is a clear understanding of the sensitivity of the antenna on the Observer. Such sensitivity features can be employed to aid the assertions. Moreover, measurements of \gls{rssi} from the anechoic chamber represent measurements in an ideal scenario, where no external noise is influencing the signal strength. This provides a baseline set of patterns which can be used to compare data collected in the comparatively noisy outdoor environment to identify the degree of their deviations from ideal conditions.
+\\
+
+The antenna of the \gls{rpi} was studied in two environments: in a noiseless \Gls{anechoic chamber} and in an outdoor space adjoining the office in the Grangegorman campus, and was conducted in three parts. The first part was studied in an anechoic chamber, whereas, the second and third studies were conducted in an outdoor environment, as discussed in the following paragraphs.
+\\
+
+In the anechoic chamber, the Observer was kept on a rotating platform. The Broadcaster was then placed exactly 3 metres away from the Observer. The rotating platform was then rotated starting from 0\textdegree{} at discrete intervals of 45\textdegree{} until 180\textdegree{} along the horizontal plane of the \gls{rpi} in the enclosure, as shown in Figure \ref{fig:meth/plane}, where the orientation of the \gls{rpi} within the enclosure is illustrated in Figure \ref{fig:meth/rpi_orientation}. This particular orientation of the \gls{rpi} has shown optimum results in the study conducted by Fleuratoru et al in \citep{Flueratoru2022}. For each rotation interval, the \textit{main script} captured the \gls{ble} advertisements for 3 minutes. This experiment allowed for the understanding of the strength of the signal and the fluctuation in the signals for the entire duration of the experiment in a noiseless environment. This was then used as a basis to assess the strength and fluctuation of the signals obtained in a noisy outdoor environment. The intended methodological decision while conducting this experiment was that if the \gls{ble} signals are too weak in the outdoor setting or are too jittery to obtain meaningful patterns from the acquired signals, then the technology must be sidelined for this application.
+\\
+
+\begin{figure}[htbp]
+    	\centerline{\includegraphics[width=\textwidth]{Figures/Ch3/axis v6.png}}
+    	\caption{Depiction of the Horizontal Plane of the Observer}
+    	\label{fig:meth/plane}
+    \end{figure}
+
+The experiment was then taken to the outdoor environment for conducting the remaining two parts. In the second part, the characteristics of the antenna were assessed in the same manner as they are in the anechoic chamber, that is, by assessing the directional sensitivity of the antenna towards the signals emerging from the Broadcaster at a constant distance from the Observer. The Observer was deployed at the outside wall of the building as illustrated in Figure \ref{fig:meth/layout}, and the volunteer pedestrian holding a Broadcaster device was instructed to stand 3 metres away from it at the same angles, 0\textdegree{}, 45\textdegree{}, 90\textdegree{}, 135\textdegree{}, and 180\textdegree{}, as in the case of the anechoic chamber. Since there was no rotating platform outdoors, in this case, the volunteer was instructed to move around the Observer. The advertisements were collected by the Observer for 3 $minutes$ at each location. This case was further expanded and the measurements were also collected for all those angular resolutions at a distance of 5 $metres$, 7 $metres$ and 9 $metres$ between the Observer and the volunteer Broadcaster. 
+\\
+
+Secondly, two 24-metre long paths were laid out 3 $metres$ and 5 $metres$ away from the Observer. Five equidistant points, also illustrated in Figure \ref{fig:meth/layout} and Figure \ref{fig:meth/ant_layout}, \textit{Start}, \textit{Approach}, \textit{Centre}, \textit{Depart}, and \textit{End}, were marked on each of the two paths where the volunteer pedestrian was directed to stand for a period of 3 minutes each. The Observer collected the advertisements at each of these locations using the \textit{main script}. This experiment did not fully corroborate with the experiment conducted in the anechoic chamber, as in the anechoic chamber each point was on a radius exactly 3 $metres$ away from the Observer. This sub-experiment on the linear pathway was performed, in addition to the replication of the anechoic chamber scenario in an outdoor setting, as a representation of a real-world scenario where we have a linear path. Due to the linear nature of the pathway, the distance between the Broadcaster and the Observer on the paths at 3 $metres$ and 5 $metres$ away from the Observer were 3 meters and 5 $metres$ respectively only at the \textit{centre} point of each of those pathways, which was when the Broadcaster is directly opposite the Observer. The linear nature of the pathway meant that moving away in any direction along the path increased the distance, which can be calculated using Pythagoras rule. An illustration of the increase in distance on different key points on the pathway is also depicted in Figure \ref{fig:meth/ant_layout}. For instance, on the selected 24 $metre$ long pathway, with five equidistant key points, separated by a distance of 6 $metres$ from the neighbouring key points, the distance between the Broadcaster and the Observer at the \textit{approach} and \textit{depart} point was 4.24 $metres$. 
+\\
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=\textwidth]{Figures/Ch3/evaluation/antenna/angles and distances from observer.jpg}}
+	\caption{Experimental Layout and Effect of Pythagorean Rule}
+	\label{fig:meth/ant_layout}
+\end{figure}
+
+
+Since the distance between the Observer and the Broadcaster varied at different key points along the linear pathway, unlike the fixed distance between them in the anechoic chamber, the signals were expected to attenuate differently on each key point. That means the least distance-related attenuation must have occurred when the Broadcaster was at the \textit{centre} key point since it was the closest approach to the Observer along the pathway, followed by the \textit{approach} and the \textit{depart} key points, and finally, the \textit{start} and the \textit{end} key points. The attenuation is in accordance to the path loss, as described in Section \ref{sec:lit/ble/signal} in Chapter \ref{ch:lit}. Therefore, the selection of \gls{ble} as a technology to measure pedestrian dynamics could be assessed by evaluating the quality of the signals emerging from the Broadcaster at the \textit{start} and \textit{end} key points, that is, the farthest locations on the pathway.
+\\
+
+For both the experimental setups, advertisements are collected for 3 $minutes$, in three 1-$minute$ segments. The data collected consists of the \gls{mac} address, timestamp \gls{rssi}, and \gls{sma} of \gls{rssi}, details of \gls{sma} will be covered in Section \ref{eq:meth/sma} of this chapter. 
+\\
+
+The following is the inventory for this experiment:
+\begin{enumerate}
+    \item Observer
+    \begin{enumerate}
+        \item \gls{rpi} based device running \textit{main script} which stores the data in InfluxDB.
+        \item The device is also running MEAN stack dashboard for live monitoring.
+        \item Battery pack and \gls{rtc} connected to the \gls{rpi}.
+    \end{enumerate}
+    \item Broadcaster
+    \begin{enumerate}
+        \item RuuviTag beacon with advertisement rate of 2 $Hz$ (advertising once every 500 $ms$).
+    \end{enumerate}
+\end{enumerate}
+
+The following are the protocols for the experiments conducted in the anechoic chamber and in the outdoor environment:
+\begin{enumerate}
+    \item Anechoic chamber experiments
+    \begin{enumerate}
+        \item The Observer, the entire unit with \gls{rpi} connected to a power bank and \gls{rtc} in an enclosure, is placed on a rotating platform.
+        \item The pipe straps are removed from the enclosure to avoid any interference with the signals.
+        \item One of the holes for the screw to position one of the pipe straps in place is enlarged just enough to pass a CAT6 Ethernet cable through. This Ethernet cable is a standard feature and part of the anechoic chamber at the University, used to monitor and control the device remotely from outside the chamber during live experiments.
+        \item The Broadcaster is stationed at a platform which is exactly 3 metres away from the rotating platform where the Observer is placed. 
+    \end{enumerate}
+    \item Experiments are outdoor locations beside  an office building
+    \begin{enumerate}
+        \item The Observer is positioned on the side wall of the building shown in the layout in Figures \ref{fig:meth/layout} and \ref{fig:meth/satellite_exp}. 
+        \item The Observer is the entire unit used in the case of the anechoic chamber experiment except without the Ethernet cable.
+    \item For the measurements around the Observer, the volunteer pedestrian is instructed to stand at the designated location holding the Broadcaster facing directly in line of sight of the Observer.
+    \item The orientation of the Broadcaster is with its front face facing towards the Observer, as in the case of the anechoic chamber.
+    \item The researcher, after ensuring that the volunteer is appropriately in position, launches the \textit{main script} and stopwatch. The volunteer is instructed to be at ease by the researcher once the measurements are taken for the desired period.
+    \item The volunteer is instructed to stand at the location and the process is repeated.
+\end{enumerate}
+\end{enumerate}
+
+The results of these experiments will be presented in Section \ref{subsec:res/antenna} in Chapter \ref{ch:res}. Moreover, the outcome of the anechoic chamber portion of this experiment will be used in the experiments described in Sections, \ref{subsec:meth/evalexp/fading} and \ref{sec:meth/occ} to evaluate reference \gls{rssi} at reference distance to calculate fading and to compare the \gls{rssi} measurements in anechoic chamber against outdoor environment respectively.
+
+\subsubsection{\acrfull{ls} and \acrfull{ss} Fading} \label{subsec:meth/evalexp/fading}
+
+Fading is a prominent feature in wireless communication that is prevalent in an outdoor environment. As discussed in Section \ref{sec:lit/ble/signal} in Chapter \ref{ch:lit}, one of the important factors, aside from the propagation distance, behind the attenuation of \gls{ble} signals is fading. Empirically, this relationship has been presented in Equation \ref{eq:lit/pl} in Chapter \ref{ch:lit}.
+\\
+
+This experiment was designed to understand the effect of the environment where the experiments were conducted through \gls{ss} and \gls{ls} fading. While \gls{ss} fading provided insights into the frequency and intensity of the reflections signals undergo in the experiment location, \gls{ls} fading shed light on shadowing due to the presence of large objects in the environment.
+\\
+
+\gls{rssi} measurements were collected in two different scenarios. First, measurements were recorded at a fixed distance of 3 metres in an anechoic chamber for different antenna angles -- 0\textdegree{}, 45\textdegree{}, 90\textdegree{}, 135\textdegree{}, 180\textdegree{} -- relative to the Observer, as mentioned in Section \ref{subsec:meth/antenna}. Second, \gls{rssi} measurements were taken at five key points -- \textit{Start}, \textit{Approach}, \textit{Centre}, \textit{Depart}, and \textit{End} -- on a linear pathway, 3 $metres$ from the deployed Observer.
+\\
+
+Since, the signals at the Observer's antenna were not received with a sensitivity that was symmetric around the face of the Observer (\gls{rpi}), measurements captured at all five angles were averaged. Reference path loss, $PL_{d_0}$ was calculated using the measurements in the anechoic chamber.
+\\
+
+For \gls{ls} fading, a path loss model was fitted to the outdoor environment data to predict the expected \gls{rssi} at each location based on the calculated reference path loss from the anechoic chamber. This predicted path loss was calculated using the expression presented in Equation \ref{eq:lit/std_pl} in Section \ref{sec:lit/ble} of Chapter \ref{ch:lit}. Residuals, which will be  were calculated by taking the difference between the measured and fitted \gls{rssi} at each location.
+\\
+
+To calculate \gls{ss} fading, \gls{rician distribution} (which will be explained in Section \ref{subsec:meth/analysis/rician}) was fitted to the deviations in the measured \gls{rssi}. Shape and Scale parameters were obtained from the result of the Rician distribution fitting.
+\\
+
+The inventory and protocol for this experiment is the same as in Section \ref{subsec:meth/antenna}. The results of this experiment will be presented in Section \ref{sec:res/fading} in Chapter \ref{ch:res}.
+
+\subsubsection{Optimal \Gls{deployment distance} of the Observer} \label{subsec:meth/evalexp/depdist}
+Once the suitability of \gls{ble} was confirmed through the experiment presented in Section \ref{subsec:meth/antenna} in this chapter for measuring pedestrian dynamics, the next question then was about the placement of the Observer. In this particular experiment, the optimal deployment distance of the Observer that could produce discernible patterns in the resulting \gls{rss} values to indicate any characteristic of the pedestrian movement or could provide descriptive patterns of any pedestrian activity was tested.
+\\
+
+To do this, a set of deployment distances was chosen and the distance between the Observer and the linear pathway was varied for each distance in that set. Since the research location offered an open space on one side, as illustrated in Figure \ref{fig:meth/layout}, the task of varying the distance was achievable. Three new paths were laid out at a distance of 5-$metre$, 7-$metre$, and 9-$metre$, parallel to the 3-$metre$ path seen in the previous experiment. Each path had the same five equidistant key points, from \textit{Start} to \textit{End}, marked as illustrated in Figure \ref{fig:meth/depdist_layout}. The volunteer pedestrian was directed to stay stationary at each of those five points on all four pathways for three repetitions of 1-$minute$ stationary pauses each for two cases: first, when the Broadcaster faced towards the Observer, that is \gls{los}, and second, when the Broadcaster faced away from the Observer with the body of the volunteer between the two devices, that is \gls{nlos}.
+\\
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=\textwidth]{Figures/Ch3/evaluation/deployment distance/layout top-view all pathways.jpg}}
+	\caption{Experimental Layout for Assessing Optimal Deployment Distance Showcasing all Pathways}
+	\label{fig:meth/depdist_layout}
+\end{figure}
+
+It is also important to note here that occlusion in the experiment does not conform to complete occlusion as in the case of \gls{nlos}. Complete occlusion occurred only when the volunteer pedestrian was at the \textit{centre} key point on the pathway. A partial occlusion occurred at \textit{approach-centre} and \textit{depart-centre} points. And, line-of-sight occurred at \textit{start} and \textit{end} points. However, for the sake of simplicity, all of the \gls{nlos} cases are referred to as cases of occlusion from here on. This differentiation between full occlusion and partial occlusion is illustrated in Figure \ref{fig:meth/depdist_occ_vs_partial}.
+\\
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=\textwidth]{Figures/Ch3/evaluation/deployment distance/occ.png}}
+	\caption{Depiction of Occlusion States in the Case of \gls{nlos}}
+	\label{fig:meth/depdist_occ_vs_partial}
+\end{figure}
+
+Advertisements were collected for 3 $minutes$, in three 1-$minute$ segments. The data collected consisted of \gls{mac} address, and timestamped \gls{rssi}, and \gls{sma} \gls{rssi} (\ref{eq:meth/sma}). 
+\\
+
+The following was the inventory for this experiment:
+\begin{enumerate}
+    \item Observer
+    \begin{enumerate}
+        \item \gls{rpi} based device running \textit{main script} which stored the data in InfluxDB.
+        \item The device also ran a MEAN stack dashboard for live monitoring.
+        \item Battery pack and \gls{rtc} connected to the \gls{rpi}.
+    \end{enumerate}
+    \item Broadcaster
+    \begin{enumerate}
+        \item RuuviTag beacon with advertisement rate of $2$ $Hz$ (advertising once every $500$ $ms$).
+    \end{enumerate}
+\end{enumerate}
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+    \begin{tcolorbox}[
+        colframe=Indigo, % Border color
+        colback=Lavender, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{General Guide}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=Indigo, colframe=Indigo, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{\textit{Measurements} in InfluxDB are conceptually analogous to tables in SQL. The use of different measurements in the design of this research allows neat separation of the readings from one location to another and from one pathway to another, making the analysis part simpler as separation and sorting of the data is no longer required.}
+    \end{tcolorbox}    
+\end{wrapfigure}
+
+The following were the protocols for the experiment conducted in the anechoic chamber and the outdoor experiment:
+\begin{enumerate}
+    \item The Observer was positioned on the side wall of the building shown in the layout in Figures \ref{fig:meth/layout} and \ref{fig:meth/satellite_exp}. 
+    \item The Observer was the entire unit that includes a battery pack and \gls{rtc}, all enclosed in the enclosure.
+\item  The volunteer was instructed to stay stationary at each point on all of the pathways one after the other.
+\end{enumerate}
+
+\begin{enumerate}
+\addtocounter{enumi}{3}
+\item The volunteer was instructed to hold the Broadcaster in the hand facing towards the Observer for the case of \gls{los}. The volunteer was provided with clear instructions to keep the face of the Broadcaster uncovered, that is to not enclose the Broadcaster in their fist.
+\item Similarly, the volunteer was asked to switch the hand in which the Broadcaster was held for the \gls{nlos} case.
+\item After ensuring that the volunteer was appropriately in position, the researcher launched the \textit{main script} and stopwatch. For the entire period of the experiment, the MEAN app dashboard was executing.
+\item The \textit{main script} was tweaked to collect data from different locations and pathways in different "measurements" of the database through arguments passed through the script's shell.
+\item The volunteer was instructed to stand at a new location and the process was repeated.
+\end{enumerate}
+
+The results of this experiments will be presented in Section \ref{sec:res/deployment_distance} in Chapter \ref{ch:res}.
+
+\subsubsection{Detecting Self Body Occlusion between the Broadcaster and the Observer}\label{sec:meth/occ}
+In real-world situations, there could be many ways a \gls{ble}-enabled device can be carried. The broadcasting device may be held in a hand, worn on a body like a smartwatch, kept in a pocket like key fobs, or can be kept in a bag. This presents a challenging situation where the capabilities and performance of \gls{ble} must be tested to evaluate its usefulness in highlighting patterns in resulting \gls{rssi} even in situations where they are occluded by the body of either the pedestrian carrying the device themselves or by the bodies of other pedestrians. Or simply, to test if, through the \gls{rssi}, there is a likelihood of asserting the presence or absence of occlusion. However, to limit the scope of the work, the only occlusion considered is self body occlusion, or in other words, whether the Broadcaster is carried by the volunteer on the side facing towards the deployed Observer (\gls{los}) or, facing away from the deployed Observer (\gls{nlos}). 
+\\
+
+The experiment was performed in the same location as the previous experiment, presented in Figure \ref{fig:meth/layout}, with five key points, \textit{start}, \textit{approach}, \textit{centre}, \textit{depart}, and \textit{end}, as depicted. Since the experiment site was not heavily used by pedestrians, it prevents the presence of any obstruction on the advertisement signal other than body occlusion. The Observer was facing clear ground to ensure low signal contention and so that the signal undergoes minimal reflection, refraction, and diffraction. The deployment distance of the Observer was 3 metres from the selected path, and the volunteer pedestrian was instructed to traverse the path in a straight line to ensure that the \gls{rss} values were not influenced by the pausing of the volunteer pedestrian. Three sub-experiments were set in this experiment as follows:
+\\
+
+\begin{enumerate}
+    \item \textit{Sub-experiment 1: \gls{rss} values from a stationary pedestrian at each key-point.}
+At each key point, \textit{start} to \textit{end}, on the path, a volunteer pedestrian was stationed with a Broadcaster for 30-second intervals. \gls{rss} values were collected over each 30-second observation period, first, when the Broadcaster was in \gls{los} (with no body occlusion), with the Observer and second, when the Broadcaster was in \gls{nlos} (with body occlusion) with the Observer. This experiment was used to understand variations in \gls{rss} values of the received signals. The information gathered may also be used as a calibration mechanism, aiding the identification of the point of closest approach of a pedestrian to the Observer. If the advertisement rate of a Broadcaster is known, the number of dropped signals can be identified from the total measurement period, which has greater likelihood to be impacted by distance due to the increase in multipath propagation fading, and by occlusion.
+    
+    \item \textit{Sub-experiment 2: \gls{rss} values from a stationary pedestrian at each key-point from P to S.}
+Four random points \textit{P}, \textit{Q}, \textit{R}, and \textit{S} were selected at a distance greater than 9 metres away from the Observer on the open ground at the experiment location. This sub-experiment was designed only to develop an understanding of the behaviour of \gls{ble} signals emerging from a distance to the Observer. While this experimental setup did not directly concern the objective of this experimental case, which was to determine the impact of occlusion on close proximity detection through \gls{rss} values of the advertisements, the comprehension of the pattern of the \gls{rss} values of the advertisements emerging from a distant Broadcaster could be beneficial in scaling this study in the future to detect far away devices, mark them as anomalies, and filter them out.
+    
+    \item \textit{Sub-experiment 3: Continuous \gls{rssi} collection while the pedestrian traverses the path in both directions on the path 3 metres away from the Observer.}
+In this sub-experiment, \gls{rss} values of the advertisements from the Broadcaster carried by a pedestrian while walking on the predefined path, shown in Figure \ref{fig:meth/depdist_occ_vs_partial}, were assessed. The volunteer pedestrian was instructed to walk on the pathway starting from each end one after the other while carrying the Broadcaster in both \gls{los} and \gls{nlos} manner. Thus, the experiment under this sub-experiment was divided into four scenarios, where each scenario was repeated five times.
+\begin{enumerate}
+    \item Pedestrian walking from \textit{start} to \textit{end} with Broadcaster in \gls{los} of the Observer (no occlusion).
+    \item Pedestrian walking from \textit{end} to \textit{start} with Broadcaster in \gls{los} of the Observer (no occlusion).
+    \item Pedestrian walking from \textit{start} to \textit{end} with Broadcaster in \gls{nlos} of the Observer (occlusion).
+    \item Pedestrian walking from \textit{end} to \textit{start} with Broadcaster in \gls{nlos} of the Observer (occlusion).
+\end{enumerate}
+\end{enumerate}
+
+Following was the inventory for this experiment:
+\begin{enumerate}
+    \item Observer
+    \begin{enumerate}
+        \item \gls{rpi} based device running the \textit{main script} which stores the data in InfluxDB.
+        \item The device was also running the MEAN stack dashboard for live monitoring.
+        \item Battery pack and \gls{rtc} connected to the \gls{rpi}.
+    \end{enumerate}
+    \item Broadcaster
+    \begin{enumerate}
+        \item RuuviTag beacon with advertisement rate of $2$ $Hz$ (advertising once every $500$ $ms$).
+    \end{enumerate}
+\end{enumerate}
+
+Following were the protocols for the experiment conducted in the outdoor experiment with a stationary pedestrian:
+\begin{enumerate}
+    \item Sub-experiment 1 and Sub-experiment 2
+    \begin{enumerate}
+        \item The Observer was positioned on the side wall of the building shown in the layout in Figures \ref{fig:meth/layout} and \ref{fig:meth/satellite_exp}. 
+        \item The Observer comprised of an \gls{rpi} with power bank and \gls{rtc} in an enclosure.
+        \item  The pipe straps were stripped off the enclosure.
+        \item The Broadcaster was held by a volunteer pedestrian who was instructed to remain stationary at each of the five key points on the pathway and at each of the four random key points far away from the Observer.
+        \item While the volunteer pedestrian remained stationary at those points, the \textit{main script} and the \textit{MEAN} app was launched by the researcher, simultaneously noting the time on a stopwatch to ensure data was collected for during real-world deployment duration.
+    \end{enumerate}
+    \item Sub-experiment 3
+    \begin{enumerate}
+        \item The Observer was set up in the same manner as in sub-experiments 1 and 2.
+        \item The researcher launched the \textit{main script} and the \textit{MEAN} app, and provided vocal instruction to the volunteer to begin walking. The \textit{main script} was stopped as soon as the volunteer reached the other end of the pathway.
+    \item Upon completion of the first case, the \gls{los} for the experiments, the \gls{nlos} case was performed in the same manner.
+\end{enumerate}
+\end{enumerate}
+
+The experiment conducted in this case did not require the use of ground truth as the data collection process was started with the pedestrian's walk and was stopped upon the end of each walk, and no intermediate location during the walk was scrutinised in this study. The results obtained from this experiment will be presented in Section \ref{subsec:res/occlusion} in Chapter \ref{ch:res}.
+
+\subsubsection{Effect of Advertisement Interval of the Advertiser on the Capturing Capabilities of the Observer} \label{subsec:meth/advert_rate}
+When such a platform is deployed in the real world, the users of the pathway could be carrying different types of advertising devices. One of the parameters of \gls{ble} \textit{Advertisers} is \textit{advertisement rate}, which is the rate at which advertisement packets are emanated by the devices to allow other \gls{ble} devices to discover them. Or conversely, advertisement interval, which is the time difference between subsequent advertisements. It was noted in Section \ref{sec:lit/ble} in Chapter \ref{ch:lit} that advertisement interval affects the measurement quality \citep{Montanari2017}. Different manufacturers and even different devices from the same manufacturers use different advertisement intervals. Therefore, understanding this is crucial when it comes to acquiring signals from devices carried by moving pedestrians. A device with a longer advertisement interval will result in fewer intercepted signals for the entire traversal of the path, which may result in no discernible patterns. On the contrary, a shorter advertisement interval may overwhelm the Observer and/or may result in more packet collisions, and therefore, result in no discernible pattern or loss of entire journey detail.
+\\
+
+In order to assess the effect of advertisement interval, this experiment tested three different advertisement intervals, $100$ $ms$, $500$ $ms$, and $1000$ $ms$. The volunteer pedestrian is directed to walk on the pathways at a distance of 3 metres from the deployed Observer. This experiment explored the pedestrian walking from both ends of each pathway, from \textit{start} to \textit{end} and from \textit{end} to \textit{start}, for both \gls{los} and \gls{nlos} cases. Each scenario was repeated three times and provided a total of 36 individual walks. For this experiment, an alternative Broadcaster, designed with an \gls{rpi} as mentioned in subsection \ref{subsub:obsbro}, was used since the beacon, a RuuviTag, did not allow modifying the advertisement interval. A \textit{GPS Logger} mobile application, as mentioned in subsection \ref{subsub:gps_logger}, was used to collect the ground truth. The ground truth collection was performed in this experiment as the same measurements could then also be used to identify if there was a correlation between the packets dropped and the location of the transmission of the signals.
+\\
+
+Advertisements were collected for the entire duration of the walk by the volunteer pedestrian. Three sets of measurements are performed for each configuration of the experimental setup. Since a custom Broadcaster, as presented in Section \ref{subsub:obsbro} in this chapter, was used in this experiment, additional information in the form of a \textit{sequence number} was also transmitted with each advertisement. This sequence number was iterated beginning at a value of 1 with the first broadcast and incremented with each subsequent broadcast of advertisements. InfluxDB was also maintained on the Broadcaster to store timestamped sequence number on the device. This allowed accurate assessment of packet drops since both the number of advertisements broadcasted and the number advertisements intercepted were known. Therefore, the Observer was also modified to process and store the sequence number of the received advertisement in addition to the timestamped \gls{rssi}, and \gls{sma} \gls{rssi} (Section \ref{eq:meth/sma}). 
+\\
+
+The following was the inventory for this experiment:
+\begin{enumerate}
+    \item Observer
+    \begin{enumerate}
+        \item \gls{rpi} based device running the \textit{main script} which stores the data in InfluxDB. The \textit{main script} was further modified to also process and store the sequence number of the received advertisement.
+        \item The device was also running the MEAN stack dashboard for live monitoring.
+        \item Battery pack and \gls{rtc} connected to the \gls{rpi}.
+    \end{enumerate}
+    \item Broadcaster
+    \begin{enumerate}
+        \item \gls{rpi} Broadcaster since it provided the capability to adjust the advertisement interval and maintain a database to store the timestamped sequence number.
+        \item The functionality of this Broadcaster was developed using \textit{NodeJS}.
+        \item Battery pack and \gls{rtc} connected to the \gls{rpi}.
+    \end{enumerate}
+    \item Ground Truth
+    \begin{enumerate}
+        \item A mobile phone with a \textit{GPS Logger} application running on it.
+    \end{enumerate}
+\end{enumerate}
+
+
+\begin{wrapfigure}{l}{0.45\textwidth}
+    \vspace{-3mm}
+    \begin{tcolorbox}[
+        colframe=Indigo, % Border color
+        colback=Lavender, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{General Guide}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=Indigo, colframe=Indigo, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{\textit{\Gls{bash}}, Bourne-Again SHell is a command language interpreter for unix-type OS. Bash provides a platform, as a macro processor, that is both a command interpreter and a programming language.}
+    \end{tcolorbox}    
+    \vspace{-10mm}
+\end{wrapfigure}
+
+The following were the protocols for the experiments:
+
+\begin{enumerate}
+    \item The Observer was positioned on the side wall of the building shown in the layout in Figures \ref{fig:meth/layout} and \ref{fig:meth/satellite_exp}. 
+    \item The Observer was the entire unit that includes a battery pack and \gls{rtc}, all enclosed in the enclosure.
+\end{enumerate}
+
+\begin{enumerate} \addtocounter{enumi}{2}
+\item The volunteer was instructed to walk from one end of the pathway to the other.
+\item The volunteer was instructed to hold the \gls{rpi} Broadcaster in their hand facing towards the Observer for the case of \gls{los}. The volunteer was provided with clear instructions to keep the face of the Broadcaster uncovered, that is to not to enclose the Broadcaster in their fist.
+\item Similarly, the volunteer was asked to switch the hand in which the Broadcaster was held for the \gls{nlos} case.
+\item The researcher, after ensuring that the volunteer was appropriately in position, launched the \textit{main script} on the Observer and the \textit{NodeJS} script on the Observer and provided an oral cue to the volunteer to start walking. 
+\item The researcher kept a check on the status of the script and the volunteer's progress along the path.
+\item  The volunteer was instructed to stop upon reaching the other end of the pathway, and the researcher stopped  both the scripts, \textit{main script} on the Observer and the \textit{NodeJS} script on the Broadcaster.
+\item Both the \textit{main script} and the \textit{NodeJS} scripts were tweaked to store data from different locations and pathways in different "measurements" of the database through arguments passed through the \textit{bash} to call the script. The advertisement interval for the Broadcaster was also changed directly from the shell when calling the \textit{NodeJS} script to launch it.
+\item To ease conducting the experiments, the bash scripts were written in advance for each scenario of the experiment. The researcher only executed the appropriate bash script before performing a corresponding scenario for the experiment. The bash scripts contained all the arguments regarding advertisement interval, database, and measurement name in the database where the measurements of the \gls{rssi} were to be stored.
+\end{enumerate}
+
+The results of these experiments will be presented in Section \ref{subsec:res/antenna} in Chapter \ref{ch:res}.
+
+\subsubsection{Section Summary}
+The experiments presented in this section were aimed at assessing the suitability of \gls{ble} to measures pedestrian dynamics. The experiment described in Section \ref{subsec:meth/antenna} was aimed at understanding the capability of the antenna to measure \gls{rssi} in an outdoor environment with sufficient resolution to produce discernible patterns pertaining to pedestrian movement, which were assessed in reference to the measurement performed in the anechoic chamber. This experiment was also used for identifying any quirks of the antenna that could aid or be used to detect pedestrian movement dynamics or activities. 
+\\
+
+The next experiment, presented in Section \ref{subsec:meth/evalexp/fading}, was used to understand the extent of environmental contribution to the propagation mechanism, such as the level of \gls{los} components at various location on the pathway and the extent of the effect of shadowing. This experiment was to understand the suitability of the selected environment for conducting the subsequent experiments.
+\\
+
+In the experiment presented in Section \ref{subsec:meth/evalexp/depdist}, the optimal deployment distance of the Observer was studied. This was performed by testing candidate deployment distance, that is the perpendicular distance between the Observer and the linear pathways. Through this experiment, a distance that resulted in discernible patterns on the \gls{rssi} was aimed to be identified.
+\\
+
+During pedestrian walks, a direct \gls{los} between the Broadcaster carried by a pedestrian and the deployed Observer is not guaranteed. Therefore, in the experiment presented in Section \ref{sec:meth/occ}, effect of body occlusion on \gls{ble} signal strength was examined. To limit the scope of study, only self body occlusion was scrutinised. Through this experiment, the focus was to assess whether self body occlusion can be detected and whether the resulting \gls{rssi} from the self-occluded Broadcasters produced recognisable patterns to gain insights into pedestrian activities and movement dynamics.
+\\
+
+The final experiment conducted to assess the overall suitability of \gls{ble} before applying it to understand selected heterogeneous pedestrian activities and movement dynamics was to understand the effect of advertisement intervals on the measuring capabilities of the Observer, as presented in Section \ref{subsec:meth/advert_rate}. Since different Broadcasters advertise at different rates, it was important to assess the range of advertisement rate or advertisement intervals that selected Observer was able to measure accurately.
+\\
+
+Through the results of these experiments, that will be presented in Section \ref{sec:res/tinker} in Chapter \ref{ch:res}, feasibility of \gls{ble} as a measuring technology, usefulness of selected experimental location, identification of suitable deployment location and extent of advertisement rate measurement capability of the Observer, and ability of the developed system to detect and produce recongnisable patterns even in the presence of self body occlusion were evaluated. Based on the outcome of the evaluation, the suitability of \gls{ble} was determined.
+
+\subsection{Evaluation of the Platform's Abilities to Detect, Identify and Characterise Pedestrian Movement and Activities}
+
+\subsubsection{Pause Detection in the Movement of the Pedestrians} \label{subsec:meth/pause}
+One of the movement characteristics of pedestrians on pathways is pauses in movement, or as presented in Section \ref{subsec:lit/act_move_behave} in Chapter \ref{ch:lit}, \textit{staying} at a location. The pauses can be attributed to several reasons -- it could be a place of interest, some event may be occurring, perhaps the pedestrian met some acquaintance or simply paused to pet a dog, or the pedestrian could be tying their shoelaces, etc. Pauses are a common occurrence in a walk, and their repetitions may provide development agencies with significant insights. For instance, a park may have a spot that provides a scenic view of a sunset that the urban designers did not consider in their planning. If many people carrying \gls{ble} devices are pausing or stopping at that location for extended periods, the aggregated data collected would highlight that aspect, and could signify a point of interest such as the presence of an attractive or scenic location. This could then feed into redevelopment plans where benches could be set up to aid elderly and vulnerable visitors of the park to absorb the scenery. Thus, such a tool could potentially highlight the interaction of pedestrians with the local environment and/or other pedestrians without compromising the privacy of their sensitive data.
+\\
+
+To identify pauses in the movement of the pedestrian, \gls{rss} values of advertisements acquired by the Observer were used. The experiment was conducted in the same open space as the previous experiments. Like previous experiments, since it was conducted in a location with open ground on one side, in the absence of a defined pathway, it was feasible to define a path at any chosen distance from the wall where the Observer was deployed. Therefore, a 24-$metre$ long path is defined as 3 $metres$ away from the Observer. Markers were laid at the starting point of the pathway, called \textit{Start}, the end point of the pathway, \textit{End}, and at a point 6 $metres$ away from \textit{Start}, called \textit{Approach}. These markers were used to aid the volunteer pedestrian's linear movement and also worked to highlight the exact point for pausing. Figure \ref{fig:location} illustrates the location of the experiments.\\
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=\textwidth]{Figures/Ch3/location (2).jpg}}
+	\caption{Experimental Location and Setup}
+	\label{fig:location}
+\end{figure}
+
+% \begin{wrapfigure}{l}{0.45\textwidth}
+%     \begin{tcolorbox}[
+%         colframe=Indigo, % Border color
+%         colback=Lavender, % Background color
+%         coltitle=white, % Title text color
+%         title=\footnotesize{General Guide}, % Title text
+%         fonttitle=\bfseries, % Title font style
+%         sharp corners, % Sharp corners for the main box
+%         enhanced,
+%         attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+%         boxed title style={colback=Indigo, colframe=Indigo, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+%         width=\linewidth, % Width of the box
+%         boxrule=0pt, % No border for the main box
+%         drop shadow, % Shadow effect
+%         rounded corners, % Rounded corners for the main box
+%     ]
+%         \scriptsize{Data is collected for pauses on other locations of the pathway, \textit{centre} and \textit{depart}, and also for all the three locations on the pathway at a distance of 5 metres from the deployed Observer. However, due to time-constraints in the PhD, the analysis is only performed one of the locations, that is \textit{approach} at pathway 3 metres away from the deployed Observer.}
+%     \end{tcolorbox}    
+% \end{wrapfigure}
+
+A volunteer pedestrian was instructed to walk on the linear path from \textit{Start} to \textit{End}. The pedestrian set off from \textit{Start} in the direction of \textit{End} with a pause at \textit{Approach}, 6 $metres$ away from \textit{Start}. The duration of this pause was varied between 5 $seconds$, 15 $seconds$, and 25 $seconds$. For each pause duration, the process was repeated four times. Hence, a total of 12 individual repetitions were considered in this experiment. The Broadcaster was held by the pedestrian facing in the \gls{los} of the Observer throughout this experiment. The \textit{Blue Dot} mobile application was used in this experiment to obtain the ground truth. 
+\\
+
+The following was the inventory for this experiment:
+\begin{enumerate}
+    \item Observer
+    \begin{enumerate}
+        \item \gls{rpi} based device running \textit{main script} which stores the data in InfluxDB.
+        \item The device was also running MEAN stack dashboard for live monitoring.
+        \item Battery pack and \gls{rtc} connected to the \gls{rpi}.
+    \end{enumerate}
+    \item Broadcaster
+    \begin{enumerate}
+        \item One RuuviTag beacon, advertising once every $500$ $ms$.
+    \end{enumerate}
+    \item Ground Truth
+    \begin{enumerate}
+        \item Android phone running the BlueDot application.
+    \end{enumerate}
+\end{enumerate}
+
+
+The protocols for the experiment conducted are as follows:
+\begin{enumerate}
+        \item The Observer was positioned on the side wall of the building shown in the layout in Figures \ref{fig:meth/layout} and \ref{fig:meth/satellite_exp}. 
+        \item The Observer comprised of a \gls{rpi} with power bank and \gls{rtc} in an enclosure.
+        \item The Volunteer pedestrian was provided with a Broadcaster and an Android phone with the BlueDot application to capture ground truth data.
+        \item The volunteer pedestrian was instructed to begin walking on vocal cue from the researcher and pause at the \textit{approach} key point for the \textit{pause duration} before continuing the walk.
+        \item  The set of \textit{pause duration} includes 5 $seconds$, 15 $seconds$, and 25 $seconds$. 
+        \item The researcher initiated the \textit{main script} and \textit{MEAN} app just before providing a vocal cue to the volunteer.
+        \item The volunteer pedestrian was instructed to stop upon reaching the \textit{approach} key point, press the button on the BlueDot application on the phone, and to resume their walk upon receiving vocal instruction from the researcher.
+        \item When the pedestrian stopped at the \textit{approach} key point on the pathway, the researcher started a stopwatch for the duration based on the pause duration under test. After the pause at \textit{approach} for the duration being tested, the researcher provided another vocal cue to the pedestrian to continue walking.
+        \item The volunteer was instructed to stop at the end of the pathway and the scripts were stopped by the researcher.
+        \item Once four bouts were measured, the volunteers were asked to pause for the duration based on the next candidate from the set.
+\end{enumerate}
+
+The results of this experiments will be presented in Section \ref{res/pause} in Chapter \ref{ch:res}.
+
+\subsubsection{Identifying Interactions with Other Pedestrians or the Environment}\label{subsec:meth/interaction}
+
+This experiment is an extension of the previous experiment. Interacting with other pedestrians is one of the common activities people engage in during their walks. Here, instead of employing a single volunteer pedestrian, two volunteer pedestrians assisted in the experiments. The purpose of the experiment is to understand if the approach used in the previous experiment, presented in Section \ref{subsec:meth/pause}, is useful in the identification of pauses in measurements of \gls{rssi} that are measured simultaneously from two Broadcasters.
+\\
+
+The Observer was deployed at a distance of 3 $metres$ from the pathway. Two Broadcasters were provided to two volunteer pedestrians and the advertisements were measured from both the Broadcasters simultaneously for the duration of the walk. Since both pedestrians were instructed to walk simultaneously from the same starting point, only one device to gather ground truth was used, a phone running the \gls{gps} logger application. The measured parameters on the Observer were timestamps, raw \gls{rssi}, sliding-window mean of \gls{rssi}, and \gls{uuid}. A pause period of 20 $seconds$ was selected for this experiment.
+\\
+
+The experiment was performed in the same outdoor space as the previous experiments. Several cases were studied in this experiment and these cases are listed below,
+
+\begin{enumerate}
+    \item Both pedestrians holding the Broadcaster in \gls{los} of the Observer.
+    \begin{itemize}
+    \item Both pedestrians start from the same end of the pathway, \textit{start} point.
+        \begin{itemize}
+            \item The volunteers pause at the \textit{approach} point and continue walking.
+            \item The volunteers pause at the \textit{centre} point and continue walking.
+            \item The volunteers pause at the \textit{depart} point and continue walking.
+        \end{itemize}
+    \end{itemize}
+    \item Both pedestrians holding the Broadcaster in \gls{nlos} of the Observer.
+    \begin{itemize}
+        \item Both pedestrians start from the same end of the pathway, \textit{start} point.
+        \begin{itemize}
+            \item The volunteers pause at the \textit{approach} point and continue walking.
+            \item The volunteers pause at the \textit{centre} point and continue walking.
+            \item The volunteers pause at the \textit{depart} point and continue walking.
+        \end{itemize}
+    \end{itemize}
+\item One pedestrians holding the Broadcaster in \gls{nlos} of the Observer and the other in \gls{los}.
+    \begin{itemize}
+        \item Both pedestrians start from the same end of the pathway, \textit{start} point.
+        \begin{itemize}
+        \item The volunteers pause at the \textit{approach} point and continue walking.
+        \item The volunteers pause at the \textit{centre} point and continue walking.
+        \item The volunteers pause at the \textit{depart} point and continue walking.
+        \end{itemize}    
+    \end{itemize}
+\end{enumerate}
+
+Each case was repeated three times for both paths, at a deployment distance of 3 $metres$ away from the Observer. Therefore, the measurements were taken for a total of 27 individual walks.
+
+The following was the inventory for this experiment:
+\begin{enumerate}
+    \item Observer
+    \begin{enumerate}
+        \item \gls{rpi} based device running \textit{main script} which stores the data in InfluxDB.
+        \item The device was also running MEAN stack dashboard for live monitoring.
+        \item Battery pack and \gls{rtc} connected to the \gls{rpi}.
+    \end{enumerate}
+    \item Broadcaster
+    \begin{enumerate}
+        \item Two RuuviTag beacons with advertising once every 1280 $ms$.
+    \end{enumerate}
+    \item GroundTruth
+    \begin{enumerate}
+        \item Android phone running GPSLogger application.
+    \end{enumerate}
+\end{enumerate}
+
+
+The following were the protocols for the experiment:
+\begin{enumerate}
+        \item The Observer was positioned on the side wall of the building shown in the layout in Figures \ref{fig:meth/layout} and \ref{fig:meth/satellite_exp}. 
+        \item The Observer comprised of \gls{rpi} with power bank and \gls{rtc} in an enclosure.
+        \item The pipe straps were removed from the enclosure.
+        \item Volunteer pedestrians were provided with a Broadcaster each.
+        \item One of the volunteer pedestrians was provided with an Android phone with a GPSLogger activated to capture ground truth data.
+        \item The volunteer pedestrians were instructed to walk together alongside each other upon a vocal cue from the researcher and pause at one of the three key points, \textit{approach}, \textit{centre}, or \textit{end}, depending on the location under scrutiny. 
+        \item The researcher executed the  \textit{main script} and \textit{MEAN} app just before providing a vocal cue to the volunteers.
+        \item When the pedestrians stopped at the point of focus on the pathway, the researcher started the stopwatch. Upon pausing for 20 $seconds$ at the location of interest, the researcher provided another vocal instruction to the pedestrians to resume walking.
+        \item The volunteers were instructed to stop at the end of the pathway and the scripts were stopped by the researcher.
+        \item Once three bouts were measured for one specific location, the volunteers were asked to pause at the next locations for the next three repetitions and so forth.
+        \item The same protocol was used to measure both \gls{los} and \gls{nlos} cases.
+    \end{enumerate}
+
+The results of these experiments will be presented in Section \ref{subsec:res/interaction} in Chapter \ref{ch:res}.
+
+\subsubsection{Asserting the Direction of Travel} \label{subsec:meth/direction}
+
+The direction of travel is yet another important movement characteristic. Knowledge of the direction of travel can potentially reveal the entry and exit choices of the pedestrian. Such information is useful not only for assessing preferred routes but also in characterising the nature of walks with the help of some contextual information. For instance, if it is known through, for example, the help of maps that one of the exits of a pathway leads to a commercial area, the direction and the time of a walk can help to characterise the walk to be likely as a leisurely walk for shopping purposes.
+\\
+
+The experiment was conducted in the same open ground where all the other experiments were conducted. This is presented in Figures \ref{fig:meth/layout} and \ref{fig:meth/satellite_exp}. Two paths were defined for this experiment, first, 3 $metres$ away from the deployed Observer and second, 5 $metres$ away from the deployed Observer. Five key points, \textit{start} to \textit{end}, as discussed previously in the Section \ref{sec:meth/location} in this chapter were marked on both the pathways. Findings from \ref{subsec:meth/antenna} were employed in this experiment. The topology of the experiment was depicted in Figure \ref{fig:meth/location2}.\\
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=\textwidth]{Figures/Ch3/exp_loc (2).jpg}}
+	\caption{Topology for the Experiment}
+	\label{fig:meth/location2}
+\end{figure}
+
+A volunteer pedestrian was instructed to walk along the linear path with a Broadcaster and a phone with the preinstalled \textit{Blue Dot} application to establish ground truth locations as they pass over the selected marked points on the path. The volunteer pedestrian was instructed to press the button, as presented in Figure \ref{fig:meth/bluedot} in Section \ref{subsec:bluedot} in this chapter, once on the Blue Dot application while crossing each of those key points. The pedestrian traversed the path in both directions on the pathway, that is from \textit{Start} to \textit{End} and from \textit{End} to \textit{Start}. This sequence of actions was performed by the pedestrian at both pathways, 3 $metres$ and 5 $metres$ away from the deployed Observer. This experiment was repeated for two cases, first, when the Broadcaster is in \gls{los} of the Observer, and second, when the Broadcaster is in \gls{nlos} of the Observer. A total of 24 individual runs were captured for this experiment. This approach differed from earlier work in the literature to detect the direction of travel of pedestrians, studied by AlAnbouri in \citep{Alanbouri2019}. In AlAnbouri's work, two Observers were used and were strategically deployed to impede advertisements emerging from Broadcasters behind them. In contrast, the work carried out in this experiment utilised a single Observer, leveraging its antenna characteristics instead of strategic placement.
+
+The structure of the experiment is described below:\\
+
+\begin{itemize}
+    \item 3 $metres$ deployment distance
+        \begin{itemize}
+            \item \gls{los} case
+                \begin{itemize}
+                    \item \textit{Start} point to \textit{end} point scenario
+                        \begin{itemize}
+                            \item Repetition 1
+                            \item Repetition 2
+                            \item Repetition 3
+                        \end{itemize}
+                    \item \textit{End} point to \textit{start} point scenario
+                        \begin{itemize}
+                            \item Repetition 1
+                            \item Repetition 2
+                            \item Repetition 3
+                        \end{itemize}
+                \end{itemize}                
+            \item \gls{nlos} case
+                \begin{itemize}
+                    \item \textit{Start} point to \textit{end} point scenario
+                        \begin{itemize}
+                            \item Repetition 1
+                            \item Repetition 2
+                            \item Repetition 3
+                        \end{itemize}
+                    \item \textit{End} point to \textit{start} point scenario
+                        \begin{itemize}
+                            \item Repetition 1
+                            \item Repetition 2
+                            \item Repetition 3
+                        \end{itemize}
+                \end{itemize}
+        \end{itemize}
+    \item 5 $metres$ deployment distance
+        \begin{itemize}
+            \item \gls{los} case
+                \begin{itemize}
+                    \item \textit{Start} point to \textit{end} point scenario
+                        \begin{itemize}
+                            \item Repetition 1
+                            \item Repetition 2
+                            \item Repetition 3
+                        \end{itemize}
+                    \item \textit{End} point to \textit{start} point scenario
+                        \begin{itemize}
+                            \item Repetition 1
+                            \item Repetition 2
+                            \item Repetition 3
+                        \end{itemize}
+                \end{itemize}                
+            \item \gls{nlos} case
+                \begin{itemize}
+                    \item \textit{Start} point to \textit{end} point scenario
+                        \begin{itemize}
+                            \item Repetition 1
+                            \item Repetition 2
+                            \item Repetition 3
+                        \end{itemize}
+                    \item \textit{End} point to \textit{start} point scenario
+                        \begin{itemize}
+                            \item Repetition 1
+                            \item Repetition 2
+                            \item Repetition 3
+                        \end{itemize}
+                \end{itemize}
+        \end{itemize}
+\end{itemize}
+
+The following was the inventory for this experiment:
+\begin{enumerate}
+    \item Observer
+    \begin{enumerate}
+        \item \gls{rpi} based device running \textit{main script} which stores the data in InfluxDB.
+        \item The device was also running MEAN stack dashboard for live monitoring.
+        \item Battery pack and \gls{rtc} connected to the \gls{rpi}.
+    \end{enumerate}
+    \item Broadcaster
+    \begin{enumerate}
+        \item One RuuviTag beacon, advertising once every $500$ $ms$.
+    \end{enumerate}
+    \item Ground Truth
+    \begin{enumerate}
+        \item Android phone running the BlueDot application.
+    \end{enumerate}
+\end{enumerate}
+
+
+The following were the protocols for the experiment:
+\begin{enumerate}
+        \item The Observer was positioned on the side wall of the building shown in the layout in Figures \ref{fig:meth/layout} and \ref{fig:meth/satellite_exp}. 
+        \item The Observer comprised of \gls{rpi} with power bank and \gls{rtc} in an enclosure.
+        \item The pipe straps were removed from the enclosure.
+        \item Two pathways were marked 3 $meters$ and 5 $meters$ away from the deployed Observer. 
+        \item The volunteer pedestrian was provided with a Broadcaster and an Android phone with the BlueDot application preinstalled to capture ground truth data.
+        \item The volunteer pedestrian was instructed to walk after receiving vocal cues from the researcher from one of the ends of the pathway to the other end of the pathway. 
+        \item The volunteer pedestrian was also instructed to press the button on the Blue Dot application while they were crossing over each of those key points.
+        \item The researcher initiated the \textit{main script} and \textit{MEAN} app just before providing a vocal cue to the volunteer.
+        \item After three repetitions, the next case and point of start of the walk were selected as per the aforementioned structure of the experiment.
+\end{enumerate}
+
+The results of these experiments will be presented in Section \ref{sec:res/direction} in Chapter \ref{ch:res}.
+
+\subsubsection{Analysing the Behaviour of Pedestrians in a University Campus for an Extended Period} \label{subsec:meth/gg}
+
+The data collection for this experiment was conducted by another researcher in our research group. I contributed to the data analysis and writing a paper for the work. \gls{ble} beacons were provided to 28 participants and the \gls{rss} values were collected at 17 different locations in the Grangegorman campus at \gls{tud}. Of the 28 volunteers who activated their Broadcaster devices, 21 of them were local residents, 3 were \gls{tud} postgraduate researchers, one was a \gls{tud} undergraduate student and three were \gls{tud} staff members. There were 15 males and 13 females among the volunteers. One volunteer was in the 18-24 age group, 8 were in the 25-34 age group, 14 were in the 35-44 age group, 4 were from 45-54 age group and one was in the age group 55-64. Over the study period, 126,130 \gls{ble} advertisements were collected by the 17 Observers from the Broadcasters carried by the participating volunteers. The \gls{mac} addresses of the devices were hash encoded and the \gls{rssi} data was accompanied by a record of their intentions. 
+\\
+
+Two types of Observers were employed in this part of the study, a Raspberry Pi 3-based indoor Observer, and an ESP32-based outdoor Observer. This second Observer was selected due to the high power requirements of the Raspberry Pi 3-based Observer which could not be used for more than a few hours on portable power banks. The outdoor Observer employed ESP32 with a real-time clock and SD card breakout attached, housed in weatherproof enclosures, Figures \ref{fig:ef} and \ref{fig:eb}, which could be magnetically attached 3-4 $metres$ high on a metallic pole using a purpose-built hook and form mechanism, Figure \ref{fig:d}. The ESP32s were each powered by an off-the-shelf 10000 $mAH$ power bank as shown in Figure \ref{fig:power}. In normal operation, preliminary experiments showed that a power bank was able to continuously power an ESP32-based Observer for over 48 $hours$. For this reason, depleted power banks were swapped with fully charged power banks every two days by the researchers. At the same time, the data recorded on their SD cards was also downloaded to a database on a laptop for analysis.
+\\
+
+Since the indoor Observer was based on the Raspberry Pi, which featured a complete operating system, the data was stored locally on a MySQL database, whereas, on the ESP32-based outdoor Observer, data was written to an SD card in a CSV file format. The full-fledged operating system on the Raspberry Pi allowed it to be easily configured via remote connection through single-glazed windows using a phone hotspot, which meant that its database can be checked from outside the window without needing to enter the room.
+\\
+
+The deployment of the Observer in the campus is depicted in Figure \ref{fig:dep} where the yellow coloured rectangles signify the sub-experiments is in the control of TU Dublin Estates, green rectangles are controlled by either local residents or businesses, and red rectangles are controlled by  Dublin City Council.\\
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=70mm, scale=0.25]{Figures/Ch3/Figure D - attaching enclosure to a lamppost using the fork. (1).png}}
+\caption{Attaching the Enclosure to a Pole.}
+\label{fig:d}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Figures/Ch3/map (1).jpg}
+    \caption{Deployment of Devices for the Study}
+    \label{fig:dep}
+\end{figure}
+
+One key intended output of the research is to show that by grouping the \gls{rssi} record for a particular shared hash encoded alias across the data set, it is possible to generate an aggregated record of the activity of the pedestrians. The results obtained from these experiments are discussed in Section \ref{sec:res/gg} in Chapter \ref{ch:res}.
+
+\subsubsection{Section Summary}
+The experiments presented in this section were aimed at testing a range of pedestrian dynamics. One of the important aspect of walking is \textit{staying} or pausing, as identified in the literature, described in Section \ref{subsec:lit/act_move_behave} in Chapter \ref{ch:lit}. Thus, the experiment presented in Section \ref{subsec:meth/pause} was focused on identification of pause, a movement dynamic, in the movement of a pedestrian. There could be many reasons for pausing during a leisurely walk or a commute, one of them being to engage with other pedestrians. The next experiment, as presented in Section \ref{subsec:meth/interaction}, was therefore aimed at assessing if \gls{ble} could be used to identify pauses in two Broadcasters simultaneously and subsequently, inferred as an interaction between the two pedestrians. This can be attributed to bot, movement dynamic and an activity.
+\\
+
+The next experiment was focused on the identification of a pedestrian's travel direction using a single Observer. The knowledge of a pedestrian's travel direction can provide valuable insight, especially if combined with contextual information such as time of walk and the location of experiment. For instance, if the location of the experiment is known to be a commercial region and a walk is carried out during office hours, leading in to the commercial zone, there is a strong likelihood that the walk is a purposeful commute to the office could be asserted. The outcome of this experiment was therefore, aimed to assess both movement dynamic and activity.
+\\
+
+Finally, an extended study of monitoring the behaviour of pedestrians in a campus was conducted by a research colleague, in which, my contribution towards data analytics was important in assessing the capabilities of \gls{ble} for understanding macro-level pedestrian movement dynamics, pedestrian activities, and pedestrian behaviour.
+
+% new content
+\section{Methodological Elements of Data Analysis} \label{sec:meth/analysis}
+
+In this section, the general approach taken for data analysis is discussed. The approach includes an overview of the selected statistical tools and techniques applied to the measurements obtained from experiments mentioned in previous sections and the rationale behind their selection.
+\\
+
+\subsection{Median} \label{subsec:meth/analysis/median}
+
+Since all of the experiments presented in this dissertation collect a series of \gls{rss} measurements, there is a need for a statistical tool to evaluate a single empirical representation or description is required for the set of measurements. A \textit{mean} or \textit{average} value is one of the methods for calculating a single value that can represent the trend of measurements, however, this value is susceptible to anomalous measurements. For instance, if five measurements belong in a set with an anomalous measurement, viz. -10, -12, -15, -13, and -82, the average or mean value will be -26.4. This average reading is pulled away from the general trend of the measurement set only because of one anomalous measurement. The median value, however, for the same set is -13. Therefore, \textit{median} shows greater resilience in comparison to \textit{average} towards anomalous measurements. Since, \gls{rssi} is susceptible to factors such as the topology of the surrounding environment, weather, etc, as presented in Section \ref{sec:lit/ble/signal}, there is an increased likelihood of capturing an anomalous measurement in the data collection process. In addition to its resilience towards anomalous measurements, the function to calculate median value is a standard part of several programming languages and libraries, and its calculation is not computationally expensive. Therefore, it is selected for calculating empirical description or representation of a collected set of measurements.
+\\
+
+In the experiments, multiple rounds of the same scenarios are repeated to ensure that the measurements are representative. This repetition helps mitigate the influence of any external factor that could cause the measurements to be unrepresentative if only collected once. Medians of each of those rounds belonging to a single scenario are taken, but it means that there is a representing value for each of those rounds and not for the overall scenario. Therefore, averaging of those medians is then performed to evaluate a representative value of the scenario. Since the calculation of the median for each repetition has already reduced the effect of the presence of any anomalous readings, the average of medians will also remain uninfluenced by any anomalous value.
+
+
+\subsection{\acrfull{sma}} \label{subsec:meth/analysis/sma}
+
+Evaluation of both \gls{ble} technology and its capabilities are obtained from assessment of \gls{rssi} measurements. These measurements are susceptible to several factors in the outdoor environment, such as weather conditions and the presence of other infrastructure elements,as discussed in Section \ref{sec:lit/ble} in Chapter \ref{ch:lit}. These factors affect the obtained \gls{rssi} measurements, which have the potential to cause fluctuations in those measurements. One of the approaches to counter these effects is to smooth the obtained signals, and \gls{sma} is one of the statistical techniques that are employed for smoothing the data \citep{Koledoye2018}. As mentioned in Section \ref{sec:lit/ble_meth} in Chapter \ref{ch:lit}, Koledoye et al. in \citep{Koledoye2018} compared a variety of statistical techniques from smoothing the measurements taken from \gls{ble} devices and identified \gls{sma} as a reliable technique. \gls{sma} is calculated by creating subsets of the measurements of length determined by the window size and averaging each subset. The calculated value then replaces the latest acquired measurement. The equation used to calculate \gls{sma} is presented in Equation \ref{eq:meth/sma}.
+
+\begin{equation}
+    \label{eq:meth/sma}
+    sma_{rssi}(i) = \begin{cases}
+    \frac{1}{i} \sum_{j=0}^{i} rssi_{j}, & \text{$1 \leq i < k$}, \\
+    \frac{1}{k} \sum_{j=i-k+1}^{i} rssi_{j} & \text{$i \geq k$},\\
+    \end{cases}
+    \myequations{\gls{sma}}
+\end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ k is window size, }}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ j is iterator or the current value, and}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ rssi is the set of \gls{rssi} measurements.}}$
+\\
+
+This \gls{sma} is a \gls{fir} \citep{shenoi2006introduction} filter, meaning that it does not use a feedback loop with the output signal. The \glspl{fir filter} output is only based on the current and past input values which means that the filter's output only responds to a certain fixed number of samples. In the Equation \ref{eq:meth/sma}, it means that the filter response will stop after $k$ samples. This is opposed to the \gls{iir} filters in which the output of the filter depends on both current and past inputs as well as past outputs, causing the filter to continue responding to an input signal indefinitely.  Since the \gls{fir}s have no feedback loop, they are more stable and do not require the same care in handling as \glspl{iir filter}.
+\\
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+    \begin{tcolorbox}[
+        colframe=Teal, % Border color
+        colback=MintCream, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{Normalised Frequency}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=MidnightGreen, colframe=Teal, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{
+            Normalised frequency is used to express frequency relative to the sampling rate of the signal. The expression to calculate normalised frequency is shown in Equation \ref{eq:meth/normalised_frequency}. It is a unitless representation and in the context of this dissertation, allows consistent comparison across varying window size.
+            \begin{equation}
+    \label{eq:meth/normalised_frequency}
+        f_n \approx \frac{f}{f_s}
+        \myequations{Normalised Frequency}
+\end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $f$ is actual frequency of the sample, and}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $f_s$ is \gls{sampling frequency} of the signal}}$\\
+
+        }
+    \end{tcolorbox}    
+\end{wrapfigure}
+
+\gls{sma} demonstrates characteristics of a \gls{lowpass filter}, which means it allows the low frequencies to pass through without attenuation while attenuating the high-frequency components of any signal. To visually illustrates this, the frequency response of \gls{sma} with window sizes of 6, 8, 10, 12, and 14 are presented in Figure \ref{fig:meth/analysis/freq_resp}. In the figure, the main lobe at around 0 frequency on the x-axis has a magnitude approaching 1 on the y-axis, indicating that the low-frequency components can pass through. The \Gls{cutoff frequency}, the boundary between \gls{passband} and \gls{stopband}, is determined by the expression presented in Equation \ref{eq:meth/cutoff}. For instance, the cutoff frequency, $f_c$, for window size 10 is approximately 0.1 cycles/sample. This signifies that frequencies below 0.1 cycles per sample are allowed to pass through the \gls{sma} filter with minimal attenuation, while other frequencies are attenuated. Whereas, the ripple-like \gls{side lobes} indicate partial attenuation of high frequencies. The time-domain equivalent, to evaluate the attenuation in $dB$ can be elucidated using an example. With a sampling frequency, $f_s$, of $2$ $Hz$ and a window size ($k$) of 10, the cutoff frequency, $f_c$, is approximately 0.1 cycles/sample. The time domain equivalent cutoff frequency can be computed by using the expression in Equation \ref{eq:meth/cutoff_hz}, which gives us the value $0.$2 $Hz$. Magnitude response ($|H_f|$), illustrated on the y-axis of Figure \ref{fig:meth/analysis/freq_resp}, is then required to evaluate the attenuation in the time domain for any particular frequency. Assuming the attenuation of 0.4 normalised frequency is to be evaluated, the magnitude response for the selected frequency is approximately 0.027. The attenuation can then be calculated using the expression in Equation \ref{eq:meth/attenuation}, which computes to $-31.36$ $dB$.
+\\
+
+\begin{equation}
+    \label{eq:meth/cutoff}
+        f_c \approx \frac{1}{k}
+        \myequations{Cutoff Frequency}
+\end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $f_c$ is cutoff frequency, and}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ k is window size}}$\\
+
+\begin{equation}
+    \label{eq:meth/cutoff_hz}
+        f_c (Hz) = f_c \times f_s
+        \myequations{Cutoff Frequency in $Hz$}
+\end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $f_c$ is cutoff frequency, and}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $f_s$ is sampling frequency of the signal}}$\\
+
+\begin{equation}
+    \label{eq:meth/attenuation}
+        Attenuation (dB) = 20 \log_{10} (|H_f|)
+        \myequations{Attenuation in Signals in $dB$}
+\end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $f_c$ is cutoff frequency, and}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $f_s$ is sampling frequency of the signal}}$\\
+\\
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Figures/Ch3/analysis/Frequency Response of Filter.png}
+    \caption{Frequency Response of \gls{sma} Filter for Varying Window Sizes}
+    \label{fig:meth/analysis/freq_resp}
+\end{figure}
+
+The farther away from the main lobe, the greater the attenuation. Note that in Figure \ref{fig:meth/analysis/freq_resp}, the frequency response is presented over both positive and negative frequencies (from $-0.5$ to $+0.5$ normalised frequency units), therefore, the greater attenuation is at higher frequencies only. At certain points the frequency response dips down to zero magnitude, corresponding to the complete attenuation of those frequency components. This can be understood using the expression in Equation \ref{eq:meth/attenuation}, where zero magnitude in place of $|H_f|$ will result in $-\infty$ $dB$ in attenuation, indicating complete attenuation of the signal. As presented in the figure, the width of the main lobe is inversely proportional to the window size. This implies that the efficacy of a low-pass (\gls{fir}) filter increases with the increase in window size, that is more attenuation of higher frequencies albeit at higher computational cost. 
+\\
+
+The frequency response of raw \gls{rss} measurements and that of \gls{sma} (with varying window sizes) filtered sample raw \gls{rss} measurements are presented in Figure \ref{fig:meth/analysis/freq_resp_rssi}. It can be identified that high frequencies of the sample \gls{rssi} are attenuated when they are subjected to \gls{sma}. It can be seen that a larger window size results in greater attenuation of higher frequencies. While this is favourable as it provides more smoothing, the larger window size also has the potential to reduce details in the actual \gls{rssi} measurement. This is depicted in Figure \ref{fig:meth/analysis/rss_smarss}, where raw \gls{rssi} and \gls{sma}-filtered \gls{rss} evaluated with varying window-sizes are plotted against sample index. It can be observed in the figure that a larger window size for \gls{sma} resulted in a smoother representation of raw \gls{rss}. A window size of 10 is selected for all the experiments presented in this dissertation to balance the smoothness and details of the measurements. The window size of 10 samples was deliberately chosen to ensure the noise was significantly curtailed with the awareness that it would also reduce temporal sensitivity. This will be discussed further in ~Section \ref{sec:disc/supporting_tech} in Chapter \ref{ch:disc}. For the first nine measurements in any given experiment, the averaging is performed over the available measurements, for instance, on the fifth measurement, only the first five measurements are averaged. Note that in real-world deployment this will work differently, as a pedestrian approaching the range of measurement of the Observer will result in \gls{rssi} in the ranges of $-100\text{ }dB$. Once the number of collected measurements reaches beyond ten, the most recent measurement and the last nine measurements are used to calculate \gls{sma}. 
+\\
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Figures/Ch3/analysis/sma_frequency_responses_maximized.png}
+    \caption{Frequency Response of \gls{sma} Filter and Cut-off Frequency on Sample \gls{rssi} for Varying Window Sizes}
+    \label{fig:meth/analysis/freq_resp_rssi}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Figures/Ch3/analysis/RSSI and SMA RSSI.png}
+    \caption{Raw \gls{rss} Measurements and Subjected to \gls{sma} (with Varying Window Size) Filtered \gls{rss}}
+    \label{fig:meth/analysis/rss_smarss}
+\end{figure}
+
+
+\gls{sma} of the \gls{rssi} is calculated by the \textit{main python script} at the time of acquisition of the \gls{rssi} measurement and is stored in the database along with the raw \gls{rssi}, timestamp, and \gls{uuid}.
+
+
+\subsection{\acrfull{sd} and Variance}
+
+Both of these statistical tools, \gls{sd} and Variance are employed to measure dispersion. That is the spread in the values collected in a measurement set. \gls{sd} is a key descriptive value for a measurement set and since it uses the same units as the units of a sample, it is comparatively intuitive. Whereas, Variance is typically used in intermediate steps of complex calculations such as \gls{anova}. Variance is less intuitive in comparison as it uses squared units. The equations for \gls{sd} and Variance are given in Equation \ref{eq:meth/sd} and \ref{eq:meth/var} respectively.
+
+\begin{equation}
+\label{eq:meth/sd}
+\sigma^2 = \frac{1}{N} \sum_{i=1}^N (x_i - \mu)^2
+\myequations{Standard Deviation}
+\end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $\sigma^2$ is the population variance,}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $N$ is the number of data points in the population,}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $x_i$ represents each data point, and}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $\mu$ is the mean of the population}}$\\
+\\\\
+\begin{equation}
+\label{eq:meth/var}
+s^2 = \frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})^2
+\myequations{Variance}
+\end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $s^2$ is the sample variance,}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $n$ is the number of data points in the sample,}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $x_i$ represents each data point, and}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $\bar{x}$ is the mean of the sample}}$\\
+
+
+\subsection{Sliding Window \acrfull{sd}}\label{subsec:meth/analysis/swsd}
+
+Sliding window \gls{sd} is the application of \gls{sd} on a subset of measurements within a set of measurements, where the window that encompasses the subset slides over the entire measurement set. It is similar to the \gls{sma} technique discussed in subsection \ref{subsec:meth/analysis/sma}, only that \gls{sd} is computed instead of computing average. This value is computed using the formula depicted in Equation \ref{eq:meth/swsd}.
+
+\begin{equation}
+    \sigma_k = \sqrt{\frac{1}{w} \sum_{i=k}^{k+w-1} \left(x_i - \frac{1}{w} \sum_{j=k}^{k+w-1} x_j\right)^2}
+\label{eq:meth/swsd}
+\myequations{Sliding Window Standard Deviation}
+\end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ \(\sigma_k\) is the standard deviation of the \(k\)-th window,}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ \(k\) is the starting index of the current window,}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ \(w\) is the window size,}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ \(x_i\) represents each data point within the window, and}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ \(\frac{1}{w} \sum_{j=k}^{k+w-1} x_j\) is the mean of the \(k\)-th window}}$\\
+\\
+
+The rationale behind the selection of a sliding window \gls{sd} is to perform a localised analysis of dispersion. Such an analysis is important in the assessment of dispersion or fluctuation in sections of an entire measurement set. This technique is also useful in detecting sudden changes or anomalies in the values contained within an entire measurement set since those sudden changes would introduce a spike in the standard deviation.
+\\
+
+In the context of this dissertation, the measurements are timestamped \gls{rss} values. Therefore, the sliding window could be applied to such a measurement in two ways. First, \textit{time-based window}, and second, \textit{sample sequence-based window}. The time-based window is easier to understand, where, if a five-second window is chosen, all the measurements within the first five seconds are used, which is then shifted by one second and so forth. In the sample sequence-based window, if a five-sample size window is selected, the first five measurements are utilised in the computation regardless of how many seconds duration that corresponds to, and then the window is shifted by one measurement and so forth. While both have their use cases, in the context of the research described in this dissertation, a time-based sliding window is more applicable. To understand this, let's consider an example. Say, a pedestrian carrying a \gls{ble} device is being observed and the observed \gls{rssi} are irregularly distributed in time -- due to reasons such as artefact in the environment impeding the signal travel -- a sample sequence-based window may result in fewer subsets of measurements. This has the potential to hamper the use of data to infer any pedestrian activity or movement dynamics at a fine granularity. However, a time-based window will operate with however many samples available in a time-defined subset. While this may have the negative consequence of resulting in variable-sized subsets, for this study achieving finer granularity is more important. This is because a continuous walk may only last for a few seconds to a minute from a \gls{ble} Observer's point of view. The difference between the two windowing techniques is visually presented in the Section \ref{res/pause} in Chapter \ref{ch:res}. It is noteworthy that the timestamps are obtained at the top of the \gls{ble} stack, which mean that the timestamps are not representative of the arrival of the signal at the hardware level, and may be affected by any delay in the stack caused by the operating system of the Observer.
+
+
+\subsection{\acrfull{mad}}\label{subsec:meth/analysis/mad}
+
+It has already been discussed in Section \ref{sec:lit/ble} in Chapter \ref{ch:lit} that the \gls{rssi} of \gls{ble}, due to its susceptibility to external factors, fluctuates. Even if  several measurements of \gls{rssi} are taken with the Observer and Broadcasters stationary, the value of collected \gls{rssi} will fluctuate within a range of values. This will be clarified in section \ref{subsec:res/antenna}, where the \gls{rssi} measurements collected for stationary devices in an anechoic chamber, devoid of any external electromagnetic interference, also showcase, however small, \gls{rssi} values bound within a range. \gls{sd} and Variance are good descriptive measures of this dispersion, however, another tool is required that specifically measures the deviation of extreme values with respect to a central value and is robust against these outliers. Since \gls{sd} and Variance use average or mean to quantify the spread, these techniques are susceptible to the effects of the outliers.
+\\
+
+\gls{mad} is a robust standard statistical technique to quantify dispersion in any measurements, and a resilient solution to outliers \citep{Wilcox2021}. Since it uses median instead of mean, \gls{mad} offers lesser sensitivity to outliers or extreme values. Equation \ref{eq:meth/mad} describes the formula to evaluate the \gls{mad}.
+
+\begin{equation}
+    \text{MAD} = \text{median}(|x_i - \text{median}(x)|)
+    \label{eq:meth/mad}
+    \myequations{Median Absolute Deviation}
+\end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ \(x_i\) represents each data point within the data set,}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ median(rssi) is the median value of x,}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $|x_i - \text{median}(x)|$ is the absolute deviation of each data point from the median}}$\\
+
+
+\subsection{\acrfull{mda} (Positive and Negative Errors)} \label{subsec:meth/analysis/mda}
+
+\gls{mda} is a non-standard statistical tool specifically developed for this purpose. While I did not find the use of \gls{mda} or a similar technique in the literature, the simple nature of the formulae for \gls{mda} could mean that such a technique may have been used previously under a different name. \gls{mda} is employed to calculate the dispersion of values across the median value in a set of measurements. The following are features of \gls{mda},
+
+\begin{itemize}
+    \item Central tendency: \gls{mda} uses median as the central value which makes it more robust, as compared to the use of mean, against outliers.
+    \item Sensitivity towards extremes: As opposed to \gls{sd} and Variance, which considers all data points in the measurement, the \gls{mda} uses only the \textit{maximum}, \textit{median}, and \textit{minimum} values of a measurement set.
+    \item Asymmetry in data distribution: \gls{mda} directly measures the difference between the extreme values from the median value.
+\end{itemize}
+
+In the context of \gls{ble} \gls{rssi}, \gls{mda} calculates the deviation of the maximum and minimum values from the median, focusing only on the extremes. In contrast, \gls{mad}, uses all measurements in the data to determine the overall deviation from the median value. The deviation of maximum values from the median indicates the presence of occasional strong signals, whereas the deviation of minimum values from the median value indicates the presence of occasional weak signals. This helps in the assessment of the consistency of the received signals, or \gls{rssi}. As will be presented in Section \ref{subsec:res/antenna} of Chapter \ref{ch:res}, the outcome of \gls{mda} on the data acquired in an anechoic chamber results in smaller error bars, thereby, suggesting the consistency of received signal which can also be linked to the measure of electromagnetic noise and other influential factors in the environment affecting the use of this technology.
+\\
+
+\gls{mda} is calculated using the equation presented in Equation \ref{eq:meth/mda}. The equation results in two values, $Error_{positive}$ and $Error_{negative}$, which can then be graphed along with \textit{median} value.
+
+\begin{gather}
+    \nonumber Error_{positive} = max(rssi) - median(rssi)\\
+    Error_{negative} = median(rssi) - min(rssi)
+    \label{eq:meth/mda}
+\end{gather}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $rssi$ is the set of measured \gls{rssi},}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ max(rssi) is the maximum value in rssi,}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ min(rssi) is the minimum value in rssi, and}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ median(rssi) is the median value of rssi}}$\\
+
+
+\subsection{/\acrfull{anova} and Tukey's \acrfull{hsd}} \label{subsec:meth/analysis/anova}
+
+\begin{wrapfigure}{l}{0.45\textwidth}
+    \begin{tcolorbox}[
+        colframe=Teal, % Border color
+        colback=MintCream, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{Null Hypothesis, Type I and II Errors}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=MidnightGreen, colframe=Teal, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{
+            \textit{Null Hypothesis} is the assumption that all group means are equal, that is, absence of any statistically significant difference in the data groups.\\\\
+            \textit{Type I Error}: The probability of rejecting the null hypothesis when it is true, that is, false positive.\\\\
+            \textit{Type II Error}: The probability of failing to reject the null hypothesis when it is false, that is false negative.
+        }
+    \end{tcolorbox}    
+\end{wrapfigure}
+
+To detect the presence of any statistically significant differences in the measurements, the \Gls{anova} technique is applied to the measurements. Statistically significant differences mean that the differences in the means or averages of multiple groups -- reflecting that the groups compared are not the same -- are unlikely to have occurred by random chance but are present due to true differences in the performance of the groups. With \gls{anova} however, only the presence or absence of significant differences between group means can be identified. Hence, to understand which specific groups are different, post-hoc comparisons are required. Tukey's \Gls{hsd} test is one of those post-hoc analysis tools. Tukey's \gls{hsd} identifies specific groups that are significantly different from each other. One of the outcomes of Tukey's is $p$-value, which is the probability of obtaining the measurements by random chance assuming the null hypothesis is true. This $p$-value is subjected to hypothesis testing where it is compared against a user-defined significance level, called $\alpha$. For all the experiments presented in this dissertation where \gls{anova} and Tukey's \gls{hsd} techniques are applied, the value of $\alpha$ is chosen as $0.05$. While no reliable source for this value is found, many articles state that this value is believed to offer moderate stringency and a balance between \textit{Type I} and \textit{Type II} errors, while, it could also be due to Fisher's influence \citep{Hackshaw2024, geraghty_tukey_hsd, realstatistics_tukey_hsd}. Finally, \gls{ci} provides a range of values, derived from the sample measurements, within which, population parameters such as means or difference of means are likely to be present with a certain level of confidence, commonly 95\% \citep{winer1991statistical}.
+\\
+
+The outcome computed through \gls{anova} can be visually supported using a box plot that demonstrates the median, first and third quartile, range of the measurement, and 95\% confidence interval. This will be shown in the Section \ref{sec:res/deployment_distance} in Chapter \ref{ch:res}. Both \gls{anova} and Tukey's \gls{hsd} are standard statistical tools and are part of many standard libraries.
+
+
+\subsection{\acrfull{dar} and \acrfull{dap}}
+
+Another technique used for analysing the measurements acquired in some of the experiments in this dissertation is the measure of \gls{dropped advertisements}. This is akin to \textit{packet loss ratio} presented by Peng et al. in \citep{Peng2013}. In Section \ref{sec:lit/ble} in Chapter \ref{ch:lit}, it is already discussed that \gls{ble}device emit signals containing basic information regularly. It has also been discussed in Section \ref{subsec:meth/data_collection_protocol} in this chapter that the experiments presented in this dissertation rely on the acquisition of these signals, called advertisements, to measure the activity and movement-related trends of pedestrians. Not all of these advertisements however are captured by the Observer. Some Advertisements are lost in a collision or are lost to delay in the software stack of the Observer, as discussed in Section \ref{sec:lit/ble} in Chapter \ref{ch:lit}. Therefore, the advertisements that are not captured by the Observer are dropped advertisements.
+\\
+
+The count of dropped advertisements can be calculated in two ways. First, by maintaining a record of Advertisements emitted by the Broadcaster on the Broadcaster itself, which however, may not be possible in off-the-shelf Broadcasters like \gls{ble} beacons. Second, which is applicable to those off-the-shelf \gls{ble} beacons, by extrapolating the total count of advertisements emitted by the Broadcaster. This is achieved by checking the datasheet of the off-the-shelf Broadcaster to identify the advertisement rate and using it to extrapolate that information. For instance, say a beacon has an advertisement rate of $2$ $Hz$, that means that the beacon advertises two times in a second. With this information, the advertisement count can be identified over a period of measured activity of a pedestrian. Say, the measurements from a pedestrians \gls{ble} beacon are observed by the Observer for ten seconds. Since two advertisements are emitted in one second by the Broadcaster, in a measurement period of ten seconds, twenty advertisements must have been emitted by the Broadcaster. Furthermore, since the Advertisement counts are whole numbers, if the measurement period is a fraction, a \textit{floor} operation can be applied to the calculated advertisement count to bring the count to the nearest whole number. Finally, all the observed advertisements are already measured and stored in the Observer.
+\\
+
+The calculation of \gls{dar} and \gls{dap} is expressed in Equations \ref{eq:meth/dar} and \ref{eq:meth/dap} respectively.
+\begin{equation}
+    \text{\small{DAR}} = \frac{\text{\small{(Count of Advertisements Broadcasted}} - \text{\small{Count of Advertisements Observed)}}}{\text{\small{Count of Advertisements Broadcasted}}}
+    \label{eq:meth/dar}
+    \myequations{Dropped Advertisement Rate}
+\end{equation}
+
+\begin{equation}
+    \text{\small{DAP}} = \frac{\text{\small{Count of Advertisements Broadcasted}} - \text{\small{Count of Advertisements Observed}}}{\text{\small{Count of Advertisements Broadcasted}}} \times 100
+    \label{eq:meth/dap}
+    \myequations{Dropped Advertisement Percentage}
+\end{equation}
+\\\\
+
+ 
+\subsection{Curve Fitting} \label{subsec:meth/analysis/curve}
+
+The outcome of a plot of observed \gls{rssi} during a walk of a pedestrian with respect to time highlights the fluctuations in the \gls{rssi}. As has been discussed, this is due to the sensitivity of these signals to the surrounding environment and other external influences such as weather. A relatively smooth approximation of the resulting plot can be achieved through curve fitting. This is performed by tuning a polynomial curve to follow the trend of the discrete measurements of observed \gls{rssi}. An interpolated curve can be obtained through an expression presented in Equation \ref{eq:meth/poly}. The equation requires the degree or order of polynomial to superimpose a curve over the actual measurements. Based on the spread and distribution of the measurements, a higher order polynomial may be required to closely follow the actual measurements. Therefore, to evaluate the optimal degree for the measurements obtained in the experiments presented in this dissertation, the outcome of this curve fitting is subjected to a subsequent test. \gls{sse} is calculated to evaluate the sum of the square of differences between each estimation obtained from curve fitting and the actual \gls{rssi} measurement to test how deviant predicted or estimated curve is from actual measurements. The expression to calculate \gls{sse} is presented in Equation \ref{eq:meth/sse}.
+    
+    \begin{equation}
+        \label{eq:meth/poly}
+        \hat{y}(x) = p_1x^n + p_2x^{n-1} + ... + p_nx + p_{n+1}
+        \myequations{Polynomial for Curve Interpolation}
+    \end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet \text{ } \hat{y}(x) \text{\textit{ is polynomial function of $x$, and}}$\\
+\null \hspace{0.5cm}$\bullet\text{ }x \text{\textit{ is the input \gls{rssi} to the polynomial}}$\\
+    \begin{equation}
+        \label{eq:meth/sse}
+        SSE = \sum(\hat{y}_i – y_i)^2   
+        \myequations{Sum of Squared Errors}
+    \end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet \text{ } \hat{y_i}(x) \text{\textit{ represents estimation obtained from polynomial, and}}$\\
+\null \hspace{0.5cm}$\bullet\text{ }y_i \text{\textit{ represents the original \gls{rssi}}}$\\
+
+
+\subsection{Advertisement Ratios} \label{subsec:meth/analysis/adratio}
+
+\Gls{advertisement ratio}s are used in some of the experiments where a certain percentage of all the measurements falling within any condition being tested are considered against the total number of measurements. For instance, measurements in the range of 10\% of the peak or the maximum value over the total number of measurements. If $rssi_i$ is a set of \gls{rss} values, Equation \ref{eq:meth/max} represents the peak or the maximum value in the set. Equation \ref{eq:meth/10p} expresses the identification of the \gls{rss} values that fall within the 10\% range of the maximum \gls{rss} value. Finally, the ratio is taken over the total number of advertisements received, as depicted in Equation \ref{eq:meth/ratio}.
+
+\begin{equation}
+rssi_{\text{max}} = \max \{ rssi_i \mid i = 1, 2, \ldots, n \}
+\label{eq:meth/max}
+\myequations{Maximum RSSI}
+\end{equation}
+
+\begin{equation}
+rssi_{10\%} = \{ rssi_i \mid rssi_i \geq 0.9 \cdot rssi_{\text{max}} \}
+\label{eq:meth/10p}
+\myequations{10\% of Maximum RSSI}
+\end{equation}
+
+\begin{equation}
+\text{Ratio} = \frac{|rssi_{10\%}|}{n}
+\label{eq:meth/ratio}
+\myequations{Ratio of Number of RSSI within 10\% Region of Maximum RSSI and Total RSSI Measurement Counts}
+\end{equation}
+
+\subsection{Rician Distribution} \label{subsec:meth/analysis/rician}
+
+The Rician distribution, \citep{Molisch2012}, is a probability distribution function used for describing the distribution of signals that have both \gls{los} component and several \gls{nlos} components. This probability distribution is often used in digital signal processing and is suitable for analysis for the research carried out in this dissertation due to the likelihood of reflection, diffraction, and scattering of advertisements in the outdoor environment. This investigation allows for understanding the degree of influence such phenomenon have on 2.4 $GHz$ \gls{rf} propagation in the environment, subsequently, enabling the evaluation of fluctuations in \gls{rssi} at various locations on selected pathways for conducting experiments, and aiding in the identification of a suitable pathway.
+\\
+
+The distribution is defined by its \gls{pdf} for a random variable $R$, representing the amplitude of the received signal as expressed in Equation \ref{eq:meth/rician_pdf}
+
+    \begin{equation}
+        \label{eq:meth/rician_pdf}
+            f_R(r) = \frac{r}{\sigma^2}\text{ }\exp(-\frac{r^2 + s^2}{2\sigma^2})\text{ }I_0(\frac{rs}{\sigma^2}),\quad \textrm{$r \geq 0$}
+            \myequations{Rician Probability Distribution Function}
+    \end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet \text{ } r \text{\textit{ is the magnitude of receiver signal, }}$\\
+\null \hspace{0.5cm}$\bullet \text{ } s \text{\textit{ is the amplitude of dominant \gls{los} component, }}$\\
+\null \hspace{0.5cm}$\bullet \text{ } \sigma \text{\textit{ is \gls{sd} of scattered components, and }}$\\
+\null \hspace{0.5cm}$\bullet\text{ }I_0(\cdot) \text{\textit{ is the modified Bessel function of the first kind and zero order.}}$\\
+
+The Rician Factor, $K$, signifies the ratio of power in the \gls{los} component to the power of scattered components. The greater the value of $K$, the stronger the indication of \gls{los} signal relative to the scattered signals. The expression to calculate the Rician factor, $K$ is given in Equation \ref{eq:meth/rician_factor}.
+
+    \begin{equation}
+        \label{eq:meth/rician_factor}
+            K = \frac{s}{2\sigma^2}
+            \myequations{Rician Factor}
+    \end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet \text{ } s \text{\textit{ is the amplitude of dominant \gls{los} component, and}}$\\
+\null \hspace{0.5cm}$\bullet \text{ } \sigma \text{\textit{ is \gls{sd} of scattered components.}}$\\
+
+There is a special case of Rician distribution, where, $K = 0$. In this case, the Rician distribution reduces to what is known as \textit{\gls{rayleigh distribution}}, which signifies the situation where the received signal consists purely of scattered components. The significance of other values is as follows:
+
+\begin{equation}
+    K \geq 0
+    \myequations{Dominance of Line of Sight Component in Rician Factor}
+    \end{equation}
+Dominance of \gls{los} component.\\
+    
+    \begin{equation}
+    K \approx 0
+    \myequations{Dominance of Non Line of Sight Component in Rician Factor}
+    \end{equation}
+Dominance of multipath propagation, with no or weak \gls{los} component.\\
+
+    \begin{equation}
+    K \rightarrow \infty
+    \myequations{Rician Factor Approaching Gaussian Distribution}
+\end{equation}
+Rician distribution approaching Gaussian distribution, with little to no multipath components.
