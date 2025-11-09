@@ -1,0 +1,822 @@
+%  LaTeX support: latex@mdpi.com 
+%  For support, please attach all files needed for compiling as well as the log file, and specify your operating system, LaTeX version, and LaTeX editor.
+
+
+%=================================================================
+\documentclass[journal,article,submit,pdftex,moreauthors]{Definitions/mdpi} 
+
+\usepackage[acronym, nonumberlist, nopostdot]{glossaries}[=v4.46]
+\usepackage[caption=false, font=footnotesize]{subfig}
+\usepackage{array} % Include this in your preamble for the P column
+
+%--------------------
+% Class Options:
+%--------------------
+%----------
+% journal
+%----------
+% Choose between the following MDPI journals:
+% acoustics, actuators, addictions, admsci, adolescents, aerobiology, aerospace, agriculture, agriengineering, agrochemicals, agronomy, ai, air, algorithms, allergies, alloys, analytica, analytics, anatomia, animals, antibiotics, antibodies, antioxidants, applbiosci, appliedchem, appliedmath, applmech, applmicrobiol, applnano, applsci, aquacj, architecture, arm, arthropoda, arts, asc, asi, astronomy, atmosphere, atoms, audiolres, automation, axioms, bacteria, batteries, bdcc, behavsci, beverages, biochem, bioengineering, biologics, biology, biomass, biomechanics, biomed, biomedicines, biomedinformatics, biomimetics, biomolecules, biophysica, biosensors, biotech, birds, bloods, blsf, brainsci, breath, buildings, businesses, cancers, carbon, cardiogenetics, catalysts, cells, ceramics, challenges, chemengineering, chemistry, chemosensors, chemproc, children, chips, cimb, civileng, cleantechnol, climate, clinpract, clockssleep, cmd, coasts, coatings, colloids, colorants, commodities, compounds, computation, computers, condensedmatter, conservation, constrmater, cosmetics, covid, crops, cryptography, crystals, csmf, ctn, curroncol, cyber, dairy, data, ddc, dentistry, dermato, dermatopathology, designs, devices, diabetology, diagnostics, dietetics, digital, disabilities, diseases, diversity, dna, drones, dynamics, earth, ebj, ecologies, econometrics, economies, education, ejihpe, electricity, electrochem, electronicmat, electronics, encyclopedia, endocrines, energies, eng, engproc, entomology, entropy, environments, environsciproc, epidemiologia, epigenomes, est, fermentation, fibers, fintech, fire, fishes, fluids, foods, forecasting, forensicsci, forests, foundations, fractalfract, fuels, future, futureinternet, futurepharmacol, futurephys, futuretransp, galaxies, games, gases, gastroent, gastrointestdisord, gels, genealogy, genes, geographies, geohazards, geomatics, geosciences, geotechnics, geriatrics, grasses, gucdd, hazardousmatters, healthcare, hearts, hemato, hematolrep, heritage, higheredu, highthroughput, histories, horticulturae, hospitals, humanities, humans, hydrobiology, hydrogen, hydrology, hygiene, idr, ijerph, ijfs, ijgi, ijms, ijns, ijpb, ijtm, ijtpp, ime, immuno, informatics, information, infrastructures, inorganics, insects, instruments, inventions, iot, j, jal, jcdd, jcm, jcp, jcs, jcto, jdb, jeta, jfb, jfmk, jimaging, jintelligence, jlpea, jmmp, jmp, jmse, jne, jnt, jof, joitmc, jor, journalmedia, jox, jpm, jrfm, jsan, jtaer, jvd, jzbg, kidneydial, kinasesphosphatases, knowledge, land, languages, laws, life, liquids, literature, livers, logics, logistics, lubricants, lymphatics, machines, macromol, magnetism, magnetochemistry, make, marinedrugs, materials, materproc, mathematics, mca, measurements, medicina, medicines, medsci, membranes, merits, metabolites, metals, meteorology, methane, metrology, micro, microarrays, microbiolres, micromachines, microorganisms, microplastics, minerals, mining, modelling, molbank, molecules, mps, msf, mti, muscles, nanoenergyadv, nanomanufacturing,\gdef\@continuouspages{yes}} nanomaterials, ncrna, ndt, network, neuroglia, neurolint, neurosci, nitrogen, notspecified, %%nri, nursrep, nutraceuticals, nutrients, obesities, oceans, ohbm, onco, %oncopathology, optics, oral, organics, organoids, osteology, oxygen, parasites, parasitologia, particles, pathogens, pathophysiology, pediatrrep, pharmaceuticals, pharmaceutics, pharmacoepidemiology,\gdef\@ISSN{2813-0618}\gdef\@continuous pharmacy, philosophies, photochem, photonics, phycology, physchem, physics, physiologia, plants, plasma, platforms, pollutants, polymers, polysaccharides, poultry, powders, preprints, proceedings, processes, prosthesis, proteomes, psf, psych, psychiatryint, psychoactives, publications, quantumrep, quaternary, qubs, radiation, reactions, receptors, recycling, regeneration, religions, remotesensing, reports, reprodmed, resources, rheumato, risks, robotics, ruminants, safety, sci, scipharm, sclerosis, seeds, sensors, separations, sexes, signals, sinusitis, skins, smartcities, sna, societies, socsci, software, soilsystems, solar, solids, spectroscj, sports, standards, stats, std, stresses, surfaces, surgeries, suschem, sustainability, symmetry, synbio, systems, targets, taxonomy, technologies, telecom, test, textiles, thalassrep, thermo, tomography, tourismhosp, toxics, toxins, transplantology, transportation, traumacare, traumas, tropicalmed, universe, urbansci, uro, vaccines, vehicles, venereology, vetsci, vibration, virtualworlds, viruses, vision, waste, water, wem, wevj, wind, women, world, youth, zoonoticdis 
+% For posting an early version of this manuscript as a preprint, you may use "preprints" as the journal. Changing "submit" to "accept" before posting will remove line numbers.
+
+%---------
+% article
+%---------
+% The default type of manuscript is "article", but can be replaced by: 
+% abstract, addendum, article, book, bookreview, briefreport, casereport, comment, commentary, communication, conferenceproceedings, correction, conferencereport, entry, expressionofconcern, extendedabstract, datadescriptor, editorial, essay, erratum, hypothesis, interestingimage, obituary, opinion, projectreport, reply, retraction, review, perspective, protocol, shortnote, studyprotocol, systematicreview, supfile, technicalnote, viewpoint, guidelines, registeredreport, tutorial
+% supfile = supplementary materials
+
+%----------
+% submit
+%----------
+% The class option "submit" will be changed to "accept" by the Editorial Office when the paper is accepted. This will only make changes to the frontpage (e.g., the logo of the journal will get visible), the headings, and the copyright information. Also, line numbering will be removed. Journal info and pagination for accepted papers will also be assigned by the Editorial Office.
+
+%------------------
+% moreauthors
+%------------------
+% If there is only one author the class option oneauthor should be used. Otherwise use the class option moreauthors.
+
+%---------
+% pdftex
+%---------
+% The option pdftex is for use with pdfLaTeX. Remove "pdftex" for (1) compiling with LaTeX & dvi2pdf (if eps figures are used) or for (2) compiling with XeLaTeX.
+
+%=================================================================
+% MDPI internal commands - do not modify
+\firstpage{1} 
+\makeatletter 
+\setcounter{page}{\@firstpage} 
+\makeatother
+\pubvolume{1}
+\issuenum{1}
+\articlenumber{0}
+\pubyear{2024}
+\copyrightyear{2024}
+%\externaleditor{Academic Editor: Firstname Lastname}
+\datereceived{ } 
+\daterevised{ } % Comment out if no revised date
+\dateaccepted{ } 
+\datepublished{ } 
+%\datecorrected{} % For corrected papers: "Corrected: XXX" date in the original paper.
+%\dateretracted{} % For corrected papers: "Retracted: XXX" date in the original paper.
+\hreflink{https://doi.org/} % If needed use \linebreak
+%\doinum{}
+%\pdfoutput=1 % Uncommented for upload to arXiv.org
+%\CorrStatement{yes}  % For updates
+
+
+%=================================================================
+% Add packages and commands here. The following packages are loaded in our class file: fontenc, inputenc, calc, indentfirst, fancyhdr, graphicx, epstopdf, lastpage, ifthen, float, amsmath, amssymb, lineno, setspace, enumitem, mathpazo, booktabs, titlesec, etoolbox, tabto, xcolor, colortbl, soul, multirow, microtype, tikz, totcount, changepage, attrib, upgreek, array, tabularx, pbox, ragged2e, tocloft, marginnote, marginfix, enotez, amsthm, natbib, hyperref, cleveref, scrextend, url, geometry, newfloat, caption, draftwatermark, seqsplit
+% cleveref: load \crefname definitions after \begin{document}
+
+%=================================================================
+% Please use the following mathematics environments: Theorem, Lemma, Corollary, Proposition, Characterization, Property, Problem, Example, ExamplesandDefinitions, Hypothesis, Remark, Definition, Notation, Assumption
+%% For proofs, please use the proof environment (the amsthm package is loaded by the MDPI class).
+
+%=================================================================
+% Full title of the paper (Capitalized)
+\Title{Optimal Horizontal Deployment Distance of a \gls{ble} Measurement Device for Reliable Pedestrian Measurements in Outdoor Linear Walkway}
+
+% MDPI internal command: Title for citation in the left column
+\TitleCitation{Optimal Horizontal Deployment Distance of a \gls{ble} Measurement Device for Reliable Pedestrian Measurements in Outdoor Linear Walkway}
+
+% Author Orchid ID: enter ID or remove command
+\newcommand{\orcidauthorA}{0000-0000-0000-000X} % Add \orcidA{} behind the author's name
+%\newcommand{\orcidauthorB}{0000-0000-0000-000X} % Add \orcidB{} behind the author's name
+
+% Authors, for the paper (add full first names)
+\Author{Mayank Parmar $^{1}$*\orcidA{}, Paula Kelly $^{2}$ and Damon Berry $^{3,}$}
+
+%\longauthorlist{yes}
+
+% MDPI internal command: Authors, for metadata in PDF
+\AuthorNames{Mayank Parmar, Paula Kelly and Damon Berry}
+
+% MDPI internal command: Authors, for citation in the left column
+\AuthorCitation{Parmar, M.; Kelly, P.; Berry, D.}
+% If this is a Chicago style journal: Lastname, Firstname, Firstname Lastname, and Firstname Lastname.
+
+% Affiliations / Addresses (Add [1] after \address if there is only one affiliation.)
+\address{%
+$^{1}$ \quad TPot, TU Dublin; mayank.parmar@tudublin.ie\\
+$^{2}$ \quad TPot, TU Dublin; paula.kelly@tudublin.ie\\
+$^{3}$ \quad TPot, TU Dublin; damon.berry@tudublin.ie}
+
+% Contact information of the corresponding author
+\corres{Correspondence: mayank.parmar@tudublin.ie}
+
+% Current address and/or shared authorship
+% \firstnote{Current address: Affiliation.}  % Current address should not be the same as any items in the Affiliation section.
+% \secondnote{These authors contributed equally to this work.}
+% The commands \thirdnote{} till \eighthnote{} are available for further notes
+
+%\simplesumm{} % Simple summary
+
+%\conference{} % An extended version of a conference paper
+
+\newacronym{ble}{BLE}{Bluetooth Low Energy}
+\newacronym{rssi}{RSSI}{Received Signal Strength Indicator}
+\newacronym{gps}{GPS}{Global Positioning System}
+\newacronym{gdpr}{GDPR}{General Data Protection Regulation}
+\newacronym{los}{LoS}{Line of Sight}
+\newacronym{nlos}{nLoS}{Non-Line of Sight}
+\newacronym{bt}{BT}{Bluetooth}
+\newacronym{sig}{SIG}{Special Interest Group}
+\newacronym{ss}{SS}{Small Scale}
+\newacronym{ls}{LS}{Large Scale}
+\newacronym{mpl}{MPL}{Mean Path Loss}
+\newacronym{rpi}{RPi}{Raspberry Pi}
+\newacronym{sma}{SMA}{Simple Moving Average}
+\newacronym{anova}{ANOVA}{Analysis of Variance}
+\newacronym{hsd}{HSD}{Honestly Significant Difference}
+\newacronym{ci}{CI}{confidence interval}
+\newacronym{sd}{SD}{Standard Deviation}
+
+% Abstract (Do not insert blank lines, i.e. \\) 
+\abstract{\gls{ble} is emerging as a promising technology to measure and analyse pedestrian movements. Some of the the features offered by the \gls{ble} protocol to facilitate seamless communication between devices can be repurposed as privacy preserving mechanisms to acquire the \gls{rssi} from \gls{ble} devices (Broadcasters) carried by the pedestrians. Thus, \gls{ble} is becoming a growing body of modern day research. However, optimising the use of the technology is rarely discussed. One of the parameters that impact the acquisition of \gls{rssi} is the deployment distance of \gls{ble} measurement device, an \textit{Observer}, from the pedestrian pathway. In this paper, we investigate a set of horizontal deployment distances was chosen and the distance between the Observer and a linear pathway was varied for each distance in that set. Four pathway at a distance of 3-$metre$, 5-$metre$, 7-$metre$, and 9-$metre$ were selected. Five equidistant key points on each of those pathways -- \textit{Start}, \textit{Approach}, \textit{Centre}, \textit{Depart}, and \textit{End} -- were marked. A volunteer pedestrian was directed to stay stationary at each of those five key points on all of the four pathways for three repetitions of 1-$minute$ each for two cases: first, when the Broadcaster faced towards the Observer, that is \gls{los}, and second, when the Broadcaster faced away from the Observer with the body of the volunteer between the two devices, that is \gls{nlos}. These key points were used as reference points to assess how the \gls{rssi} of the signals emanating from \gls{ble} devices varied from. In the analysis, deployment distances of 3 $metres$ and 5 $metres$ were found to produce more meaningful patterns in the resulting \gls{rssi}.}
+
+% Keywords
+\keyword{\Gls{ble}; deployment distance} 
+
+% The fields PACS, MSC, and JEL may be left empty or commented out if not applicable
+%\PACS{J0101}
+%\MSC{}
+%\JEL{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Diversity
+%\LSID{\url{http://}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Applied Sciences
+%\featuredapplication{Authors are encouraged to provide a concise description of the specific application or a potential application of the work. This section is not mandatory.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Data
+%\dataset{DOI number or link to the deposited data set if the data set is published separately. If the data set shall be published as a supplement to this paper, this field will be filled by the journal editors. In this case, please submit the data set as a supplement.}
+%\datasetlicense{License under which the data set is made available (CC0, CC-BY, CC-BY-SA, CC-BY-NC, etc.)}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Toxins
+%\keycontribution{The breakthroughs or highlights of the manuscript. Authors can write one or two sentences to describe the most important part of the paper.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Encyclopedia
+%\encyclopediadef{For entry manuscripts only: please provide a brief overview of the entry title instead of an abstract.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Advances in Respiratory Medicine and Smart Cities
+%\addhighlights{yes}
+%\renewcommand{\addhighlights}{%
+
+%\noindent This is an obligatory section in “Advances in Respiratory Medicine'' and ``Smart Cities”, whose goal is to increase the discoverability and readability of the article via search engines and other scholars. Highlights should not be a copy of the abstract, but a simple text allowing the reader to quickly and simplified find out what the article is about and what can be cited from it. Each of these parts should be devoted up to 2~bullet points.\vspace{3pt}\\
+%\textbf{What are the main findings?}
+% \begin{itemize}[labelsep=2.5mm,topsep=-3pt]
+% \item First bullet.
+% \item Second bullet.
+% \end{itemize}\vspace{3pt}
+%\textbf{What is the implication of the main finding?}
+% \begin{itemize}[labelsep=2.5mm,topsep=-3pt]
+% \item First bullet.
+% \item Second bullet.
+% \end{itemize}
+%}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \setcounter{section}{-1} %% Remove this when starting to work on the template.
+% \section{How to Use this Template}
+
+% The template details the sections that can be used in a manuscript. Note that the order and names of article sections may differ from the requirements of the journal (e.g., the positioning of the Materials and Methods section). Please check the instructions on the authors' page of the journal to verify the correct order and names. For any questions, please contact the editorial office of the journal or support@mdpi.com. For LaTeX-related questions please contact latex@mdpi.com.%\endnote{This is an endnote.} % To use endnotes, please un-comment \printendnotes below (before References). Only journal Laws uses \footnote.
+
+% % The order of the section titles is different for some journals. Please refer to the "Instructions for Authors” on the journal homepage.
+
+\section{Introduction}
+
+Understanding pedestrian movement dynamics and activities are key elements of urban and transportation planning. Several modalities have been employed to measure and understand pedestrian movement, including optical sensors such as RGB and thermal cameras, surveys and questionnaires, WiFi, and \gls{gps} systems. Optical sensors are prevalent in this regard due to accelerated advances in the technology and computational power necessary for processing large and complex information that these sensors acquire, resulting in accurate measurement. From the use of basic video cameras in the early studies \citep{Carroll2002,Lin2001,Masoud2001, Xu2005} to the use of modern vision methods and a fusion of vision sensors such as Kinect \citep{microsoft_kinect}, stereo vision, and thermal cameras \citep{Seer2014, Husman2021, Kristoffersen2016,Kunchala2023}, optical sensors have been at the forefront of measurement and analysis of pedestrian movement. However, with the increased pressure from privacy regulations such as the \gls{gdpr}, data collection using optical sensors has come under strict scrutiny. Additionally, the mechanism of data acquisition from these sensors is \textit{opportunistic}, which means that the acquisition process is not concerned with the consent of data contributors. Such systems will not discern between users who have consented from those who have not. To circumvent the issue of consent, additional manual effort is required to remove data acquired from non-consenting data contributors. Moreover, the cost of implementation of a vision-based system, both monetary and computationally, is another drawback \citep{Basalamah2016}.
+
+\gls{gps} is another widely accepted and utilised modality for understanding pedestrian dynamics \citep{Draghici2018, McArdle2014, Blanke2014, Spek2008}. \gls{gps}, being a technology inherently developed for the purposes of navigation, is suitable for measuring pedestrians. It is efficient in capturing finer granularity pedestrian movement as the modality captures regular and precise movement. It is, however, \textit{participatory} in nature, meaning that it requires consent of its data contributors for participation giving it an advantage over opportunistic based monitoring systems in terms of privacy. This aspect however, confines the usability of the technology for acquiring pedestrian data to only a particular mechanism. \gls{gps}, however has other privacy concerns due to its inherent capability of tracking pedestrian movement at a finer scale. Literature often resolves this issue through \textit{geo-fencing} approaches, where a logical boundary is set up in the system which enables the measurement process only when a participant is within the experimental zone/region. Since studies facilitate measurements through \gls{gps} on participants' local devices, the collected data is often regularly uploaded to a cloud server. This leaves scope for unauthorised access such as man-in-the-middle attacks and also the possibility of lifting or changing the geo-fence.
+
+Surveys and questionnaires are another important modality in pedestrian measurements. This modality is fully participatory, necessitating both objective and subjective responses directly from data contributors. While the advantages of this modality are significant due to direct responses requiring no assertions, they are prone to survey fatigue, resulting in biases. Biases might also emerge from psychological factors, social desirability bias. Moreover, there is time and resource cost associated with recruiting and training surveyors and data contributors, and the process itself is time consuming.
+
+The restriction on the usage of conventional sensors, primarily due to strict privacy regulations has pushed researchers to adapt and identify unconventional sensing technologies such as WiFi and \gls{ble} for capturing the movement of pedestrians. WiFi, due to its availability on mobile phones, and readily available infrastructure due to the ubiquity of public WiFi hotspots provided by various city councils and agencies \citep{Omar2016}, has more purchase in pedestrian-related research over \gls{ble}. This is also evident from a comparison of the number of scientific publications over the past ten years between the two technologies, as presented in Figure \ref{wifi_ble_comparison} \citep{Dimensions2024}. Both technologies operate in a similar fashion where signal strength is collected and patterns in the signals are used for asserting pedestrian dynamics. WiFi is also capable of capturing more complex forms of information through CSI which provides more agency over its assertion in comparison to \gls{ble}. However, processing CSI data requires more computational capabilities.
+
+However, the adoption of \gls{ble} for this type of research cannot be overlooked. \gls{ble} provides superior flexibility over WiFi. The use of WiFi through existing infrastructure, originally meant to provide internet connectivity to the users, puts additional pressure on the infrastructure, thereby, reducing its throughput. Setting up an exclusive WiFi infrastructure for pedestrian measurement is often costly compared to \gls{ble}. \gls{ble} offers a significant advantage in the form of inexpensive beacons for asset tracking. These beacons can be provided to data contributors both as an incentive and as a mechanism to capture their data without requiring the use of their personal device. \gls{ble} offers inherently privacy preserving features which will be presented in Section \ref{sec:bg}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/wifi vs ble.png}
+\caption{Comparison of the number of pedestrian-related publications using \gls{ble} and WiFi \citep{Dimensions2024}.}
+\label{wifi_ble_comparison}
+\end{figure}   
+\footnotetext{Data extracted from Dimensions, the world's largest linked research database \citep{Dimensions2024}.}
+\unskip
+
+While the use of \gls{ble} as a tool to understand pedestrian movement dynamics and activities has become more common in academic research, studies entailing the assessment of a proper deployment of a \gls{ble} monitoring system, referred in this paper as an Observer, are sparse. As will be presented in the next section, the influence of an Observer deployment on the quality of the acquired data is significant. Poor data quality in the acquisition stage also affects data analysis and subsequently, assertions from the acquired data. Therefore, in this study, we present an approach and its usefulness in identifying optimal deployment distance, particularly on a horizontal plane, for a \gls{ble} Observer.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Background} \label{sec:bg}
+
+\gls{ble} is a communication protocol developed by the \gls{bt} \gls{sig} with their \gls{bt} 4.0 standard in 2010 \citep{Collotta2018}, as a low power, low cost, easily accessible, and highly available alternative to \gls{bt} \citep{Liu2012, Yao2020}. The protocol operates in the 2.4 \textit{GHz} spectrum and is divided into 40 channels, comprising 3 advertisement channels and 37 data channels \citep{Sig2019}. The \gls{ble} protocol, outlined in the \gls{bt} \gls{sig} core specification \citep{Sig2019}, enables \gls{ble} devices to assume one of the following four roles:
+
+\begin{enumerate}
+    \item \textit{Central:} A device that can initiate and control connections. Two-way communication.
+    \item \textit{Peripheral:} A device capable of advertising its presence and waiting for connection requests from a central device. Two-way communication.\textbf{}
+    \item \textit{Observer:} A device that can scan and listen to advertisements from nearby devices but is incapable of establishing a connection. One-way communication.
+    \item \textit{Broadcaster:} A device that can advertise its presence to other \gls{ble} devices nearby. One-way communication.
+\end{enumerate}
+
+The connection between \gls{ble}-enabled devices is established using \textit{advertisements}, where signals are emitted by \gls{ble} devices periodically, containing information necessary for the connection process. A \gls{ble} device, depending on its role, can assume the following two states:
+
+\begin{enumerate}
+    \item \textit{Advertising:} Sending out advertisements. For a Peripheral device, these advertisements are a vehicle for establishing a connection, whereas, for a Broadcaster device, these are used to indicate its presence.
+    \item \textit{Scanning:} Listening to the advertisements. For a Central device, this state is a precursor to establishing a connection with a Peripheral device, whereas, for an Observer, this state is a means to identify advertising \gls{ble} devices in the vicinity.
+\end{enumerate}
+
+Pedestrian measurements through \gls{ble} typically capitalise on this advertisement process, where volunteers carry a Broadcaster or a Peripheral that is periodically advertising its presence which can be intercepted by an Observer or a Central device \citep{Nikodem2020}. The advertising and scanning processes are depicted in Figure \ref{fig:advertscan}, and the relevant parameters for these processes are summarised in Table \ref{tab:params}.
+
+\begin{figure}[H]
+	\centering
+	\subfloat[\label{advert}]{%
+		\includegraphics[width=80mm, scale=0.5]{figures/advert.png}}
+	\hfill
+	\subfloat[\label{scan}]{%
+		\includegraphics[width=80mm, scale=0.5]{figures/scan.png}}
+	\caption{(a) Advertisement Mechanism of BLE Device, (b) Scanning Mechanism of BLE Device}
+	\label{fig:advertscan}	
+\end{figure}
+\unskip
+
+\begin{table}[H] 
+\caption{\gls{ble} device parameters during discovery process.\label{tab:params}}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\begin{tabularx}{\textwidth}{CCC}
+\toprule
+\textbf{Notation}	& \textbf{Description}	& \textbf{Range}\\
+\midrule
+$\tau_{wa}$ & Advertising period per channel & $\leq 10 ms$ \\
+        & & in $[20 \sim 10,240] ms$\\
+        \multirow{-2}{*}{$\tau_{ai}$} & \multirow{-2}{*}{Advertisement Interval} & Integer multiple of $0.625 ms$\\
+        $\delta$ & Uniform random delay & $[0, 10] ms$\\
+        & & in $[2.5 \sim 10,240] ms$\\
+        \multirow{-2}{*}{$\tau_{si}$} & \multirow{-2}{*}{Scan Interval} & Integer multiple of $0.625 ms$\\
+        & & in $[2.5 \sim 10,240] ms$\\
+        \multirow{-2}{*}{$\tau_{sw}$} & \multirow{-2}{*}{Scan Window} & Integer multiple of $0.625 ms$\\
+\bottomrule
+\end{tabularx}
+\end{table}
+\unskip
+
+When an advertisement is intercepted, a parameter known as the \gls{rssi} is evaluated by the Observer or Central device. This parameter represents the strength of the signal (advertisement) upon reception and is a factor of distance between the two devices and environmental influences. These influences include multi-path propagation mechanisms such as \textit{reflection}, \textit{refraction}, \textit{scattering}, and \textit{absorption} \citep{Rappaport2002}. Other factors such as physical obstructions blocking the direct \gls{los} between two devices \citep{Turner2020}, natural obstacles such as foliage, terrain and weather conditions \citep{liao1990microwave, Mathew2017Evaluation, Inacio2018}, electromagnetic interference \citep{Lopez2012}, and occlusion by other humans \citep{Parmar2022, Smailagic2002, Hongwei2009, Kara2006Effect} also affect the \gls{rssi}. Such factors introduce fluctuation in the measured \gls{rssi} even when the distances between the two devices are fixed.
+
+The relationship between \gls{rssi} and the factors affecting it is represented by the \textit{path loss model} \citep{ROUPHAEL200987}. The standard path loss model, expressed in Equation \ref{eq:std_loss}, only accommodates the distance between communicating devices, and is often insufficient to assess the path loss accurately as it does not incorporate other contributors to path loss, importantly, \textit{fading}. Fading, also referred to as \textit{shadowing}, is the attenuation of signals occurring due to environmental topology and characteristics \citep{Grami2016, Kaluuba2006}. There are two types of fading, \textit{\gls{ss} fading} -- fluctuations in the signal due to multipath propagation over short distances, and \textit{\gls{ls} fading} -- gradual changes in the average received signal strength over longer distances.
+
+\begin{linenomath}
+    \begin{equation}\label{eq:std_loss}
+        L_{pl}(d)_{[dB]} = L_{pl}(d_0)_{[dB]} + 10\text{ }n_{pl}\text{ }log(\frac{d}{d_0}),
+    \end{equation}
+\end{linenomath}
+where:\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $L_{pl}(d)_{[dB]}$ is path loss at distance 'd',}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $L_{pl}(d_0)_{[dB]}$ is reference path loss at reference distance,}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $d$ is distance at which path loss is calculated,}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $d_0$ is reference distance, and}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $n_{pl}$ is path loss exponent}}$\\
+
+The standard path loss model can be adjusted to incorporate these fading parameters to accurately model signal attenuation. A time-dependent path loss model integrating fading is expressed in Equation \ref{eq:pl} \citep{SAYRAFIAN2021221}. \gls{ss} fading can be utilised to understand the effect of multipath components on \gls{ble} signals in pedestrianised pathways since \gls{ss} fading applies over shorter distances and provides insight into fluctuations the signals undergo over any pathway under study.
+
+\begin{linenomath}
+    \begin{equation}
+        \label{eq:pl}
+            L_{pl}(d, t)_{[dB]} = \overline{L_{pl}(d)_{[dB]}} + \Delta L_{ls}(t)_{[dB]} + \Delta L_{ss}(t)_{[dB]}
+    \end{equation}
+\end{linenomath}
+where:\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $L_{pl}(d, t)_{[dB]}$ is path loss at distance 'd' and at time 't',}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $\overline{L_{pl}(d)_{[dB]}}$ is \acrfull{mpl} at distance 'd' and is calculated using standard path}}$\\
+\null \hspace{0.8cm}\textit{loss model expressed in Equation \ref{eq:std_loss},}\\
+\null \hspace{0.5cm}\bullet \textit{ $\Delta L_{ls}(t)_{[dB]}$ is \gls{ls} fading component, and}\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $\Delta L_{ss}(t)_{[dB]}$ is \gls{ss} fading component}}$\\
+
+\gls{ss} fading can be assessed using a \textit{Rician} distribution, a probability distribution (expressed in Equation \ref{eq:rician_pdf}) function that can be used to assess the dominance of the \gls{los} component relative to the \gls{nlos} components in scenarios where there is a direct \gls{los} for signals between devices \citep{Molisch2012}. This assessment is performed through the \textit{Rician Factor}, $K$, which is the ratio of power in the \gls{los} component to the power of scattered (or, \gls{nlos}) components), indicating the proportion of \gls{los} components. The Rician factor is calculated using the expression provided in Equation \ref{eq:rician_factor}. A special case of Rician distribution occurs when the $K$-factor is $0$, signifying that the distribution is reduced to a \textit{Rayleigh distribution}, meaning that the signal consists purely of scattered components.
+
+\begin{equation}
+        \label{eq:rician_pdf}
+            f_R(r) = \frac{r}{\sigma^2}\text{ }\exp(-\frac{r^2 + s^2}{2\sigma^2})\text{ }I_0(\frac{rs}{\sigma^2}),\quad \textrm{$r \geq 0$}            
+\end{equation}
+where:\\
+\null \hspace{0.5cm}$\bullet \text{ } r \text{\textit{ is the magnitude of receiver signal, }}$\\
+\null \hspace{0.5cm}$\bullet \text{ } s \text{\textit{ is the amplitude of dominant \gls{los} component, }}$\\
+\null \hspace{0.5cm}$\bullet \text{ } \sigma \text{\textit{ is \gls{sd} of scattered components, and }}$\\
+\null \hspace{0.5cm}$\bullet\text{ }I_0(\cdot) \text{\textit{ is the modified Bessel function of the first kind and zero order.}}$\\
+
+\begin{equation}
+        \label{eq:rician_factor}
+            K = \frac{s}{2\sigma^2}
+            \myequations{Rician Factor}
+    \end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet \text{ } s \text{\textit{ is the amplitude of dominant \gls{los} component, and}}$\\
+\null \hspace{0.5cm}$\bullet \text{ } \sigma \text{\textit{ is \gls{sd} of scattered components.}}$\\
+
+These parameters, \gls{rssi} and Rician factors, are used in this study to assess the quality of signals received at various deployment distances in order to identify an optimal deployment distance. While the \gls{rssi} provides an insight into the strength of the signal at various deployment distances, the Rician factor informs the measure of the dominance of \gls{los} components at those distances. While the \gls{rssi} approach might seem sufficient to understand the optimal deployment distance of the Observer, because simple strength of the the signal can inform if the chosen pathway provides meaningful data, it is inadequate to unravel the effect of multipath components on the signal strengths. Due to propagation mechanisms, \gls{rssi} can get influenced, and thus, assessing the Rician factor, in addition to \gls{rssi}, provides better insights into the external factors associated with deployment distances affecting signal strength.
+
+\section{Methodology}
+
+\subsection{Design and Development of \gls{ble} Measurement System}
+Before identifying suitable hardware platforms and software tools, requirements from devices concerning \gls{ble} specifications were examined. Amongst the two \gls{ble} roles, Central and Observer, that allow devices to scan advertisements, the Observer role was identified as a suitable option as it prevents the device from establishing a connection, thereby, enhancing the privacy preservation aspect of the system. In a similar way, the Broadcaster role was selected over the Peripheral role.
+
+Cost, availability, and community presence were identified as key \textit{principles} for the selection of tools to conduct the experiments. These parameters facilitate a greater likelihood of garnering the attention of other researchers and allow easier access to replicate or extend the experiments. Live monitoring of collected data was also identified to be of great value as it provided a means to identify any errors preventing measurements. 
+
+\subsubsection{Observer}
+A \gls{rpi} \citep{rpi2024} was selected as the platform to act as the Observer as it met the identified principles. In particular, \gls{rpi} model 4B variant with 8 \textit{GB} RAM was selected. \gls{rpi} provided on-board \textit{ble} 5.0 support which also reduces the need for the integration of any additional components on top of the device. \gls{rpi} was housed in a weather-proof enclosure \citep{enclosure2024} with a power bank \citep{ansmann} to run the device, and an \gls{rtc} module \citep{ds3231} was added to the \gls{rpi} to keep a tab on the time.
+
+A Python application was developed for the \gls{rpi}, utilising the \textit{bluepy} library \citep{bluepy} to interact with the \gls{ble} chipset. This library was modified to simulate the \textit{whitelisting} feature of the \gls{ble} protocol standard that automatically discards advertisements emanating from non-whitelisted devices , another feature that enhances the privacy preservation aspect of the system. Additionally, a \gls{sma} filter with a window size of 10 samples was implemented in the library itself to reduce the effect of fluctuations in the \gls{rssi}. The database connection and storage of measurements in the database were also integrated into the library itself. \textit{InfluxDB} \citep{influxdb} was selected as the database for storing the measurements as it is specifically designed for time-series data, enabling ingestion of high-throughput data and fast querying on time ranges. Moreover, it provides a feature, \textit{ephemerality}, where the stored data can be programmed to be deleted automatically at a chosen expiry interval. While this feature was not employed, it provided a future real-world deployable architecture where the privacy of pedestrians can be further prioritised. Finally, a MEAN stack dashboard was developed to provide live measurement statistics. Figure \ref{fig:rpi_enc} showcases the \gls{rpi} connected to a powerbank inside the enclosure.
+
+\begin{figure}[H]
+    \centerline{\includegraphics[width=0.5\textwidth]{figures/rpi orientation.jpg}}
+    \caption{\gls{rpi} inside the enclosure.}
+    \label{fig:rpi_enc}
+\end{figure}
+
+\subsubsection{Broadcaster}
+An off-the-shelf \gls{ble} beacon was selected as the Broadcaster. These beacons typically require no programming and broadcast advertisements at a manufacturer-defined advertisement interval. Specifically, a RuuviTag beacon \citep{ruuvi}, broadcasting at an interval of 500 \textit{ms}, was selected for this experiment. The \textit{mac} address of the beacon was added to the whitelist of the Observer device. Figure \ref{fig:ruuvi} showcases the selected RuuviTag beacon.
+
+\begin{figure}[H]
+    \centerline{\includegraphics[width=0.5\textwidth]{figures/ruuvi.jpg}}
+    \caption{RuuviTag Broadcaster.}
+    \label{fig:ruuvi}
+\end{figure}
+
+\subsection{Experimental Location}
+A simple topology was identified for conducting these experiments. The rationale behind this was to allow an understanding of the mechanism of the technology in a fundamental setting, limiting the external influences. A location was identified in the TU Dublin's Grangegorman campus. The selected location featured a 5-storey tall building, composed of brickwork and large glass windows, on one side and open ground on the other, as illustrated in Figure \ref{fig:satellite_exp}. The building also had an open ramp with a railing along the side, which was used as a spot to deploy the Observer. The orientation of deployment of the Observer is depicted in Figure \ref{fig:plane}, where the 90\textdegree{} faces the open ground. The open ground is less trodden and features no pathways and access to any other building. Therefore, it was an unshared space, devoid of any other pedestrians or cyclists. The location thus offered the flexibility to mark pathways at different distances from the deployed Observer to examine different deployment distances.
+
+\begin{figure}[H]
+    \centerline{\includegraphics[width=\textwidth]{figures/experimental ground satellite view.png}}
+    \caption{Satellite view of the experimental location with overlaid pathways and key points.}
+    \label{fig:satellite_exp}
+\end{figure}
+
+\begin{figure}[H]
+    \centerline{\includegraphics[width=\textwidth]{figures/axis v6 (1).png}}
+    \caption{Orientation of the Observer.}
+    \label{fig:plane}
+\end{figure}
+
+Four pathways of 24 \textit{metres} in length were marked on the open ground, at a distance of 3 \textit{metres}, 5 \textit{metres}, 7 \textit{metres}, and 9 \textit{metres} respectively from the deployed Observer. Five equidistant key points were identified -- namely, \textit{start}, \textit{approach}, \textit{centre}, \textit{depart}, and \textit{end} -- and marked on each pathway. Figure \ref{fig:layout} illustrates the pathways on the experimental location.
+
+% \begin{figure}[H]
+% 	\centerline{\includegraphics[width=\textwidth]{figures/layout top-view all pathways.jpg}}
+% 	\caption{Experimental layout showcasing all pathways and keypoints.}
+% 	\label{fig:layout}
+% \end{figure}
+
+It is necessary to clarify why deployment distances of over 9 \textit{metres} were selected for this study. The pathways under examination in this study were all linear and 24 \textit{metres} in length. The Observer was deployed at the midpoint across the pathway, that is, with 12 \textit{metres} of pathway on either side of the Observer. The closest location between the Observer and pathways was the respective \textit{centre} key point, directly opposite to the Observer, whereas, the farthest point on pathways from the Observer were the respective \textit{start} and \textit{end} key points. Therefore, at a deployment distance of 3 \textit{metres}, an Observer receives advertisements from distances varying between 12.37 \textit{metres} at the farthest (\textit{start} and \textit{end}) key points and 3 \textit{metres} at the closest (\textit{centre}) key point. This can be calculated using Pythagoras's theorem expressed in Equation \ref{eq:pytha} and the difference in the closest and farthest points are illustrated in Figure \ref{fig:distances}.
+
+\begin{equation}
+    \label{eq:pytha}
+    hypotenuse = \sqrt{base^2 + perpendicular^2}
+\end{equation}
+where:\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ hypotenuse is the distance between Observer and `start' key point, }}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ base is the distance between `start' point and `centre' point, and}}$\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ perpendicular is the distance between the Observer and `centre' point on the pathway.}}$
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=\textwidth]{figures/changing_angles.png}}
+	\caption{Closest and farthest measurement key points for different pathways.}
+	\label{fig:distances}
+\end{figure}
+
+As seen in Figure \ref{fig:distances}, the difference between the \textit{hypotenuse} (distance between Observer and farthest key point) and \textit{perpendicular} (distance between Observer and closest key point) reduces as the deployment distance increases. This reduction indicates that the difference between the greatest and the smallest distance a signal travels on the pathway becomes progressively smaller with increased deployment distance, proving to be inconsequential to produce recognisable and meaningful patterns at large deployment distances. The drop in the ratio with increasing deployment distance is presented in Figure \ref{fig:ratio}.
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=\textwidth]{figures/ratio_distances.png}}
+	\caption{Ratio of distances between closest and farthest measurement key points for different pathways.}
+	\label{fig:ratio}
+\end{figure}
+
+\subsection{Data Collection Mechanism}
+Advertisements were collected for 3 \textit{minutes}, in three 1-\textit{minute} segments at each key point on all pathways from the Broadcaster provided to a volunteer pedestrian. Two scenarios were identified for data acquisition, first, where the volunteer was instructed to hold the Broadcaster facing towards the Observer, that is \gls{los}, and second, where the volunteer was instructed to hold the Broadcaster facing away from the Observer, that is \gls{nlos}. These scenarios were chosen as they typically resemble real-world situations where there is no knowledge of which side a \gls{ble} device is held by the pedestrians. The \gls{nlos} case, in particular, offered several scenarios extending beyond complete occlusion between the Broadcaster and the Observer. Complete occlusion was only an instance of the \gls{nlos} scenario. At the \textit{start} and \textit{end} key points, there was almost a full \gls{los}, and at \textit{approach} and \textit{centre} key points, a partial occlusion. This is due to the angle between the Observer and the hand of the volunteer holding the Broadcaster. This is easily understood from the illustration in Figure \ref{fig:occ}.
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=\textwidth]{figures/occ.png}}
+	\caption{Different occlusions in the \gls{nlos} scenario.}
+	\label{fig:occ}
+\end{figure}
+
+The collected data comprised \textit{mac} address, timestamped \gls{rssi}, and \textit{sma} of \gls{rssi}. The following protocol was used to collect the data for this experiment.
+
+\begin{enumerate}
+    \item Select one of the four pathways for data acquisition.
+    \item Instruct the volunteer to stay stationary at the first key point on the selected pathway, holding the Broadcaster in an orientation corresponding to the scenario being examined, say \gls{los}. Ensure that the Broadcaster is not clenched within their fist.
+    \item Start a timer to measure a 1-minute round of data acquisition and execute the script on the Observer. Ensure data is being acquired through the live dashboard. Repeat this step for two more rounds taking a break of approximately 1 minute in between.
+    \item Upon completion of three rounds of data measurement on one key point, instruct the volunteer to move to the next key point and repeat the above steps.
+    \item When measurements are taken at all key points on each pathway, repeat the above steps for the next scenario, say \gls{nlos}.
+\end{enumerate}
+
+Measurements from this experiment were spread across two different days. All the cases for \gls{los} scenarios were acquired on the 1$^{st}$ of February 2023 between 1143 hours and 1317 hours, Irish time. Whereas, the measurements for \gls{nlos} scenario were acquired on the 10$^{th}$ of February 2023 between 1205 and 1405 hours, Irish time. The weather conditions during the two measurement period are presented in Table \ref{tab:weather}.
+
+\begin{table}[H]
+    \begin{adjustwidth}{-\extralength}{0cm}
+        \caption{Weather information on the days of data acquisition.\label{tab:weather}}
+        \newcolumntype{C}{>{\centering\arraybackslash}X}
+        \newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}} % Define word wrapping for P column
+        \begin{tabularx}{\fulllength}{P{3.5cm}|CCCCCCCC} % Set 6cm for the P column (adjust as needed)
+            \toprule
+            \textbf{Measurement} & \textbf{Time} & \textbf{Precipitation (Rain)} & \textbf{Air Temperature} & \textbf{Wet Bulb Temperature} & \textbf{Dew Point Temperature} & \textbf{Vapour Pressure} & \textbf{Relative Humidity} & \textbf{Mean Sea Level Pressure} \\
+            
+            \midrule
+            
+            \multirow{2}{=}{\gls{los} Scenarios; Feb 1, 2023; 11:43 -- 13:17} 
+            & 12:00 & 0.0mm & 9.4\textdegree{}C & 7.8\textdegree{}C & 6.0\textdegree{}C & 9.3 hPa & 79\% & 1024.1 hPa \\
+            & 13:00 & 0.0mm & 10\textdegree{}C & 8.0\textdegree{}C & 5.6\textdegree{}C & 9.1 hPa & 74\% & 1023.7 hPa \\
+
+            \midrule
+
+            \multirow{3}{=}{\gls{nlos} Scenarios; Feb 10, 2023; 12:05 -- 14:05} 
+            & 12:00 & 0.0mm & 10.7\textdegree{}C & 9.5\textdegree{}C & 8.2\textdegree{}C & 10.9 hPa & 84\% & 1032.6 hPa \\
+            & 13:00 & 0.0mm & 11.2\textdegree{}C & 9.8\textdegree{}C & 8.4\textdegree{}C & 11.0 hPa & 82\% & 1032.3 hPa \\
+            & 14:00 & 0.0mm & 11.8\textdegree{}C & 10.1\textdegree{}C & 8.4\textdegree{}C & 11.0 hPa & 80\% & 1032.2 hPa \\
+            
+            \bottomrule
+        \end{tabularx}
+    \end{adjustwidth}
+\end{table}
+
+\subsection{Data Analysis}
+The first analytics is descriptive statistics for which the median of \gls{rssi} acquired at each key point was calculated for all pathways. These median values were averaged for every key point on all pathways for both scenarios, \gls{los} and \gls{nlos}. Through this, a general sense of signal strength emerging from  the\gls{ble} device on all of those pathways was obtained. Subsequently, an average across all key points for each scenario and pathway was also evaluated to understand a general blueprint of signal strength in each of those scenarios for all pathways. Finally, the \gls{los} and \gls{nlos} \gls{rssi} were also averaged for all pathways to obtain a single descriptive \gls{rssi} indicator for each of those candidate pathways. Through this final value, a general sense of expected signal strength at those deployment distance was obtained.
+
+While the previous analytical technique was simple, it was used to determine whether some candidate deployment distances can be discarded simply on the merit of their signal quality. However, this technique only used median values of the collected \gls{rssi}, therefore, it overlooks other determinants in the data. For example, as seen in Section \ref{sec:bg}, \gls{ble} signals are prone to fluctuations in outdoor environments -- which means that even with a stationary source, the \gls{rssi} values measured over a period of time vary in a range -- and this technique fails to measure or highlight the variability in the measured \gls{rssi}. Since \gls{rssi} is affected by any change in the environment, which is common in a noisy outdoor environment, \gls{rssi} collected over an extended period (a total of 3 minutes in this study) should demonstrate fluctuations or deviations in the collected values. Thus, the \textit{\gls{anova}} test was performed to identify statistically significant differences amongst the groups of \gls{rssi} values for each pathway. The data obtained from all rounds were combined but were separately used for the \gls{los} and \gls{nlos} scenarios. However, the \gls{anova} results only informed the existence of statistically significant differences. In order to identify the groups exhibiting significant differences, a post-hoc analysis, \textit{Tukey's \gls{hsd}} was performed. This examination is suitable to identify which pathways produce similar results, or rather, do not produce statistically different \gls{rssi} from one another.
+
+Finally, the Rician factor was computed for each pathway only for the \gls{los} scenario. The \gls{nlos} scenario was not considered for this approach because \gls{ss} fading assessed through the Rician factor provides empirical representation of the dominance of \gls{los} components in the collected data, which will be diminished in the \gls{nlos} scenario. The Rician factor provided an assessment of the fluctuation at each pathway by identifying the influence of the environmental topology on each of the pathways resulting from an increased effect of the propagation mechanism.
+
+\section{Results}
+The first approach, computing and assessing the means of medians, was implemented in phases. In the first phase, a median \gls{rssi} from each round of measurements for each key point on every pathway was computed for both, \gls{los} and \gls{nlos} scenarios. These median values were then averaged to represent the three rounds of measurement for every case with a single value. The term \textit{averaged median} will be used to refer to this value in this paper. In the second phase, averages of averaged medians that belonged to a single pathway, a combination of ten values from all key points for \gls{los} and \gls{nlos} scenarios, per pathway were computed. These values depict the \gls{los} and \gls{nlos} representative \gls{rssi} for each pathway. In the third phase, the average of \gls{los} and \gls{nlos} representative values, obtained from the second phase, were averaged to obtain a single descriptive statistic representing the expected signal strength for each pathway. The results are described in Table \ref{tab:means_medians}.
+
+\begin{table}[H] 
+\begin{adjustwidth}{-\extralength}{0cm}
+\caption{Comparison of median values.\label{tab:means_medians}}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\begin{tabularx}{\fulllength}{P|CCCCCCCC}
+\toprule
+\multirow{3}*{\textbf{Key point}}    & \multicolumn{8}{c}{\textbf{Median \gls{rssi} of all three rounds (\textit{dB})}}\\
+\cline{2-9}
+& \multicolumn{2}{c}{3 \textit{metres}} & \multicolumn{2}{c}{5 \textit{metres}} & \multicolumn{2}{c}{7 \textit{metres}} & \multicolumn{2}{c}{9 \textit{metres}}\\
+\cline{2-9}
+& \gls{los} & \gls{nlos} & \gls{los} & \gls{nlos} & \gls{los} & \gls{nlos} & \gls{los} & \gls{nlos} \\
+\midrule
+
+\textit{Start} & -62.10 & -74.10 & -66.30 & -69.70 & -69.10 & -69.95 & -66.29 & -71.55 \\
+
+\textit{Approach} & -47.85 & -47.10 & -48.10 & -51.42 & -54.68 & -55.60 & -50.95 & -49.40\\
+
+\textit{Centre} & -45.60 & -72.89 & -54.68 & -73.50 & -54.65 & -76.95 & -54.30 & -72.31\\
+
+\textit{Depart} & -56.60 & -62 & -48.10 & -51.42 & -56.68 & -64.45 & -48.10 & -60.94\\
+
+\textit{End} & -68.80 & -67.10 & -64.80 & -72.10 & -63.75 & -68.20 & -67.45 & -73.10\\
+
+\midrule
+
+\textbf{Average \gls{rssi} on the pathway} & \multirow{2}*{-56.19} & \multirow{2}*{-64.64} & \multirow{2}*{-56.39} & \multirow{2}*{-63.62} & \multirow{2}*{-59.77} & \multirow{2}*{-67.03} & \multirow{2}*{-57.41} & \multirow{2}*{-65.46}\\
+\textbf{for each scenario (dB)} &&&&&&&&\\
+
+\midrule
+
+\multirow{2}*{\textbf{Average \gls{rssi} on the pathway (dB)}} & \multicolumn{2}{c}{\multirow{2}*{-60.41}} & \multicolumn{2}{c}{\multirow{2}*{-60.01}} & \multicolumn{2}{c}{\multirow{2}*{-63.40}} & \multicolumn{2}{c}{\multirow{2}*{-61.02}}\\
+
+&&&&&&&&\\
+
+\bottomrule
+\end{tabularx}
+\end{adjustwidth}
+\end{table}
+\unskip
+
+For detecting statistically significant differences in the measurements between the selected deployment distances, \gls{anova} followed by Tukey's \gls{hsd} were implemented. As previously stated, data acquired from all rounds at every key point on the pathway were combined, and grouped by the \gls{los} or \gls{nlos} scenarios. While data from these scenarios could also be combined to gain an overall understanding of each deployment distance, they were analysed separately to identify if there was any difference in the way the measurements for these scenarios were influenced. The results of \gls{anova} were plotted using notched box plots with whiskers and presented in Figures \ref{fig:anova_los} and \ref{fig:anova_nlos} respectively for \gls{los} and \gls{nlos} scenarios. The red line in the notch of the box plot depicts the median value of the \gls{rssi} corresponding to the deployment distance on the x axis. The upper and lower bounds of the box signify the 75 percentile and 25 percentile values. The notch is based on 5\% significance levels, where the overlapping notches amongst groups depict insignificant differences.
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=0.7\textwidth]{figures/anova.jpg}}
+	\caption{Results of \gls{anova} for \gls{los} scenario.}
+	\label{fig:anova_los}
+\end{figure}
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=0.7\textwidth]{figures/anova_nlos.jpg}}
+	\caption{Results of \gls{anova} for \gls{nlos} scenario.}
+	\label{fig:anova_nlos}
+\end{figure}
+
+Tukey's \gls{hsd} was then performed to identify the groups that demonstrate significant statistical differences. The outcome of Tukey's \gls{hsd} for the \gls{los} and \gls{nlos} scenarios are presented in Tables \ref{tab:hsd_los} and \ref{tab:hsd_nlos} respectively. In the tables, the \gls{ci} represents the range between which there is a likelihood of finding the difference of means. If the values within the lower and upper bounds of \gls{ci} contain a $0$, that is if those intervals have opposite signs, then there is no statistically significant difference between the two groups. The $p$-value represents the measure of the probability of obtaining extreme results, with the assumption that the \textit{null} hypothesis is true. The null hypothesis dictates that there exists no significant difference between the groups. The threshold for comparing the value of $p$-value, $\alpha$, is chosen as $0.05$. While no reliable source could be identified for selecting the appropriate value of $\alpha$, some articles suggest that the value $0.05$ balances the \textit{Type I} and \textit{Type II} errors, simultaneously highlighting that this is only believed due to Fisher's influence \citep{Hackshaw2024, geraghty_tukey_hsd, realstatistics_tukey_hsd}. Figures \ref{fig:hsd_los} and \ref{fig:hsd_nlos} visually represent the outcome of Tukey's \gls{hsd} test for \gls{los} and \gls{nlos} scenarios respectively. In the figures, the error bars represent the \gls{ci} with a marker pointing to the difference of means, and the dotted horizontal line represents the zero difference crossing signifying no significant difference between the groups.
+
+\begin{table}[H] 
+\begin{adjustwidth}{-\extralength}{0cm}
+\caption{Outcome of Tukey's \gls{hsd} for the \gls{los} scenario.\label{tab:hsd_los}}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\begin{tabularx}{\fulllength}{CCCCCCP}
+\toprule
+\textbf{Group 1} & \textbf{Group 2} & \textbf{\gls{ci}$^1$ Lower Bound} & \textbf{Difference in Means} & \textbf{\gls{ci} Upper Bound} & \textbf{$p$-value} & \textbf{Inference\textsuperscript{2}}\\
+\midrule
+
+    3m & 5m & -0.6065 & 0.6817 & 1.9700 & 0.5249  & No significant difference.\\
+        
+    3m & 7m & 2.6236 & 3.9119 & 5.2002 & 0 & Significant difference.\\
+    
+    3m & 9m & 0.3530 & 1.6413 & 2.9296 & 0.0059  & Significant difference.\\
+    
+    5m & 7m & 1.9419 & 3.2302 & 4.5185 & 0 & Significant difference.\\
+
+    5m & 9m & -0.3288 & 0.9595 & 2.2478 & 0.2223 & No significant difference.\\
+
+    7m & 9m & -3.5589 & -2.2706 & -0.9823 & 0 & Significant difference.\\
+
+\bottomrule
+\end{tabularx}
+\end{adjustwidth}
+\noindent{\footnotesize{\textsuperscript{1} \gls{ci} is a range of values between which the difference in means is likely to be found.}}
+\noindent{\footnotesize{\textsuperscript{2} Statistically significant cases will be discussed in detail in Section \ref{sec:disc}.}}
+\end{table}
+\unskip
+
+\begin{table}[H] 
+\begin{adjustwidth}{-\extralength}{0cm}
+\caption{Outcome of Tukey's \gls{hsd} for the \gls{nlos} scenario.\label{tab:hsd_nlos}}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\begin{tabularx}{\fulllength}{CCCCCCP}
+\toprule
+\textbf{Group 1} & \textbf{Group 2} & \textbf{\gls{ci} Lower Bound} & \textbf{Difference in Means} & \textbf{\gls{ci} Upper Bound} & \textbf{$p$-value} & \textbf{Inference}\\
+\midrule
+
+    3m & 5m & -1.5304& -0.0750& 1.3804& 0.9992 & No significant difference.\\
+        
+    3m & 7m & 0.1637& 1.6191& 3.0746& 0.0222 & Significant difference.\\
+    
+    3m & 9m & -0.5514& 0.9040& 2.3594& 0.3810 & No significant difference.\\
+
+    5m & 7m & 0.2387& 1.6941& 3.1495& 0.0148 & Significant difference.\\
+
+    5m & 9m & -0.4764& 0.9790& 2.4344& 0.3090 & No significant difference.\\
+
+    7m & 9m & -2.1705& -0.7151& 0.7403& 0.5870 & No significant difference.\\
+
+\bottomrule
+\end{tabularx}
+\end{adjustwidth}
+\end{table}
+\unskip
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=0.7\textwidth]{figures/tukeys_los.jpg}}
+	\caption{Comparison of \gls{ci}, median, and zero difference for each group of deployment distances for the \gls{los} scenario.}
+	\label{fig:hsd_los}
+\end{figure}
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=0.7\textwidth]{figures/tukeys_nlos.jpg}}
+	\caption{Comparison of \gls{ci}, median, and zero difference for each group of deployment distances for the \gls{nlos} scenario.}
+	\label{fig:hsd_nlos}
+\end{figure}
+
+Finally, fluctuations experienced by \gls{ble} advertisements travelling from each of the pathways were analysed through the assessment of \gls{ss} fading. This was performed using Rician distribution fitting and subsequently obtained the Rician factor. As previously stated, this analysis was performed only on the \gls{los} scenario. The obtained results are presented in Figures \ref{fig:rician_3m}, \ref{fig:rician_5m}, \ref{fig:rician_7m}, and \ref{fig:rician_9m}. In the figures, the curves represent the fitted Rician distribution for data collected for each candidate deployment distance. The peak position of the curves indicates the most probable value of \gls{ss} fading. A curve peaks at a positive value for \textit{Small-Scale Fading}, represented on the x-axis in the figures, indicating a high \gls{los} component in the measurements. For example, in Figure \ref{fig:rician_3m}, the \textit{start} key point demonstrates a peak in the positive region of the x-axis. Conversely, curves peaking on the left side of the x-axis, for key points \textit{depart} and \textit{end} in the same example, represent high \gls{nlos} component or, a high multipath scattering. 
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=0.7\textwidth]{figures/small_scale_fading_3m.png}}
+	\caption{Rician distribution fitting to \gls{rssi} at each key points on 3 $m$ pathway.}
+	\label{fig:rician_3m}
+\end{figure}
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=0.7\textwidth]{figures/small_scale_fading_5m.png}}
+	\caption{Rician distribution fitting to \gls{rssi} at each key points on 5 $m$ pathway.}
+	\label{fig:rician_5m}
+\end{figure}
+
+The height of the curves represents the probability density, that is, a taller peak indicates less variability in the \gls{rssi}. Conversely, lower and flatter curves suggest greater fluctuations. For example, in Figure \ref{fig:rician_9m}, key point \textit{centre} and \textit{depart}, with taller peaks indicate less fluctuation. The spread of the curve is an indication of the degree of fluctuation, with wider curves signifying greater variation in the \gls{rssi}. For example, in Figure \ref{fig:rician_5m}, the \textit{end} key point produces a larger spread in the curve, signifying greater fluctuations. Asymmetry and tail in the curve indicate an uneven multipath effect on the signal. For example, key points \textit{approach}, \textit{centre}, and \textit{depart} in Figure \ref{fig:rician_7m} demonstrate long tails, indicating several multipath components contributing unevenly to signal degradation.
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=0.7\textwidth]{figures/small_scale_fading_7m.png}}
+	\caption{Rician distribution fitting to \gls{rssi} at each key points on 7 $m$ pathway.}
+	\label{fig:rician_7m}
+\end{figure}
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=0.7\textwidth]{figures/small_scale_fading_9m.png}}
+	\caption{Rician distribution fitting to \gls{rssi} at each key points on 9 $m$ pathway.}
+	\label{fig:rician_9m}
+\end{figure}
+
+As previously stated, the Rician factor (or, the \textit{shape parameter}), $K$, is the ratio of power of \gls{los} and \gls{nlos} components. The greater value of $K$ signifies a larger \gls{los} component. \textit{Scale parameter}, another outcome of Rician fitting, indicates the spread of the \gls{nlos} component. The larger the scale parameter, the greater the spread of multipath components. The outcome of Rician fitting is summarised in Table \ref{tab:rician}.
+
+\begin{table}[H] 
+\caption{Scale and Shape Parameters for Different Deployment Distances.\label{tab:rician}}
+% \begin{adjustwidth}{-\extralength}{0cm}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\begin{tabularx}{\textwidth}{CCCC}
+\toprule
+\textbf{Deployment Distance} & \textbf{Location} & \textbf{Shape Param ($K$)} & \textbf{Scale Param ($\sigma$)} \\
+\midrule
+
+    \multirow{5}*{3m} & Start & 37.18 & 5.47 \\
+    & Approach & 0.20 & 13.93 \\
+    & Centre & 0.14 & 17.14 \\
+    & Depart & 0.00 & 6.12 \\
+    & End & 0.00 & 5.04 \\
+    
+\midrule
+
+    \multirow{5}*{3m} & Start & 117.84 & 5.45 \\
+    & Approach & 86.35 & 3.13 \\
+    & Centre & 7.26 & 5.71 \\
+    & Depart & 0.00 & 8.26 \\
+    & End & 0.15 & 17.72 \\
+    
+\midrule
+
+    \multirow{5}*{7m} & Start & 0.33 & 14.03 \\
+    & Approach & 0.00 & 2.15 \\
+    & Centre & 0.00 & 2.23 \\
+    & Depart & 0.00 & 5.04 \\
+    & End & 0.10 & 16.00 \\
+    
+\midrule
+
+    \multirow{5}*{9m} & Start & 0.64 & 15.95 \\
+    & Approach & 843.80 & 3.90 \\
+    & Centre & 0.00 & 2.11 \\
+    & Depart & 0.00 & 2.21 \\
+    & End & 0.00 & 5.16 \\
+
+\bottomrule
+\end{tabularx}
+% \end{adjustwidth}
+\end{table}
+
+\section{Discussion} \label{sec:disc}
+The outcome of the first analysis shows comparable \gls{rssi} of advertisements obtained from each pathway. In the \gls{los} scenario, the average median \gls{rssi}s obtained at all the key points vary between a minimum value of $-56.19\text{ }dB$ (at 3 \textit{metres} deployment distance) and $-59.77\text{ }dB$ (at 7 \textit{metres} deployment distance). Similarly, for the \gls{nlos} scenario, these values lie between $-63.62\text{ }dB$ (at 5 \textit{metres} deployment distance) and $-67.03\text{ }dB$ (at 7 \textit{metres} deployment distance). These ranges are insignificant to assess the quality of signal obtained from those deployment distances. If the choice of deployment distance was made solely on this analysis, any of the deployment distances from the candidates would be appropriate.
+
+The results of \gls{anova} and Tukey's \gls{hsd} reveal notable distinctions in the performance of different deployment distances. For the \gls{los} scenario, a 3 \textit{metres} deployment distance produced statistically significantly higher mean \gls{rssi} than 7 and 9 $metres$, evident from a positive \textit{difference in means} and a \gls{ci} that excludes $0$, as per Table \ref{tab:hsd_los}. Similarly, a 5 $metres$ deployment distance is likely to be more favourable than that of 7 $metres$, and 7 $metres$ can be considered a more suitable choice over 9 $metres$. Likewise, for the \gls{nlos} scenario, deployment distances of 3 and 5 $metres$ showed superior performance to 7 $metres$, with no significant differences among other deployment distances. These findings highlight that 3 and 5 $metres$ deployment distances consistently provide better signal quality.
+
+Building on these results, we conclude that 3 and 5 $metres$ are the optimal deployment distances for \gls{ble} Observer in our setup. 
+
+The analysis of Rician fading parameters further supports this conclusion. At 3 $metres$, the \textit{start} key point exhibited a high $k$-factor ($37.18$) with a moderate $\sigma$ value ($5.47$), indicating strong \gls{los} components and moderate scattering. However, the \textit{approach} and \textit{centre} key points produced low $K$-factors -- $0.20$ and $0.14$ respectively -- with significant $\sigma$ values -- $13.93$ and $17.14$ respectively, suggesting larger \gls{nlos} components and considerable scattering. The \textit{depart} and \textit{end} key points featured purely scattered environment with the $k$- factor being $0$.
+
+At 5 $metres$, \textit{start} and \textit{approach} key points demonstrated high $K$-factor with low $\sigma$ values, indicating dominant \gls{los} component and minimal scattering. The \textit{centre} key point showed moderate results with $K$-factor of $7.26$ and $\sigma$ value of $5.71$, indicating some variability in the signals due to scattering. Key points \textit{depart} and \textit{end} produced low $K$-factors, with \textit{depart} key point exhibiting \textit{Rayleigh} fading indicating purely \gls{nlos} components.
+
+For 7 and 9 $metres$ deployment distance, most key points experienced high scattering, as reflected in lower $K$-factor and higher $\sigma$ values. Particularly, at 9 $metres$, the \textit{centre}, \textit{depart}, and \textit{end} key points had purely scattered environments, and only the \textit{approach} key point produced strong \gls{los} dominance with $K$-factor of $843.80$ and a $\sigma$ value of $3.90$.
+
+Overall, the deployment distance of 3 $metres$ and 5 $metres$ exhibit stronger \gls{los} components and less scattering, making them more reliable for pedestrian measurements using \gls{ble}.
+
+\section{Conclusion and Future Work}
+Based on the above outcome, it can be asserted that the deployment distances of 3 $metres$ and 5 $metres$ have been shown to produce better quality signals for the Observer. It is important to note that the outcome of this study applies only to the selected choice of hardware and experimental location. The results are also dependent on weather conditions. Despite the results being exclusive to the choice of devices and environment, this study highlights the significance of environmental influence and the importance of assessing the deployment of devices before data collection in \gls{ble}-based pedestrian studies. This study presents a useful approach to the growing body of knowledge about pedestrian movement dynamics using \gls{ble} as it presents a necessary step for future studies that has a large impact on the data quality. This step can also be useful for councils and organisations who wish to understand the usage of spaces in a privacy-preserving manner, where adoption of this technology, while improving privacy preservation, can produce significantly better results. The identification of an optimal deployment distance is an essential part of the envisioned framework for measuring pedestrian movement dynamics using \gls{ble} devices.
+
+In the future, an assessment of the vertical height of the deployed Observer and the combined effect of vertical and horizontal deployment distance will be carried out. In addition measurements will be performed to understand the effect of the advertisement interval of \gls{ble} Broadcasters on the measuring capabilities of the Observer. Each of these sets of experiments will further contribute to the overall vision of a more comprehensive framework to measure pedestrian movement dynamics using \gls{ble} devices.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{6pt} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% optional
+%\supplementary{The following supporting information can be downloaded at:  \linksupplementary{s1}, Figure S1: title; Table S1: title; Video S1: title.}
+
+% Only for journal Methods and Protocols:
+% If you wish to submit a video article, please do so with any other supplementary material.
+% \supplementary{The following supporting information can be downloaded at: \linksupplementary{s1}, Figure S1: title; Table S1: title; Video S1: title. A supporting video article is available at doi: link.}
+
+% Only for journal Hardware:
+% If you wish to submit a video article, please do so with any other supplementary material.
+% \supplementary{The following supporting information can be downloaded at: \linksupplementary{s1}, Figure S1: title; Table S1: title; Video S1: title.\vspace{6pt}\\
+%\begin{tabularx}{\textwidth}{lll}
+%\toprule
+%\textbf{Name} & \textbf{Type} & \textbf{Description} \\
+%\midrule
+%S1 & Python script (.py) & Script of python source code used in XX \\
+%S2 & Text (.txt) & Script of modelling code used to make Figure X \\
+%S3 & Text (.txt) & Raw data from experiment X \\
+%S4 & Video (.mp4) & Video demonstrating the hardware in use \\
+%... & ... & ... \\
+%\bottomrule
+%\end{tabularx}
+%}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\authorcontributions{For research articles with several authors, a short paragraph specifying their individual contributions must be provided. The following statements should be used ``Conceptualization, X.X. and Y.Y.; methodology, X.X.; software, X.X.; validation, X.X., Y.Y. and Z.Z.; formal analysis, X.X.; investigation, X.X.; resources, X.X.; data curation, X.X.; writing---original draft preparation, X.X.; writing---review and editing, X.X.; visualization, X.X.; supervision, X.X.; project administration, X.X.; funding acquisition, Y.Y. All authors have read and agreed to the published version of the manuscript.'', please turn to the  \href{http://img.mdpi.org/data/contributor-role-instruction.pdf}{CRediT taxonomy} for the term explanation. Authorship must be limited to those who have contributed substantially to the work~reported.}
+
+\funding{Please add: ``This research received no external funding'' or ``This research was funded by NAME OF FUNDER grant number XXX.'' and  and ``The APC was funded by XXX''. Check carefully that the details given are accurate and use the standard spelling of funding agency names at \url{https://search.crossref.org/funding}, any errors may affect your future funding.}
+
+\institutionalreview{In this section, you should add the Institutional Review Board Statement and approval number, if relevant to your study. You might choose to exclude this statement if the study did not require ethical approval. Please note that the Editorial Office might ask you for further information. Please add “The study was conducted in accordance with the Declaration of Helsinki, and approved by the Institutional Review Board (or Ethics Committee) of NAME OF INSTITUTE (protocol code XXX and date of approval).” for studies involving humans. OR “The animal study protocol was approved by the Institutional Review Board (or Ethics Committee) of NAME OF INSTITUTE (protocol code XXX and date of approval).” for studies involving animals. OR “Ethical review and approval were waived for this study due to REASON (please provide a detailed justification).” OR “Not applicable” for studies not involving humans or animals.}
+
+\informedconsent{Any research article describing a study involving humans should contain this statement. Please add ``Informed consent was obtained from all subjects involved in the study.'' OR ``Patient consent was waived due to REASON (please provide a detailed justification).'' OR ``Not applicable'' for studies not involving humans. You might also choose to exclude this statement if the study did not involve humans.
+
+Written informed consent for publication must be obtained from participating patients who can be identified (including by the patients themselves). Please state ``Written informed consent has been obtained from the patient(s) to publish this paper'' if applicable.}
+
+\dataavailability{We encourage all authors of articles published in MDPI journals to share their research data. In this section, please provide details regarding where data supporting reported results can be found, including links to publicly archived datasets analyzed or generated during the study. Where no new data were created, or where data is unavailable due to privacy or ethical restrictions, a statement is still required. Suggested Data Availability Statements are available in section ``MDPI Research Data Policies'' at \url{https://www.mdpi.com/ethics}.} 
+
+% Only for journal Nursing Reports
+%\publicinvolvement{Please describe how the public (patients, consumers, carers) were involved in the research. Consider reporting against the GRIPP2 (Guidance for Reporting Involvement of Patients and the Public) checklist. If the public were not involved in any aspect of the research add: ``No public involvement in any aspect of this research''.}
+
+% Only for journal Nursing Reports
+%\guidelinesstandards{Please add a statement indicating which reporting guideline was used when drafting the report. For example, ``This manuscript was drafted against the XXX (the full name of reporting guidelines and citation) for XXX (type of research) research''. A complete list of reporting guidelines can be accessed via the equator network: \url{https://www.equator-network.org/}.}
+
+% Only for journal Nursing Reports
+%\useofartificialintelligence{Please describe in detail any and all uses of artificial intelligence (AI) or AI-assisted tools used in the preparation of the manuscript. This may include, but is not limited to, language translation, language editing and grammar, or generating text. Alternatively, please state that “AI or AI-assisted tools were not used in drafting any aspect of this manuscript”.}
+
+\acknowledgments{In this section you can acknowledge any support given which is not covered by the author contribution or funding sections. This may include administrative and technical support, or donations in kind (e.g., materials used for experiments).}
+
+\conflictsofinterest{Declare conflicts of interest or state ``The authors declare no conflicts of interest.'' Authors must identify and declare any personal circumstances or interest that may be perceived as inappropriately influencing the representation or interpretation of reported research results. Any role of the funders in the design of the study; in the collection, analyses or interpretation of data; in the writing of the manuscript; or in the decision to publish the results must be declared in this section. If there is no role, please state ``The funders had no role in the design of the study; in the collection, analyses, or interpretation of data; in the writing of the manuscript; or in the decision to publish the results''.} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Optional
+
+%% Only for journal Encyclopedia
+%\entrylink{The Link to this entry published on the encyclopedia platform.}
+
+\abbreviations{Abbreviations}{
+The following abbreviations are used in this manuscript:\\
+% \printglossaries
+
+\noindent 
+\begin{tabular}{@{}ll}
+MDPI & Multidisciplinary Digital Publishing Institute\\
+DOAJ & Directory of open access journals\\
+TLA & Three letter acronym\\
+LD & Linear dichroism
+\end{tabular}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Optional
+\appendixtitles{no} % Leave argument "no" if all appendix headings stay EMPTY (then no dot is printed after "Appendix A"). If the appendix sections contain a heading then change the argument to "yes".
+\appendixstart
+\appendix
+\section[\appendixname~\thesection]{}
+\subsection[\appendixname~\thesubsection]{}
+The appendix is an optional section that can contain details and data supplemental to the main text---for example, explanations of experimental details that would disrupt the flow of the main text but nonetheless remain crucial to understanding and reproducing the research shown; figures of replicates for experiments of which representative data are shown in the main text can be added here if brief, or as Supplementary Data. Mathematical proofs of results not central to the paper can be added as an appendix.
+
+\begin{table}[H] 
+\caption{This is a table caption.\label{tab5}}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\begin{tabularx}{\textwidth}{CCC}
+\toprule
+\textbf{Title 1}	& \textbf{Title 2}	& \textbf{Title 3}\\
+\midrule
+Entry 1		& Data			& Data\\
+Entry 2		& Data			& Data\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section[\appendixname~\thesection]{}
+All appendix sections must be cited in the main text. In the appendices, Figures, Tables, etc. should be labeled, starting with ``A''---e.g., Figure A1, Figure A2, etc.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{adjustwidth}{-\extralength}{0cm}
+%\printendnotes[custom] % Un-comment to print a list of endnotes
+
+\reftitle{References}
+
+% Please provide either the correct journal abbreviation (e.g. according to the “List of Title Word Abbreviations” http://www.issn.org/services/online-services/access-to-the-ltwa/) or the full name of the journal.
+% Citations and References in Supplementary files are permitted provided that they also appear in the reference list here. 
+
+%=====================================
+% References, variant A: external bibliography
+%=====================================
+\bibliography{ref}
+
+%=====================================
+% References, variant B: internal bibliography
+%=====================================
+
+
+% If authors have biography, please use the format below
+%\section*{Short Biography of Authors}
+%\bio
+%{\raisebox{-0.35cm}{\includegraphics[width=3.5cm,height=5.3cm,clip,keepaspectratio]{Definitions/author1.pdf}}}
+%{\textbf{Firstname Lastname} Biography of first author}
+%
+%\bio
+%{\raisebox{-0.35cm}{\includegraphics[width=3.5cm,height=5.3cm,clip,keepaspectratio]{Definitions/author2.jpg}}}
+%{\textbf{Firstname Lastname} Biography of second author}
+
+% For the MDPI journals use author-date citation, please follow the formatting guidelines on http://www.mdpi.com/authors/references
+% To cite two works by the same author: \citeauthor{ref-journal-1a} (\citeyear{ref-journal-1a}, \citeyear{ref-journal-1b}). This produces: Whittaker (1967, 1975)
+% To cite two works by the same author with specific pages: \citeauthor{ref-journal-3a} (\citeyear{ref-journal-3a}, p. 328; \citeyear{ref-journal-3b}, p.475). This produces: Wong (1999, p. 328; 2000, p. 475)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% for journal Sci
+%\reviewreports{\\
+%Reviewer 1 comments and authors’ response\\
+%Reviewer 2 comments and authors’ response\\
+%Reviewer 3 comments and authors’ response
+%}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\PublishersNote{}
+\end{adjustwidth}
+\end{document}
+
