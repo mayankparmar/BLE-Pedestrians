@@ -1,0 +1,1142 @@
+\chapter{Literature Review} \label{ch:lit} % Main chapter title
+
+%----------------------------------------------------------------------------------------
+%	QUOTATION PAGE
+%----------------------------------------------------------------------------------------
+\vspace{1cm}
+\noindent\enquote{\itshape All great truths are simple in final analysis, and easily understood; if they are not, they are not great truths}\bigbreak
+\hfill $\thicksim$ \textit{Napoleon Hill}
+\vspace{1cm}\\
+
+% \begin{figure}[!htbp]
+% \centering
+% \includegraphics[width=\linewidth]{Figures/Ch2/Chapter 2 timeline.png}
+% \decoRule
+% \caption{Structure of the chapter.}
+% \label{fig:chap2_timeline}
+% \end{figure}
+%%% -------------------
+
+\section{Introduction}
+
+The measurement of \gls{pedestrian activity} and movement has become an important area of research, driven by the need to understand and improve urban planning, transportation networks and systems, utilisation of urban spaces, and public safety. The ability to assess \gls{pedestrian movement} patterns provides valuable insights into human behaviour, enabling improved infrastructure, efficient crowd management, and enhanced safety measures. In recent years, advancements in technology have introduced new methods for monitoring pedestrian activities. Newer tools and technologies have emerged as a promising driver for investigating and measuring pedestrian movement and activity.
+\\
+
+The purpose of this literature review is to provide a comprehensive overview of the state-of-the-art research in pedestrian activities and movement measurement, with a particular focus on \gls{ble} technology. By examining existing literature and methodologies, this review aims to identify the boundaries of the current body of knowledge and highlight the need for further research. Understanding these gaps is essential for advancing the field and developing innovative solutions that address current limitations.
+\\
+
+This chapter is organised into several sections. First, it provides a background on pedestrian activity and movement, including their definition, importance, and historical context. Next, it reviews various technologies used for monitoring pedestrian activities and movement dynamics, with an emphasis on \gls{ble} technology. The next three sections delve into existing methodologies for data collection and analysis, privacy and ethical concerns associated with pedestrian monitoring. Finally, the chapter highlights the gaps in existing and current research and motivates the need for the presented study, which aims to address these gaps and contribute to the advancement of pedestrian activity and movement measurements.
+\\
+
+Through this literature review, this dissertation aims to establish a solid foundation for understanding the current landscape for pedestrian activity measurement and underscore the significance of this research with respect to the identified gaps. This will set the stage for subsequent chapters, which will detail the methodology, results, and discussion of the presented research.
+
+\section{Theoretical Background}
+
+\subsection{Crowds and Pedestrians}
+
+An understanding of the concepts of  \textit{pedestrians} and \textit{crowd} is useful before beginning to explore relevant literature. While these terms are frequently encountered and are often used interchangeably, it is important to clarify their meanings. Despite the abundance of research in this area, a clear distinction between the two terms is rarely found. This subsection will explore these terms to identify clear distinctions between them for the purposes of this dissertation.
+\\
+
+When examining the literal meaning of the term, \textit{crowd}, the immediate perception is that of a gathering of individuals. However, this view is limited in capturing the full scope of what it entails. Gustave Le Bon in his book, The Crowd: A Study of the Popular Mind \citep{Bon1896}, published in 1896, proposed the notion of a crowd from a psychological point of view. He describes, in a crowd, "the sentiments and ideas of all the persons in the gathering take one and the same direction, and their conscious personality vanishes". Le Bon also, in the same study, evokes the notion of a collective mind.
+\\
+
+The notion of this \textit{"collectiveness"}, as mentioned by Le Bon, is a common theme across several different publications. For instance, \citep{Moussaid2009} describes the human crowd as a collective behaviour that arises from "self-organised" processes that emerge from local interactions between individuals. Cao et al. in \citep{Cao2016} describe a pedestrian crowd as a "complex system" that exhibits self-organisation and collective effects. Studies such as \citep{Moussaid2012}, also confirm the spontaneous rearrangement of pedestrians in lanes to increase the efficiency of movement in crowded spaces without the need for an external stimulus, which is a property of a self-organising system.
+\\
+
+Some literature provides a key distinction between crowds and pedestrians as the sense of collective self-organisation. However, if the classification of crowds is to be considered, as presented by Brown in \citep{Brown1954} and depicted in Figure \ref{fig:crowd_class}, it can be seen that while the '\textit{mobs}' category implies a similar goal, thereby demonstrating collectiveness, the '\textit{audience}' category deviates from self-organisation. An 'audience' type crowd, specifically the \textit{casual} sub-type, can aggregate for diverse purposes demonstrating low interaction and non-cohesive behaviour while being transient in nature \citep{Lee1969}. This information contradicts the earlier statement about distinctions between crowds and pedestrians. Le Bon in \citep{Bon1896} and Lee in \citep{Lee1969} have indicated that the size of a crowd tends to be composed of larger and more amorphous groups. Similarly, Forsyth in his book \citep{Forsyth2018} attributes "very large group" as crowds. Therefore, the size of a group is another component that needs factoring in when distinguishing between crowd and pedestrians.
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{Figures/Ch2/crowd classification.eps}
+\decoRule
+\caption{Classification of Crowd, \citep{Brown1954}}
+\label{fig:crowd_class}
+\end{figure}
+
+While specific academic sources do not seem to explicitly indicate the threshold of size for crowd, it is assumed, for the purpose of this study, that a group of pedestrians qualifies as a crowd when its size exceeds the capacity of the measurement modality to effectively and accurately capture the movement dynamics of the group. This distinction is important for this research as the research carried out in this PhD is the study of the movement dynamics and activities of pedestrians. This means that even if the study is to be applied to a crowd, the experiments will still be aimed at the individual pedestrians that compose the crowd, irrespective of coherent collectiveness.
+
+\subsection{Pedestrian Activity, Movement, and Behaviour} \label{subsec:lit/act_move_behave}
+If you seek to use a mechanism to measure something about pedestrians, what is it that you can actually measure? Is it behaviour, activity or movement? To do this we need to clarify what is meant by these three terms for the purposes of this work. In the same light as crowd vs pedestrians, terminologies such as pedestrian activities, pedestrian movement, and \glspl{pedestrian behaviour} have not been formally defined. Publications in the literature that target measurement and analysis of any of the three terminologies pertaining to the pedestrians often jump to their methodologies and approach. In this subsection, these terminologies are explored from the context in which the publications have featured these terms. The publications are identified through the \textit{web of science} portal that were published in the last 10 years, from 2015 to 2024, excluding review articles. A total of 1953 publications are found fitting the above criteria for the search term \textit{Pedestrian Activity}, 2151 publications are found for \textit{Pedestrian Movement}, and 5268 publications are found for \textit{Pedestrian Behaviour}.
+\\
+
+Before defining and differentiating the terminologies, the identified publications are analysed. The \gls{lda} algorithm was used to identify top keywords through the abstract and subsequently, the top five themes of the publications for each topic, \textit{pedestrian activity}, \textit{pedestrian movement}, and \textit{pedestrian behaviour}. Each theme for each category is decided through the grouping of five related keywords or labels identified by the algorithm. Figures \ref{fig:lit/activity_keyword}, \ref{fig:lit/movement_keyword}, and \ref{fig:lit/behaviour_keyword} present the analysis of those publications. The identified topics are grouped theme-wise, for pedestrian activity, pedestrian movement, and pedestrian behaviour respectively.
+\\
+
+In the figures, the identified keywords for each theme group for each of the three topics are specified. There is a significant overlap of keywords between those topics, however, a few keywords are specific to each topic. For instance, in the publications pertaining to pedestrian activity, keywords such as "walking" and "physical" suggest a focus on physical activities and the environments that support these activities. On the topic of pedestrian movement, keywords such as "speed" and "trajectory" indicate a focus on the dynamics of the motion of pedestrians. Finally, for publications relating to the topic of pedestrian behaviour, keywords like "safety", and "risk" point at broader patterns and tendencies of pedestrians.
+\\
+
+
+\begin{figure}[htbp]
+    	\centerline{\includegraphics[width=\textwidth]{Figures/Ch2/Theoretical Background/Pedestrian_Activity.png}}
+    	\caption{Identified Keywords Grouped by Theme for Publications Referring to \textit{Pedestrian Activity} and their Quantity}
+    	\label{fig:lit/activity_keyword}
+    \end{figure}
+\begin{figure}[htbp]
+    	\centerline{\includegraphics[width=\textwidth]{Figures/Ch2/Theoretical Background/Pedestrian_Movement.png}}
+    	\caption{Identified Keywords Grouped by Theme for Publications Referring to \textit{Pedestrian Movement} and their Quantity}
+    	\label{fig:lit/movement_keyword}
+    \end{figure}
+    \begin{figure}[htbp]
+    	\centerline{\includegraphics[width=\textwidth]{Figures/Ch2/Theoretical Background/Pedestrian_Behaviour.png}}
+    	\caption{Identified Keywords Grouped by Theme for Publications Referring to \textit{Pedestrian Behaviour} and their Quantity}
+    	\label{fig:lit/behaviour_keyword}
+    \end{figure}
+
+After a review of the literature, no publication was identified that explicitly defines or distinguishes the terms, pedestrian activities, pedestrian movement, and pedestrian behaviour. Therefore, these definitions were inferred based on publications and the identified keywords for each of those topics. \textit{Pedestrian activities} can be contextualised by combining the outcome of \gls{lda} and works presented in some studies in the discipline. For example, Han and Yun in \citep{Han2014}, considered acts like reading signs, resting, and pitching pennies (a type of outdoor game) in their description of activities. They also claim that the majority of pedestrian activities are short and passive in nature. Walking, according to them is an example of an active activity. Gerike et al. in \citep{Gerike2021} distinguish pedestrian facilities as a component of a \textit{movement} function and a \textit{place} function, referring respectively to travelling from point A to B safely and comfortably, and resting communicating, shopping or eating. They attribute both of these components as pedestrian activities in order to assess the task of urban street design. Stanitsa et al. in \citep{Stanitsa2023} reviewed and summarised various categorisations of walking \textit{activities}. The different classifications presented in the paper suggest that the actions performed are regarded as activities. Table \ref{tab:lit/walking_activities} describes the categorisation in the publications reviewed by \citep{Stanitsa2023}.
+\\
+
+\begin{table}[!htbp]
+    \begin{center}
+    \begin{adjustbox}{angle=0, max height=0.9\textheight}
+   \small \begin{tabularx}{\textwidth}{
+    >{\columncolor{MintCream}}p{4cm} 
+    >{\columncolor{MintCream}}X 
+    >{\columncolor{MintCream}}p{3cm}
+    >{\columncolor{MintCream}}p{3cm}}
+    \hline
+         \rowcolor{MidnightGreen}
+         \textcolor{white}{\textbf{Activities Categories}} & \textcolor{white}{\textbf{Source}} & \textcolor{white}{\textbf{Method}} & \textcolor{white}{\textbf{Data Source}} \\
+    \hline
+         $\sbullet[.75]$ Utilitarian walking \newline $\sbullet[.75]$ Leisure walking & \citep{Ki2021} & Green View Index (GVI), Semantic segmentation, deep neural network model, fully convolutional network & Google Street View (GSV) images \\
+    \hline
+         $\sbullet[.75]$ Walking for transport \newline $\sbullet[.75]$ Walking for recreation & \citep{Zhang2020} & Regression model and statistical analysis & Green spaces from UKMap, Pedestrian data from London Travel Demand Survey 2009/2010 \\
+    \hline
+         $\sbullet[.75]$ Essential trips for commuting \newline $\sbullet[.75]$ Optional trips for recreational activities & \citep{Lee2020} & Placemeter utilizing computer vision algorithms. Produced video feeds from streets and created automated reports tracking the number of pedestrians. & Pedestrian count and relative speed data captured by video, weather data from Central Park weather station (KNYC) and other private weather stations in New York City, and sunlight and wind simulation results from massing models of the corresponding locations. \\
+    \hline
+         $\sbullet[.75]$ Stationary activities \newline $\sbullet[.75]$ Passer-by activities \newline $\sbullet[.75]$ Cultural and social activities & \citep{Istrate2020} & Case study approach & Observational data \\
+    \hline
+         $\sbullet[.75]$ Optional \newline $\sbullet[.75]$ Necessary \newline $\sbullet[.75]$ Social (Resultant activities) & \citep{gehl2011life} & Systematic study & Qualitative data, including observations, interviews, mapping existing infrastructure \\
+    \hline
+         $\sbullet[.75]$ Walking for exercise \newline $\sbullet[.75]$ Walking for sports/exercise \newline $\sbullet[.75]$ Walking for transport & \citep{tudor2005patterns} & Nesting 3-digit code classification and statistical analysis & Time use diaries \\
+    \hline
+         $\sbullet[.75]$ Goal-oriented \newline $\sbullet[.75]$ Non-goal-directed or exploratory & \citep{Gibson1988} & Experiments & Observational data \\
+    \hline\hline
+    \end{tabularx}
+    \end{adjustbox}
+    \end{center}
+    \caption{Summary of Walking Activities Categorisation in Research by \citep{Stanitsa2023}.}
+    \label{tab:lit/walking_activities}
+\end{table}
+
+Gehl in \citep{gehl2011life} classified pedestrian activities as \textit{necessary}, \textit{optional}, and \textit{social}, and the relationship of their occurrence with the quality of the physical environment, as presented in Figure \ref{fig:lit/activity_environment}. Gehl also provided further explanation into \textit{standing pedestrian activities} by categorising them in \textit{stopping for a moment}, \textit{standing to talk to someone}, and \textit{standing for a while} categories while asserting that the keyword for standing in the context of pedestrians is \textit{staying}. 'Stopping for a moment' refers to very brief stops that are not influenced by the surrounding environment. The 'Standing to talk to someone' is termed for when pedestrians engage in conversation, whereas 'standing for a while' includes staying while waiting for someone or to enjoy the surrounding. This classification is important for this dissertation and will be linked to Section \ref{subsec:meth/pause} in Chapter \ref{ch:meth} and Section \ref{sec:disc/experiments_analysis} in Chapter \ref{ch:disc}. While Gehl also elucidates \textit{sitting activities} and the effect of \textit{sensory functions} such as hearing, seeing, and talking, in the premise of the work presented in this dissertation, they are all considered as standing or staying.
+\\
+
+  \begin{figure}[htbp]
+    	\centerline{\includegraphics[width=\textwidth]{Figures/Ch2/Theoretical Background/gehl2011.png}}
+    	\caption{Relationship between the Quality of the Physical Environment and the Occurrence of Pedestrian Activities \citep{gehl2011life}}
+    	\label{fig:lit/activity_environment}
+    \end{figure}
+
+\textit{Pedestrian movement} can be contextualised through the purpose of usage of the keywords identified through \gls{lda} analysis in the existing literature. Shi et al. in \citep{Shi2018} attribute pedestrian movement as the variation of flows. The research presented by Shi et al. covers complex pedestrian movement, classifying it as either externally governed or internally driven. Factors such as infrastructural constraints affect pedestrian movement, subsequently affecting the desired walking manner of the pedestrians in externally governed movement. Whereas, in internally driven movement, the willingness of the pedestrian to either follow the crowd or act in the manner of the crowd is spontaneously chosen by the pedestrians. According to \citep{Shi2018}, pedestrians change their speed and direction in both of the aforementioned categories and furthermore pedestrians do that more often than vehicles do. Helbing in \citep{Helbing1991} attributed intended velocity, attractive and repulsive effects, and fluctuations as determinants of the movement of pedestrians. The density of pedestrians is also considered a factor affecting the movement patterns. For instance, Seyfried et al. in \citep{Seyfried2005} investigated single-file movement of pedestrians to draw an empirical relation between the movement of pedestrians and their density and velocity. This implies that measuring the movement of pedestrians can provide insights into more complex movement dynamics. This will be further discussed in Section \ref{sec:meth/intro} in Chapter \ref{ch:meth}.
+\\
+
+Finally, the term \textit{pedestrian behaviour} in the literature is descriptively used for characterising the \textit{intentions and tendencies} of the pedestrian. Zacharias in \citep{Zacharias2001} attributed the study of pedestrian behaviour as an assessment of the response of pedestrians to environmental characteristics like density, direction of movement, comfort, and image of places during their walking course. While some factors such as density and direction of movement were identified during the discussion of pedestrian movement, the difference here is that in pedestrian behaviour, the research entails studying the responses of pedestrians to those factors. Therefore, understanding pedestrian behaviour requires analysis of social factors. Hamed in \citep{Hamed2001} describes this by regarding the analysis of factors such as gender and age to be important aspects of understanding pedestrian behaviour. Other determining factors include demographics, traffic dynamics, and environmental conditions \citep{Rasouli2020}. Bovy and Stern in \citep{Bovy1990}, proposed a route choice behaviour theory, where they identified \textit{personal attitudes} as one of the subjective factors that affect the decision to choose a route. Similarly, \textit{utility maximising} and \textit{cost minimising} tendencies are identified in the \textit{Normative Pedestrian Behaviour Theory} by Hoogendoorn in \citep{Hoogendoorn2002}. It can be inferred through these existing works that the study of pedestrian behaviour also requires subjective or qualitative parameters. Thus, even if pedestrian behaviour is measured, it is incomplete without qualitative studies.
+\\
+
+Through the contextualisation of the terms pedestrian activities, pedestrian movement, and pedestrian behaviour, a definition for each of those terms can be formulated. Following are the definitions of these terms for their use in this dissertation.
+
+\begin{enumerate}[label={}, ref=\thedef]
+    \item \definition{\textbf{Pedestrian Activities:} Pedestrian activities encompass various tasks or actions that pedestrians undertake, such as walking, standing, talking, or shopping.}{pa}
+    \item \definition{\textbf{Pedestrian Movement:} Movement refers to the physical flow or trajectory of pedestrians as they navigate through spaces.}{pm}
+    \item \definition{\textbf{Pedestrian Behaviour:} Behaviour encompasses the decisions, actions, and reactions of pedestrians based on individual and collective influences.}{pb}
+\end{enumerate}
+
+These definitions may lack the necessary details and nuances from a sociological or planning point of view, however, they are useful for the identification of the scope of this dissertation. The research presented in this dissertation is from the technological point of view of measuring pedestrians, and therefore, lacks the sociological aspects of the discipline.
+
+\vspace{10pt}
+
+    \begin{tcolorbox}[
+        colframe=white, % Border color
+        colback=Ivory, % Background color
+        coltitle=white, % Title text color
+        title=Crowds vs Pedestrians Highlights, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=DarkSlateGray, colframe=SlateBlue, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        In conclusion, this section clarifies the distinction between crowds and pedestrians, noting that while crowds often involve collective behaviour and self-organisation, as described by LeBon \citep{Bon1896} and others, not all crowds follow these patterns. Factors such as size and interaction levels are important, with larger, less structured groups classified as crowds. For this study, a group becomes a crowd when it surpasses the capacity of the technology employed in measurements. \textit{\ul{The scope of the study presented in this dissertation is limited to pedestrians}}.
+\\
+
+This section also presents a distinction between pedestrian activities, movement, and behaviour, which, though not clearly and explicitly mentioned in the literature, are contextualised here: activities referring to tasks like walking or staying, movement referring to the physical flow of pedestrians, and behaviour, covering decision-making influenced by individuals and social factors. The focus of this research remains on empirically measurable parameters which limits the \ul{\textit{scope of the research presented in the dissertation to pedestrian activities and movement, rather than behaviour}.}
+    \end{tcolorbox}
+
+
+\section{Technologies for Pedestrian Measurements} \label{sec:lit/modalities}
+
+To understand the complexities surrounding pedestrian behaviour and the subsequent development of inclusive and sustainable urban development, collecting pedestrian data is important. Traditional analytical model-based decision-making approaches often suffer reliability issues as the complex intricacies of real-world problems lead to either infeasible models or significant model mismatches, and thus, data-driven decision-making emerges as a superior approach to model-driven approaches since its outcome is based on real-world data \citep{Lu2019}.
+\\
+
+Understanding pedestrian behaviour is one such complex endeavour, since the behaviour is a function of several personal and environmental factors. The width of the path, pedestrian density, spatial features of the space, and weather conditions are some of the factors that determine the characteristics of pedestrian behaviour. As well as qualitative factors such as activities of daily living, mood, health, and health perception. Reflecting all these factors in a model can be challenging and hence, understanding pedestrian behaviour could be better suited to data-driven approaches. Literature is comprehensive when it comes to techniques, approaches, and technologies utilised to monitor pedestrian behaviour. These approaches, at a macro level, can be categorised as \textit{opportunistic} and \textit{participatory} \citep{Cardone2014}.
+
+\begin{enumerate}
+    \item \textbf{Participatory Monitoring:} Type of monitoring that requires consent from the observed person to contribute to the data collection process. It involves the participation of the stakeholders \citep{Mckenzie2006} and agreement from the participants to contribute to the study by collecting and sharing their data \citep{Groba2019}. This type of sensing also allows capturing fine-grained measurements of information and/or opinions, subsequently contributing to actionable inferences and decision-making \citep{Khan2015}.
+    \item \textbf{Opportunistic Monitoring:} Opportunistic monitoring techniques seek to take advantage of a situation to capture data for the purposes of monitoring, often in an unobtrusive manner. Through this technique, data is collected from any available sensor, but it requires signal processing techniques to infer high-level information from the raw data \citep{Cardone2014}. These methods are autonomous in nature and therefore, do not require any user intervention \citep{Hoseini2013}.
+\end{enumerate}
+
+There are several methods for collecting data needed to understand pedestrian behaviour. The literature is rich in methods employing optical sensors, such as RGB cameras and depth cameras. There is also substantial research in the discipline utilising \gls{gps} to understand behavioural patterns. As well as quantitative methods, qualitative methods had also been employed before the advent of modern technologies. The following subsections introduce various modalities employed for understanding pedestrian activities, movement, and behaviour. In each of the subsections, a brief of various methodological approaches is also presented, with a detailed description of those methodologies presented in Appendix \ref{A.1/pedestrian_methodologies}.
+
+\subsection{Surveys and Questionnaires}
+
+Surveys and questionnaires have been used to gather information for many years \citep{Hill1984}. They are essential tools for not only measuring pedestrians' activities, movement characteristics and behaviours, but also, their attitudes and preferences. These instruments, participatory in nature, provide a structured and systematic approach to collect data from individuals directly, offering insights into different aspects of pedestrian activities. These tools are employed to gather comprehensive information such as context and motivation behind pedestrian actions, interaction of pedestrians with their environment, perceived safety, and compliance with traffic regulations\citep{Elliott2004}. They are particularly useful in drawing out subjective experiences and perceptions that may not be easily identifiable through the use of technology.
+\\
+
+The objective of a study needs to be carefully considered to develop effective surveys and questionnaires. Since these tools are used for capturing both qualitative and quantitative data, they are designed with both open-ended and closed-ended questions. For example, \gls{pbs}, presented by Vandroux et al in \citep{Vandroux2022}, includes measurement of violations, errors, lapses, and aggressive and positive behaviours. This corresponds to open-ended questions. An example of close-ended questions is the use of Likert scales that allow the participants to indicate the degree of certain behaviours. This in turn enables the use of quantitative analysis \citep{Deb2017}. Since this method is capable of capturing subjective experiences, it is more widely employed to understand pedestrian behaviour.
+\\
+
+Surveys and questionnaires are typically based on theoretical frameworks and validated scales, such as the \gls{pbq} developed by Moyano \citep{Moyano1997}, based on \gls{dbq} by Reason et al. \citep{Reason1990}, for understanding pedestrian behaviour. Quantitative and qualitative analyses are used to process survey data. Statistical methods like descriptive statistics, regression analysis, and \gls{sem} are used to identify patterns in pedestrian behavior, while \gls{cfa} ensures the validity of the factor structure \citep{Deb2017}. Content and thematic analysis provide deeper insights into qualitative data \citep{Granie2013}. Reliability testing, such as Cronbach's Alpha, and validation tests are employed \citep{Vandroux2022, Deb2017}. Ethical considerations are highlighted in several studies, focusing on informed consent, confidentiality, and approval from ethical committees \citep{Hill1984, Moyano2002, Granie2013}. Several studies, such as Grani\'e's, developed comprehensive frameworks to assess pedestrian behavior, later refined through various studies, like that of Elliott and Baughan's \gls{arbq} \citep{Granie2013, Elliott2004}. Other works like Díaz \citep{Diaz2002} applied the theory of planned behavior, exploring risky pedestrian behavior, while studies like Mont’Alv\~ao et al. \citep{Alvao2021} and Domeneghini et al. \citep{Domeneghini2022} emphasized pedestrian-vehicle collisions and walkability factors through similar survey methodologies.
+
+\subsubsection{Advantage and Challenges}
+The primary advantage of using surveys and questionnaires is that they allow large amount of data to be gathered efficiently from a diverse sample of the population. Through this, researchers can quantify patterns in pedestrian activities, movement, and behaviour, and correlate them with the demographic data such as gender, age, and socio-economic status \citep{Granie2013}. However, challenges arise from ensuring high response rates and mitigating biases that may arise from self-reported data, such as social desirability bias and recall bias \citep{Hill1984}.
+
+\vspace{10pt}
+
+    \begin{tcolorbox}[
+        colframe=white, % Border color
+        colback=Ivory, % Background color
+        coltitle=white, % Title text color
+        title=Surveys and Questionnaires Highlights, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=DarkSlateGray, colframe=SlateBlue, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+        breakable,
+    ]
+        It is evident from the studies that surveys and questionnaires have been widely employed by researchers as a method for data collection for understanding pedestrian behaviour. The methods have also been useful in revealing important dynamics of pedestrian behaviours and the intentions and opinions of pedestrians, drivers and other stakeholders about walking. However, the methods have some limitations. One of the main limitations of the surveys and questionnaires approach is the potential for introducing bias in the responses \citep{Alvao2021}. Engaging a significant number of participants in the surveys is also a challenge which can be addressed by recruiting large numbers of surveyors, however, that requires more training sessions and resources \citep{Livi2004}. The same study also highlights that the respondents themselves were often ignorant about walking behaviours which necessitated the need for community-wide education and awareness. Such a limitation may lead the respondents to misinterpret the questions, resulting in a skewed outcome. Survey fatigue, where long or complex surveys can lead to deteriorated response rates and response quality is another problem with this method \citep{Porter2004}.
+    \end{tcolorbox}
+
+
+\subsection{Optical Sensors}
+Optical sensors \citep{Haus2010} have become a cornerstone in studying pedestrian activities, movement dynamics, and behaviour. These sensors and associated techniques are mature and effective in both capturing and analysing the patterns of pedestrians in both natural and controlled environments. The core operating principle of these sensors lies in their ability to detect and process light in various spectra, depending on the type of optical sensor, which enables the collection of high-resolution visual data suitable for analysing pedestrian dynamics with accuracy.
+\\
+
+Optical sensors have evolved significantly over the past few decades due to accelerated advances in the technology and computational power that are required for processing large and complex information. Early studies have relied on basic video cameras, capturing data in the visible spectrum, which were then manually analysed to obtain insights into pedestrian dynamics. Today, the range of optical sensor technology includes, high-definition video cameras, stereo vision systems, infrared sensors, and depth sensing cameras like \gls{lidar}, each offering unique characteristics and advantages in capturing different aspects of pedestrian dynamics \citep{Duives2014}. For example, stereo cameras and \glspl{Lidar} provide depth information that is important in understanding three-dimensional aspects of pedestrian dynamics, whereas, infrared sensors provide the ability to capture pedestrian data in low-light conditions \citep{Kerridge2004}.
+\\
+
+Sophisticated software tools have emerged over the years as techniques for the analysis of images and video sequences have matured. These tools are efficient in motion detection, object tracking, and pattern recognition, allowing for automated extraction of pedestrian trajectories and other movement characteristics \citep{Liao2014}. Tools such as \textit{PeTrack} \citep{Boltes2010} enable automated analysis of pedestrian dynamics at scales and resolutions that were previously unattainable. Additionally, the incorporation of machine learning techniques has enhanced the ability of optical systems to identify and classify pedestrian behaviours, further refining the accuracy and depth of the analysis \citep{Pop2021}. These techniques have contributed greatly to advancing not only macro-analysis but also micro-analysis of pedestrian movement dynamics \citep{Li2020}.
+\\
+
+The versatility of optical sensor technology has facilitated its application in a wide range of pedestrian studies, from flow monitoring to behaviour during mass gatherings and evacuations. For instance, studies have utilised the video recordings and analysis to measure pedestrian walking speeds, density, and flow rates in various settings, including sidewalks, train stations, and at events \citep{Tanaboriboon1986, Duives2014b, Shah2013}. These sensors have played an important role in experimental setups designed for studying evacuation dynamics, where they have provided necessary data to predict behaviour under stress \citep{Moussaid2010}.
+\\
+
+Despite many advantages, the use of optical sensors comes with many challenges. Issues such as occlusions from various types of obstacles block the view of the cameras, and the need for high computational resources for data processing are significant bottlenecks \citep{Depatla2020}. Optical sensors are also \textit{intrinsically} privacy-compromising \citep{Feng2021}. However, the use of other optical sensors, such as \gls{lidar}, and techniques such as wireframe extraction \citep{Kunchala2023}, are promising solutions to address privacy concerns.
+
+\vspace{10pt}
+
+    \begin{tcolorbox}[
+        colframe=white, % Border color
+        colback=Ivory, % Background color
+        coltitle=white, % Title text color
+        title=Optical Sensors Highlights, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=DarkSlateGray, colframe=SlateBlue, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+    Overall, it is apparent from the literature that there is significant interest in the application of vision-based approaches to understand pedestrian behaviour. Since the algorithms and techniques for analysing images and videos are mature, these approaches have a significant advantage. However, the analysis techniques are computationally expensive and time-consuming. For instance, the study in \citep{Kristoffersen2016} had to compromise with the accuracy of the results while selecting analysis algorithms because of computational and time constraints. Camera position and angles strongly influence the reliability of the collected data for data analysis, and the data collected from the camera "intrinsically feature" personally identifiable information \citep{Feng2021}. \citep{Draghici2018, Determe2022} also classify cameras as a privacy-sensitive modality. An alternative to visible light or RGB cameras to prevent the collection of personal data is depth sensors. However, as pointed out in \citep{Kristoffersen2016}, the use of depth sensors increases the complexity of the set-up, requiring additional steps in the absence of background texture before data analysis can be performed. They also suffer from line-of-sight occlusions \citep{Determe2022}. The majority of the research conducted using camera-based approaches also requires ground truth validation to be manually annotated, which is time-consuming \citep{Draghici2018}. A 3D wireframe approach to preserve privacy, as presented in \citep{Kunchala2023} presents a promising outcome for privacy preservation. However, the use of sophisticated machine learning algorithms increases the infrastructure and computational costs. Depatla in \citep{Depatla2020} also mentions the cost of running vision-based approaches, citing the discontinuation of such a system by Walmart to track its shoppers to curtail expenses.
+\end{tcolorbox}
+
+
+\subsection{\gls{gps}} \label{sec:lit/gps_intro}
+
+\begin{wrapfigure}{l}{0.45\textwidth}
+\vspace{-5mm}
+    \begin{tcolorbox}[
+        colframe=Teal, % Border color
+        colback=MintCream, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{Supplementary Information}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=MidnightGreen, colframe=Teal, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{\gls{gnss} are satellite systems that provide global coverage for positioning and localisation using satellites. The \gls{gnss} system developed by the USA is called \gls{gps}, the Russian counterpart is called \gls{glonass}, whereas the Chinese and European systems are called \gls{bds} and Galileo.
+        \\
+        
+        In this dissertation, the term \gls{gps} is used to generally refer to \gls{gnss}, and other technologies are explicitly used only when the discussion specifically entails those.
+        }
+    \end{tcolorbox}    
+    \vspace{-8mm}
+\end{wrapfigure}
+
+\gls{gps}, due to its accuracy and capability to capture detailed data regarding pedestrian movements, is an important tool in pedestrian studies. \gls{gps} technology is now ubiquitous on smartphones. Around a decade ago, the route network on navigation services (such as Garmin, Google, TomTom), was based on road networks and was inadequately equipped with pedestrian routes \citep{Kasemsuppakorn2013}. Therefore, in its infancy, fewer research works were undertaken for pedestrian studies using \gls{gps}. Due to the inherent design of \gls{gps} to aid and assist in navigation and route identification through real-time position tracking, the data acquired through the technology offers fine granularity measurements to understand pedestrian dynamics in both controlled and natural settings.
+\\
+
+With the advent of high-accuracy and low-cost \gls{gps} receivers, these devices are effective and promising in capturing pedestrian movement with precision and through improvements such as \gls{waas} and \gls{gps}, even in dense urban infrastructures where signal attenuation and multipath effects can adversely affect the measurements \citep{Kasemsuppakorn2013}. The dual-mode positioning system of \gls{bds} and \gls{gps} has further improved the efficacy of \gls{gps} systems to reach centimetre level precision in outdoor environments \citep{Wang2020}.
+\\
+
+The widespread use of \gls{gps}-enabled mobile phones has revolutionised the collection of pedestrian data. It allows the passive collection of location data as participating pedestrians move in space, allowing the collection of large datasets without requiring specialised equipment \citep{Lue2019}. This facilitates the development of smartphone applications that can capture detailed movement measurements in real-time. Studies have demonstrated the use of such data to develop pedestrian route choice models which give consideration to street infrastructure, built environment, and land use \citep{Lue2019}.
+\\
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+    \begin{tcolorbox}[
+        colframe=Teal, % Border color
+        colback=MintCream, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{Supplementary Information}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=MidnightGreen, colframe=Teal, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{\textit{Geofencing} is a virtual fence that allows triggering actions such as starting or stopping data logging when the device enters or exits a region \citep{Reclus2009}.
+        }
+    \end{tcolorbox}    
+\end{wrapfigure}
+
+Despite these advantages, \gls{gps} technology faces many challenges in its adoption for pedestrian measurements. Signal attenuation, especially in urban canyons or in areas with dense tree canopies can lead to inaccuracies in the measurements \citep{Kasemsuppakorn2013b}. Furthermore, since the technology demands the active participation of pedestrians to record their movements on their own devices and provide it to the researchers either through cloud upload or by manual data file sharing, there is an implication for privacy and an associated resource cost in terms of battery, storage and internet consumption. Finally, the risk of being observed beyond the experimental area has the potential to leak the whereabouts of pedestrians at all times. Some of these issues are often minimised through the use of filtering and clustering techniques to improve the quality of data obtained from regions where attenuation is more probable, and through \textit{geofencing}.
+\\
+
+The methodologies for using \gls{gps} technology for pedestrian monitoring have evolved significantly, with early work by Kasemsuppakorn and Karimi \citep{Kasemsuppakorn2013b} being among the first to utilise \gls{gps} traces from collaborative mapping efforts to create pedestrian networks. Although their focus was not on pedestrian dynamics measurements, it marked a key step in leveraging \gls{gps} for such applications.
+\\
+
+\gls{gps} data is typically collected through mobile apps, where devices transmit spatio-temporal information to backend systems for analysis \citep{Draghici2018}. Spek \citep{Spek2008} used \gls{gps} devices to track pedestrian routes, comparing this data with self-reported routes gathered through surveys. The study processed data in five steps, including cleaning, filtering, and GIS-based analysis to highlight stop durations and journey patterns.
+\\
+
+With smartphones now offering built-in \gls{gps}, studies like Blanke et al. \citep{Blanke2014} collected substantial datasets during public events, using geo-fencing to reduce power consumption and integrating surveys for additional qualitative insights. Similarly, McArdle et al. \citep{McArdle2014} introduced a geovisual analysis technique to cluster pedestrian trajectories and visualise spatio-temporal patterns.
+\\
+
+Recent studies, such as \citep{Lue2019, Larroya2023, Hahm2019}, continue to explore pedestrian movement using \gls{gps}. These studies demonstrate the flexibility and power of \gls{gps} technology in capturing real-time pedestrian data, enhancing urban studies by linking movement patterns to preferences, environmental factors, and activities.
+
+\vspace{10pt}
+
+    \begin{tcolorbox}[
+        colframe=white, % Border color
+        colback=Ivory, % Background color
+        coltitle=white, % Title text color
+        title=\gls{gps} Highlights, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=DarkSlateGray, colframe=SlateBlue, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+    Data collection through \gls{gps} is participatory in nature as most studies either require an application installed on a personal smartphone or handing over a standalone device to collect the data. The biggest challenge however is the concern with privacy, as in order to collect their location, the application is usually installed on the participant's personal device which amounts to tracking. For instance, in the study conducted by \citep{Larroya2023}, additional steps had to be taken to ensure that the team running the experiments was kept unaware of participating students, and k-anonymity techniques were employed to ensure privacy was not infringed. One method to curb the constant collection of \gls{gps} data to prevent unnecessary tracking of participants was presented by \citep{Blanke2014} through the use of geo-fencing. However, there still remains the chance of privacy threats where the application may be exploited to collect and leak such sensitive information. Finally, the continuous use of \gls{gps} on personal devices also introduces the problem of increased battery consumption which may discourage the participants from participating in studies \citep{Kitazato2018}. In studies such as \citep{Blanke2014}, participants were incentivised, keeping in mind that battery consumption might deter participation. Some studies such as \citep{Lue2019} sacrificed more precise data by reducing the frequency of data capture to balance the battery consumption and accuracy of the data records. Detection errors are also highlighted as one of the limitations of the technology that could cumulatively lead to significant errors in estimation \citep{Daamen2003}. Finally, \gls{gps} loses its versatility as its reliability is questionable indoors, therefore, studies that observe indoor and outdoor behaviour would suffer from these inaccuracies. For this reason, studies such as \citep{Hahm2019} requested additional information such as photographs from the participants to ensure estimates are accurate using the collected data which may be perceived by the participants as privacy invasive and may discourage participation.
+\end{tcolorbox}
+
+
+\subsection{WiFi and \gls{bt}} \label{sec:lit/tech/wifi_bt}
+Both WiFi and \gls{bt} are radio-based infrastructures \citep{Draghici2018} that have many similarities, especially the type of data obtained from these technologies when applying them to understand pedestrian behaviour, and hence, the two are discussed together in this report. Another reason is that many of the studies have used the two technologies in conjunction with each other. WiFi, defined in IEEE 802.11 protocol \citep{ieee80211}, is a local area network technology with a range of about 35 metres indoors and over 100 metres outdoors depending on the environment and transmission power, whereas Bluetooth, IEEE 802.15.11 standard \citep{ieee802151}, is a short-range and low-cost wireless communication protocol \citep{Abedi2013}. \gls{bt} devices are classified in three classes -- Class 1, Class 2, and Class 3 -- based on their power output, with a typical range of up to 100 metres in Class 1 device, the highest amongst three classes \citep{BT2014}.
+\\
+
+WiFi and \gls{bt} both operate in 2.4 GHz frequency band, with the exception that WiFi also operates in 5GHz frequency band. WiFi, in the 2.4 GHz band, operates on 11 channels in most regions, with up to 14 channels in some countries, with each channel being 20MHz wide. \gls{bt} hops between 79 different 1 MHz-wide channels in most regions. While all but three of the WiFi channels overlap, \gls{bt} channels do not overlap with each other. WiFi and \gls{bt} channels in the 2.4GHz frequency band are presented in Figure \ref{fig:wifi_bt/channels}.
+\\
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{Figures/Ch2/modalities/WiFi_BT_Channels.png}
+\decoRule
+\caption{WiFi and \gls{bt} Channels in 2.4GHz Frequency Band}
+\label{fig:wifi_bt/channels}
+\end{figure}
+
+Since both technologies are commonly available in modern personal devices, they are becoming more suitable candidates for crowd and pedestrian monitoring. Both technologies operate based on \gls{mac} address standards, which are unique identifiers that can be used for tracking devices. Both technologies can be used in an opportunistic manner that can be useful to yield insights about pedestrian movement patterns unannounced to the data contributors or pedestrians \citep{Abedi2013}. \citep{Abedi2013} also clarifies that both technologies handle traffic through a central unit, an Access Point in the case of WiFi and a Master in the case of \gls{bt}, and both technologies scan for other devices which can be used to estimate the location of devices, categorising the movement patterns based on time spent within the range of the respective central units.
+\\
+
+WiFi discovery is performed in two ways: \textit{passive scanning} and \textit{active scanning}. In passive scanning, a device listens for \Gls{beacon} frames from access points broadcasting their presence every 100 ms on their operating channel, whereas, \textit{active scanning} entails the mobile device broadcasting inquiry messages across all channels sequentially. In the case of \gls{bt}, any device seeking to establish connection sends out an inquiry packet which other devices can respond if they are set to be \textit{discoverable} mode in their user interface. The inquiry packet is a message that includes the \gls{mac} identifier and potentially other details, such as the device's name \citep{Schauer2014}. In \gls{bt}, the connection is initiated by a device through the broadcast of these inquiry packets which other devices that are in the \textit{visible} mode can answer through an inquiry response, containing information similar to inquiry packet, like \gls{bt} \gls{mac} identifier and supplementary information such as local name \citep{Schauer2014}.
+\\
+
+In WiFi and \gls{bt} both, the approaches to capture data to understand pedestrian behaviour, as highlighted by \citep{Schauer2014}, include the \textit{naive approach} which is simply counting of unique \gls{mac} addresses, \textit{time-based approach} which is calculating the time difference between the first and the last visibility of a device on a node, \textit{\gls{rssi} approach} which captures the strength of the received signals, and \textit{hybrid approach} that combines the \gls{rssi} approach and the time-based approach to capture both the \gls{rssi} and the time of the reception of associated signal. The distinction of these approaches is important as it facilitates methodological choice for experiments presented in this dissertation. This will therefore be referred back in Section \ref{sec:meth/mainpythonscript} in Chapter \ref{ch:meth}. A more detailed explanation of \gls{rssi} is presented in Section \ref{sec:lit/ble}.
+\\
+
+WiFi and \gls{bt} technologies allow passive data measurements on pedestrians' movement dynamics. Thus, they allow unobtrusive measurement from mobile devices carried by pedestrians, reflecting the movement of pedestrians through the signals these devices emit. The unobtrusiveness of these technologies allows deploying such systems in large environments such as train stations and shopping malls and mass events where deploying traditional modalities are challenging \citep{Yoshimura2017}. In studies, WiFi signals have been used in conjunction with \gls{gps} or video surveillance to provide detailed and accurate pedestrian measurement\citep{Schauer2014}.
+\\
+
+Paths followed by pedestrians can be reconstructed through measured \gls{rssi} data and such paths can be correlated with their route choices, movement patterns, and the presence of congested infrastructure. An example study was conducted by Heuvel et al. in \citep{Heuvel2013}. Additionally, simulations of pedestrian behaviour can be modelled through \gls{bt} and WiFi data. Such models are useful in assessing the impact of new infrastructures, for instance, \citep{Danalet2016} presented the use of WiFi data to predict market share for new establishments based on observed pedestrian behaviour. However, the use of WiFi is more prevalent to study pedestrian dynamics in indoor environments over outdoor environments. Through the data acquired from \citep{Dimensions2023}, a comparison of the results obtained by searching the keywords "'pedestrian' AND 'wifi' AND 'indoor'" and "'pedestrian' AND 'wifi' AND 'outdoor'" is presented in Figure \ref{fig:wifi_indoor_outdoor_comparison}. With the advent of WiFi\gls{ftm} in 2016, a protocol that enables precise indoor positioning by measuring the distance between a device and a WiFi \gls{ap} \citep{wififtm}, the technology has become more accurate for such research.
+\\
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{Figures/Ch2/pedestrian_dynamics_comparison_final_300dpi.png}
+\decoRule
+\caption[Comparison of Pedestrian Related Research Using WiFi in Indoor and Outdoor Environments]{Comparison of Pedestrian Related Research Using WiFi in Indoor and Outdoor Environments (\citep{Dimensions2023})\footnotemark}
+\label{fig:wifi_indoor_outdoor_comparison}
+\end{figure}
+\footnotetext{The data was acquired in September 2024.}
+
+
+The use of WiFi and \gls{bt} in pedestrian studies ranges from basic tracking to complex modelling. These technologies, though designed for communication, are repurposed for pedestrian movement analysis, requiring a solid understanding of device-specific technicalities. For example, Dimitrova et al. highlighted variability in signal strength across different devices, pointing to the importance of hardware understanding \citep{Dimitrova2012}.
+\\
+
+Wasson et al. and Haghani et al. demonstrated early uses of \gls{bt} for estimating travel time by capturing signals from devices in transit \citep{Wasson2008, Haghani2010}. Bonne et al. used WiFi for large-scale event tracking, capturing movement data from attendees at a music festival and a university campus \citep{Bonne2013}. Schauer et al. refined this by combining WiFi and \gls{bt} data at Munich airport, improving accuracy with a hybrid \gls{rssi} and time-based approach \citep{Schauer2014}.
+\\
+
+Ton et al. utilised WiFi, \gls{bt}, and infrared sensors at Dutch train stations to analyse passenger preferences, such as route choice and walking distance, while Danalet et al. and Heuvel et al. used similar techniques to study behaviour on university campuses and at transport hubs, respectively \citep{Ton2015, Danalet2016, Heuvel2013}. Lastly, Yoshimura et al. applied \gls{bt} data to identify shopping patterns in Barcelona \citep{Yoshimura2017}.
+\\
+
+These studies demonstrate the value of WiFi and \gls{bt} in tracking pedestrian dynamics, providing crucial data for crowd management and infrastructure planning.
+
+
+\vspace{10pt}
+
+    \begin{tcolorbox}[
+        colframe=white, % Border color
+        colback=Ivory, % Background color
+        coltitle=white, % Title text color
+        title=WiFi and \gls{bt} Highlights, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=DarkSlateGray, colframe=SlateBlue, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+    WiFi technology holds a huge potential in pedestrian behaviour monitoring. Its availability has been a hallmark for researchers to select the technology in their studies. Several more researches exist in this sphere including, \citep{Gioia2019, Depatla2020, Perez2021, Huang2021, Han2021, Liu2022}. Much more research exists on the use of WiFi to understand pedestrian behaviour and characteristics in indoor environments.  Moreover, with the advent of WiFi \gls{ftm} (described in Appendix \ref{A.1/pedestrian_methodologies}), WiFi offers precise localisation in indoor environments. The discussion of the selected papers has already shown the potential of WiFi, along with \gls{bt}, to be applied to this unconventional use case of understanding pedestrian behaviour. The study presented in \citep{Danalet2016, Ton2015, Schauer2014} provides a testimony of how the addition of contextual information such as the time of the day, location, and even weather conditions can make data that is otherwise sparse, information rich. The capability of the data to reveal useful information with fundamental statistical analysis, as shown in all the studies discussed above, is also a favourable aspect of the technology. However, there are certain limitations associated with both WiFi and \gls{bt}. WiFi, with default high transmission power, demonstrates a stronger multipath component when compared with \gls{bt} \citep{Dimitrova2012}, which can subsequently lead to fading and delay in the signal \citep{Rappaport2002}. The probe requests of WiFi cannot be selectively listened to, which means that an observing access point will intercept every probe request thereby hindering the application of the technology to collect data in a participatory manner. The same also applies to \gls{bt} in addition to the fact that most earlier studies have highlighted the percentage of available \gls{bt} devices to be significantly less than the equivalent percentage for WiFi devices, for instance in \citep{Abedi2013, Schauer2014}. Dimitrova et al. also highlighted that the frequency hopping used in \gls{bt} limits its use for positioning due to lower accuracy as the response rate may be longer due to channel synchronisation \citep{Dimitrova2012}. Aside from these limitations, extended passive WiFi scans with lengthy durations due to multiple bands and \gls{ssid} intervals result in a low update rate, where a single scan can take up to multiple seconds. This results in a blurring the pattern of \gls{rssi} for moving users. Frequent active scans, on the other hand, reduces WiFi throughput and privacy and introduces inconsistency in reporting of signal strength. Therefore, posing challenges for cross-device positioning which is atypical usage of WiFi \gls{ap}s \citep{Faragher2015}.
+\end{tcolorbox}
+
+\vspace{10pt}
+
+\subsection{Section Summary}
+In conclusion, this section discusses various technologies used for measuring pedestrians, highlighting the importance of data-driven approaches due to the complexities of pedestrian dynamics influenced by factors such as path characteristics, density, and environmental conditions. Monitoring can be performed in two manners: participatory, where participants actively provide data, and opportunistic, which collects data passively, mostly without the knowledge of participants.
+\\
+
+Traditional methods such as surveys and questionnaires, a participatory approach, allow the collection of both qualitative and quantitative data, however, they are prone to introduction of biases. While optical sensors like RGB cameras and \gls{lidar}, mostly opportunistic in nature, offer precise visual data for analysing pedestrian dynamics, their disadvantages include privacy concerns, socio-psychological fears associated with those technologies, and requirement of computationally expensive hardware for analytics. GPS technology, participatory in nature, enables detailed tracking of pedestrian movements, although it faces challenges such as the requirement from the pedestrians to install an application on their phone, and the privacy concern associated with it where the tracking of the pedestrians can easily exceed beyond the area under scrutiny. 
+\\
+
+WiFi and \gls{bt} technologies allow relatively non-intrusive tracking of pedestrians by capturing signals from their devices, providing valuable insights into movement patterns. However, they struggle to selectively listen to participating pedestrians, and due to their opportunistic nature, can become a tool to listen to signals emerging from the devices of even non-participating pedestrians. Further, with WiFi, the use of existing \gls{ap}s for such studies hampers its original use for providing Internet services to its users due to reduced throughput. Despite challenges, these technologies have advanced the ability to understand pedestrian activities, movements, and behaviours in both controlled and natural environments, however, in the light of growing measurement needs and privacy concerns, a new technology needs to be identified and studied exhaustively.
+
+
+\section{\gls{ble} Primer}\label{sec:lit/ble}
+
+A radio-based alternative to \gls{bt} and WiFi is \gls{ble}. The \gls{bt} \gls{sig} released the \textbf{\gls{ble}} communication protocol as part of their \gls{bt} 4.0 standard in 2010 \citep{Collotta2018}. Unlike classic \gls{bt}, \gls{ble} is designed for low energy consumption \citep{Liu2012}. It offers a low power, low cost, easily accessible, and highly available solution in comparison to other communication protocols that could be applied to monitoring and positioning \citep{Yao2020}. To communicate with another specific device, a \gls{ble} device must first establish a connection with it. The connection process requires the device to \textit{advertise} its availability to its neighbour, called connection-less operation \citep{Nikodem2020}. In this connection-less process, the device performs a one-way broadcast of small data packets which are called advertisement messages, or simply, \glspl{advertisement}. These advertisements contain relevant information to establish the connection, called a scan request-response message. \gls{ble} devices can take one of the four roles,
+
+\begin{itemize}
+    \item \textbf{\Gls{broadcaster}:} Device that only emits advertisement data and is incapable of receiving data or allowing connections from other devices.
+    \item \textbf{\Gls{observer}:} Device that only listens to advertisement packets without initiating any connection requests.
+    \item \textbf{Central:} Device that listens to advertisements and is capable of initiating connections.
+    \item \textbf{Peripheral} Device that is capable of advertising and accepting connection requests.
+\end{itemize}
+There are two states a \gls{ble} device can have,
+\begin{itemize}
+    \item \textbf{Advertising:} In this state, a \gls{ble} device will only send out advertisement packets containing metadata.
+    \item \textbf{Scanning:} Device in this state will only listen for available advertisement packets.
+\end{itemize}
+
+A Broadcaster, such as a beacon, actively advertises on a combination of three channels (37, 38, and 39) specified by the protocol, whereas the remaining channels are used for data transmission once a connection is established \citep{Faragher2015}. Each channel has a $2$ $MHz$ width. The \gls{ble} channels and their comparison against WiFi and \gls{bt} channels in $2.4$ $GHz$ is presented in Figure \ref{fig:ble/channels}, where the 'green' bumps represent \gls{ble} channels with channel numbers 37, 38, and 39 marked as advertising channels. The advertisement channels are spread out intentionally to avoid interference from WiFi \gls{ap}s. These advertisements consist of \textit{advertisement packets} (ADV\_IND) containing metadata and are sent over each channel periodically for a specific time denoted by $\tau_{wa}$. The advertising devices enter sleep mode for a short period to conserve energy while sending the same advertisement packet between the channels. A random delay is added between each interval to avoid collisions, denoted by $\delta$. This advertisement delay varies between 0 and 10ms, and while it results in a variable \Gls{advertisement interval}, the variability is minuscule. The advertisement time and delay are collectively called \textit{advertisement interval}, denoted by $\tau_{ai}$. The \Gls{advertisement rate} also varies in different device types, ranging from $20$ $ms$ to $10,240$ $ms$ in multiples of $0.625$ $ms$ \citep{Nikodem2020}.
+\\
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{Figures/Ch2/modalities/WiFi_BT_BLE_Channels_600dpi.png}
+\decoRule
+\caption{\gls{ble}, WiFi, and \gls{bt} Channels in $2.4GHz$ Frequency Band}
+\label{fig:ble/channels}
+\end{figure}
+
+The scanning process consists of \textit{Scan Windows} ($\tau_{sw}$) within which a scanner device listens to one channel. A sleep time is added after each Scan Window and the two collectively make a \textit{Scan Interval} ($\tau_{si}$).
+\\
+
+Figure \ref{advertscan} depicts the advertisement and scanning process graphically and the parameters are summarised in table \ref{params} \citep{Seo2018}.
+
+\begin{figure}[htbp]
+	
+	\centering
+	\subfloat[\label{advert}]{%
+		\includegraphics[width=80mm, scale=0.5]{Figures/Ch2/advert.eps}}
+	\hfill
+	\subfloat[\label{scan}]{%
+		\includegraphics[width=80mm, scale=0.5]{Figures/Ch2/scanner.eps}}
+	\caption{(a) Advertisement Mechanism of BLE Device, (b) Scanning Mechanism of BLE Device}
+	\label{advertscan}	
+\end{figure}
+
+\begin{table}[htbp]
+    \centering
+    
+    \begin{tabular}{>{\columncolor{MintCream}}c >{\columncolor{MintCream}}c >{\columncolor{MintCream}}c}
+    \hline
+        \rowcolor{MidnightGreen}
+        \textcolor{white}{\textbf{Notation}} & \textcolor{white}{\textbf{Description}} & \textcolor{white}{\textbf{Range}} \\
+    \hline
+        $\tau_{wa}$ & Advertising period per channel & $\leq 10 ms$ \\
+        & & in $[20 \sim 10,240] ms$\\
+        \multirow{-2}{*}{$\tau_{ai}$} & \multirow{-2}{*}{Advertisement Interval} & Integer multiple of $0.625 ms$\\
+        $\delta$ & Uniform random delay & $[0, 10] ms$\\
+        & & in $[2.5 \sim 10,240] ms$\\
+        \multirow{-2}{*}{$\tau_{si}$} & \multirow{-2}{*}{Scan Interval} & Integer multiple of $0.625 ms$\\
+        
+        & & in $[2.5 \sim 10,240] ms$\\
+        \multirow{-2}{*}{$\tau_{sw}$} & \multirow{-2}{*}{Scan Window} & Integer multiple of $0.625 ms$\\
+    \hline\hline
+    \end{tabular}
+    \caption{BLE Device Parameters During Discovery Process}
+    \label{params}
+\end{table}
+
+\subsection{Signal Characteristics and Challenges} \label{sec:lit/ble/signal}
+\gls{ble} signals face several challenges in outdoor environments such as obstruction from spatial topology, collisions with signals from competing homogeneous devices on the same channel \citep{Liu2012}, physical characteristics of the journey of signals arising due to multi-path propagation \citep{Rappaport2002}, the latency of the software stack on the Observer. Some of the \glspl{propagation mechanism} that impact $2.4$ $GHz$ due to external influences are  as follows:
+
+\begin{enumerate}
+    \item \textbf{Reflection:} When a radio wave encounters surfaces composed of certain materials that are larger than its wavelength, the wave bounces back instead of passing through the surface, causing reflection. In the case of $2.4$ $GHz$ electromagnetic waves, the frequency in which \gls{ble} operates, the wavelength ($\lambda$) is $\approx12.5$ $cm$, as calculated using the expression in Equation \ref{eq:wavelength}. Therefore, surfaces like walls, metallic objects, concrete, etc. cause reflection. However, the material's permittivity and conductivity also play a vital role in determining the extent of reflection. Reflection causes \gls{multipath propagation}, thus leading to interference and signal degradation \citep{Rappaport2002}.
+
+\begin{equation}
+    \lambda = \frac{C}{f}
+    \label{eq:wavelength}
+    \myequations{Frequency to Wavelength}
+\end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet \text{ } C \text{\textit{ is the speed of light, and}}$\\
+\null \hspace{0.5cm}$\bullet \text{ } f \text{\textit{ is the frequency of signal, 2.4 $GHz$ or $2.4\times10^9\text{ }Hz$ in the case of \gls{ble}.}}$\\
+
+    \item \textbf{Refraction:} Bending of a radio wave as it passes from one medium to another with a different density, affecting the speed and direction of the wave is referred to as refraction. When the signal passes through glass or atmospheric layers with variable density, based on the refractive index of the material, the speed and direction of signals change \citep{Rappaport2002}.
+    \item \textbf{Diffraction:} Similar to refraction, in diffraction, signals or radio waves bend around the edges of an obstacle or through an aperture that is comparable in size to the wavelength of the signals, for example, fencing with holes that are 12.5 $cm$ or smaller. This phenomenon usually occurs due to sharp irregularities or edges on a surface. This phenomenon is expressed with \textit{Huygen's Principle} which states that "all points on a wavefront can be considered as point sources for the production of secondary wavelets" and these wavelets can then merge to create a new wavefront \citep{Rappaport2002}.
+    \item \textbf{Scattering:} When radio waves encounter rough surfaces or small objects that are comparable to the wavelength, the wave spreads out in different directions, causing scattering. Scattering causes dispersion of signal energy, thereby, degrading the signal. This is common in environments with many obstacles like trees, bushes, and uneven terrain \citep{Rappaport2002}.
+    \item \textbf{Absorption:} When radio waves encounter materials like concrete \citep{Asp2012}, water, or foliage, the signals are absorbed by the material, causing attenuation of signals. Moisture-laden materials are a typical example of materials that weaken radio waves due to absorption \citep{liao1990microwave}.
+\end{enumerate}
+
+These phenomenons discussed above, while caused by environmental characteristics, also emerge due to occlusion between a transmitter and a receiver. For example, a change in medium caused by occlusion such as a glass wall between transmitter and receiver, can cause refraction, or the presence of a human body, essentially composed of a major water component, between the two devices can lead to absorption since it is caused by moisture-laden surfaces. While there is no direct categorisation of these obstructions or occlusions in the literature, they can be combined through inferring or direct referring and presented categorically, as follows.
+
+\begin{enumerate}
+    \item \textbf{Physical Obstruction Occlusion:} Any physical object or structure that blocks the direct \gls{los} between a transmitter and receiver can be considered as a physical obstruction occlusion \citep{Turner2020}. For example, \citep{Rappaport2002} describes that the presence of large surfaces like walls and buildings can cause the signal to reflect and exhibit multipath propagation. Therefore, for the purpose of this dissertation, large physical objects, such as buildings or vehicles, between the transmitter and the receiver are considered as \textit{physical obstruction occlusion}.
+    \item \textbf{Environmental Occlusion:} Obstruction caused by natural obstacles such as foliage, terrain and weather conditions have also underscored degradation in radio waves \citep{liao1990microwave, Mathew2017Evaluation, Inacio2018}. Thus, environmental obstructions are considered as environmental occlusion for the purpose of this dissertation.
+    \item \textbf{Human \gls{body occlusion}:} This occlusion is caused by the presence of a human body between a transmitter and receiver. Studies presented in \citep{Smailagic2002, Hongwei2009, Kara2006Effect} have acknowledged the influence of the human body on \gls{rf} signals. A study by \citep{Othman2018Transmission} found that body occlusion can degrade 2.4 GHz signals by more than 20dB.
+    \item   \textbf{\gls{emi} Occlusion:} The obstruction caused by the presence of signals from other electronic devices is called \gls{emi} occlusion \citep{Lopez2012}.
+\end{enumerate}
+
+These propagation mechanisms and the presence of occlusion, along with other factors such as temperature and weather conditions lead to variation in the \gls{rssi} of \gls{ble} signals \citep{Subhan2022}. The publication by Subhan et al. \citep{Subhan2022} also suggests further research to explore statistical models and filtering techniques to reduce the variations in the \gls{rssi}. These variations, also referred to as fluctuations are interchangeably used in many publications in the literature (\citep{Naghdi2020, Mouhammad2019BLE, Subhan2022}). The fluctuations can cause \gls{rssi} measurements to deviate significantly from expected values, leading to outliers. For example, if a pedestrian with a \gls{ble} Broadcaster is stationary at a fixed distance, say 3 metres, from an Observer, the \gls{rssi} measured by the Observer will fluctuate within a range. This fluctuation will depend on the environmental topology and features. If say, a person or a vehicle is to pass between the Broadcaster and the Observer, which is a type of occlusion, the resulting \gls{rssi} value for that instance will be substantially degraded. This degraded \gls{rssi} value will be an \textit{anomaly} in the entire collected measurement. Such anomalous values could result in misrepresentation of analysis outcome.
+\\
+
+\citep{Montanari2017} demonstrates the effect advertisement intervals and scan intervals have over the performance of proximity detection using \gls{ble} devices. This study by Montanari highlights how the different parameters across a range of available devices affect the accuracy of monitoring \gls{ble} devices. It is an important finding that suggests the need for understanding the effects such parameters have on measurement quality and accuracy. This will be a useful comparison in the later part of the chapter in Section \ref{sec:lit/ble_meth} where various methodologies employed by different studies in the literature are presented, and will be referred back to in Section \ref{subsec:meth/advert_rate} in Chapter \ref{ch:meth} and in Section \ref{sec:disc/experiments_analysis} in Chapter \ref{ch:disc}. While advertisement rates vary widely between devices, the following guideline \citep{Argenox2023} is applied on most devices,
+
+\begin{itemize}
+    \item $>100$ $ms$ -- for aggressive connections
+    \item $100$ $ms$ to $500$ $ms$ -- normal fast advertisement used by most devices
+    \item $1000$ $ms$ to $2000$ $ms$ -- for devices where latency is not an issue
+    \end{itemize}
+
+There are two measures of power of the signal received by an antenna in Radiotelephone communication, RX and \gls{rssi}; while RX is measured in milliwatts (mW) or decibel-milliwatts (dBm), \gls{rssi} is a relative measurement based on the range determined by the chip manufacturers \citep{rx_rssi}. The signal strength represented through\gls{rssi}, decreases with the increase in distance between transmitter and receiver. The relationship between signal strength and distance, also determined by other factors including frequency and environment, is represented by \textit{path loss model} \citep{ROUPHAEL200987}. The standard path loss model is expressed in Equation \ref{eq:lit/std_pl} \citep{SAYRAFIAN2021221}.
+\\
+\begin{equation}
+    \label{eq:lit/std_pl}
+        L_{pl}(d)_{[dB]} = L_{pl}(d_0)_{[dB]} + 10\text{ }n_{pl}\text{ }log(\frac{d}{d_0})
+        \myequations{Standard Path Loss Model}
+\end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $L_{pl}(d)_{[dB]}$ is path loss at distance 'd',}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $L_{pl}(d_0)_{[dB]}$ is reference path loss at reference distance,}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $d$ is distance at which path loss is calculated,}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $d_0$ is reference distance, and}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $n_{pl}$ is path loss exponent}}$\\
+\\
+
+While the standard model provides the path loss at any given distance between a transmitter and receiver, it fails to account for the degradation of signals due to any other factor apart from distance. \textit{Fading} is a common phenomenon in wireless communication, and, is an important factor that additionally degrades wireless signals. Fading is a variation or loss occurring in wireless communication \citep{Tse2005}. There are two types of fading: \textit{\gls{ss} fading} and \textit{\gls{ls} fading}. \textit{\gls{ss fading}} are rapid fluctuations in signal strength occurring over small distances, on the order of the wavelength of the signal, or short time intervals \citep{Grami2016}. This is typically caused by multipath propagation where signals arrive at the receiver via multiple signal paths and at different times \citep{Grami2016}. Whereas, \textit{\gls{ls fading}} refers to signal attenuation occurring over long distances due to environmental topology and characteristics \citep{Grami2016}, and is also referred to as \textit{shadowing} \citep{Kaluuba2006}. Both \gls{ls} and \gls{ss} fading will be covered in Section \ref{subsec:meth/evalexp/fading} in Chapter \ref{ch:meth}.
+\\
+
+The standard path loss model does not incorporate the effects of fading, and therefore, a time-dependent path loss model with shadowing and \gls{ss} fading is expressed in Equation \ref{eq:lit/pl} \citep{SAYRAFIAN2021221}.
+\begin{equation}
+    \label{eq:lit/pl}
+        L_{pl}(d, t)_{[dB]} = \overline{L_{pl}(d)_{[dB]}} + \Delta L_{ls}(t)_{[dB]} + \Delta L_{ss}(t)_{[dB]}
+        \myequations{Path Loss Model Incroporating the Effects of Shadowing and Fading}
+\end{equation}
+\\\\
+where:\\
+\null \hspace{0.5cm}$\bullet\text{\textit{ $L_{pl}(d, t)_{[dB]}$ is path loss at distance 'd' and at time 't',}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $\overline{L_{pl}(d)_{[dB]}}$ is \gls{mpl} at distance 'd',}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $\Delta L_{ls}(t)_{[dB]}$ is \gls{ls} fading component, and}}$\\
+\null \hspace{0.5cm}$\bullet \text{\textit{ $\Delta L_{ss}(t)_{[dB]}$ is \gls{ss} fading component}}$\\
+\\
+
+The \gls{mpl} parameter is computed using the Equation \ref{eq:lit/std_pl} \citep{SAYRAFIAN2021221}. The measure of the strength of these signals is the fundamental means to understand pedestrian activities, movement, and behaviour, as will be presented in Section \ref{sec:lit/ble_meth}. Section \ref{subsec:meth/evalexp/fading} in Chapter \ref{ch:meth} will present how these factors affect the work presented in this dissertation.
+\\
+
+While existing studies acknowledge the limitations of \gls{ble} signal reliability in outdoor environments due to interference and environmental factors such as multipath propagation and fading, the literature lacks comprehensive solutions that address this challenge in the real-world. The path loss model, presented in this section, can be fine-tuned for the environment surrounding the experimental setting to predict pedestrian movement characteristics more accurately, and any deviation from the predicted pattern could be used as a means to detect pedestrian activities or related characteristics.
+
+
+\subsection{\gls{ble} Architecture} \label{sec:lit/ble/ble_arch}
+As per the \gls{ble} specification documents, version 4.0 \citep{BT2014} and version 5.1 \citep{Bluetooth5.1}, the architecture of the technology is composed of two primary stacks: \textit{Controller} and \textit{Host}. The controller is responsible for physical radio and link layer functions, including packet transmission, reception and connection establishment. Whereas, the Host stack is a software stack responsible for higher-level operations such as device discovery, security, and data processing. These stacks interact with each other using \gls{hci}, a layer part of the Controller stack. Each stack is composed of some layers. The Controller stack comprises of \gls{phy} and \gls{ll}, whereas, the Host stack includes five building blocks: \gls{gatt}, \gls{gap}, \gls{att}, \gls{smp}, and \gls{l2cap}. 
+\\
+\pagebreak
+\begin{wrapfigure}{l}{0.45\textwidth}
+    \vspace{0mm}
+    \begin{tcolorbox}[
+        colframe=Teal, % Border color
+        colback=MintCream, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{Supplementary Information}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=MidnightGreen, colframe=Teal, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{
+        \textit{Master} device in a network is the device that administers the connection and connected devices. \textit{Slave} device is a network that follows the requests and procedures conveyed by the Master.
+    \end{tcolorbox}    
+    \vspace{-8mm}
+\end{wrapfigure}
+
+In the Controller stack, \gls{phy} handles transmission and reception of \gls{ble} signals, and \gls{ll} governs advertising, scanning, and creating and managing connections. \gls{ll} performs this by implementing a state machine, which has the following states:
+
+\begin{enumerate}
+    \item Standby
+    \item Advertising
+    \item Scanning
+    \begin{enumerate}
+        \item Passive Scanning: Only receiving advertisements.
+        \item Active Scanning: Sending a scan-response packet.
+    \end{enumerate}
+    \item Initiating: Becoming a Master.
+    \item Connection: Assuming the role of either Master or Slave.
+\end{enumerate}
+\\
+
+In the Host stack, the \gls{att} layer determines the means for \textit{Clients} to find and access \textit{Attributes} on a \textit{Server}. The \gls{att} layer offers six basic operations, as follows:
+
+\begin{enumerate}
+    \item Request
+    \item Response
+    \item Command
+    \item Indicate
+    \item Confirm
+    \item Notify
+\end{enumerate}
+\\
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+\vspace{-12mm}
+    \begin{tcolorbox}[
+        colframe=Teal, % Border color
+        colback=MintCream, % Background color
+        coltitle=white, % Title text color
+        title=\footnotesize{Supplementary Information}, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=MidnightGreen, colframe=Teal, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+    ]
+        \scriptsize{
+        \textit{Attributes} are fundamental data entities of \gls{ble}devices, used to organise and manage information. 
+        \\
+
+        \textit{Server}: One of the two roles in communication mode, related to \gls{gatt} layer. Any device in this role holds data (organised as Attributes) and manages the access of these Attributes to other devices.
+        \\
+
+        Client: Another role related to \gls{gatt} layer in the Host stack that accesses the data stored on the Server.
+        \\
+
+        Server and Client roles are different from other roles: Observer, Broadcaster, Peripheral, and Central, as those four roles are determined by \gls{gap} layer and are focused on the discovery and connection of devices, whereas these two roles are \gls{gatt} roles that regulate the data exchange between devices after a connection is established.
+    \end{tcolorbox}    
+    \vspace{-18mm}
+\end{wrapfigure}
+
+\gls{gatt}, in the Host stack determines the hierarchical grouping of Attributes and \textit{Procedures} for discovery and access of data. It has three components: \textit{Profile}, \textit{Service}, and \textit{Characteristics}. Profile is a combination of one or more Services required to meet any use case. A Service is a collection of related Characteristics used together to define specific functionality or feature of a \gls{ble} device. Finally, a Characteristic is a specific piece of data within a Service; it is a specific type of Attribute that may contain a collection of related Attributes. Characteristics are comprised of a \textit{Declaration}, \textit{Value}, and \textit{Descriptor}.
+
+\begin{enumerate}
+    \item Declaration: This Attribute describes the characteristics.
+    \begin{enumerate}
+        \item Properties: Determines whether a Characteristic value may be read, written, indicated, notified, or broadcasted.
+        \item Handle: The location of the value.
+        \item \gls{uuid}
+    \end{enumerate}
+    \item Value: The value itself.
+    \item Descriptor
+    \begin{enumerate}
+        \item Characteristic Extended Properties Descriptor: Additional information that could not fit in Declaration.
+        \item Characteristic User Description Descriptor: User-defined description of Characteristic. For example, the name of the room where a \gls{ble}-enabled sensor is installed.
+        \item Characteristic Presentation Format Descriptor: Associated format, exponent, or unit of the value.
+        \item Characteristic Aggregation Format Descriptor: Used if additional formatting information is required.
+        \item Client Characteristic Configuration Descriptor: If the Characteristic is using Indication or Notification.
+        \item Server Characteristic Configuration Descriptor: If broadcasting the Characteristic is required.
+    \end{enumerate}
+\end{enumerate}
+\\
+
+\textit{Procedures} are specific actions or steps defined within the layer. \gls{gatt} defines frameworks of two Procedures: \textit{Server-initiated Procedures} and \textit{Client-initiated Procedures}, used for sending data without a request from the Client and for reading/writing Attributes on a Server respectively. There is a third type of procedure which belongs to \gls{gap} and will be discussed in the following paragraph.
+\\
+
+\gls{smp} simply defines protocols to ensure security in transmission. \gls{gap} manages the connection and advertising procedures of \gls{ble}, including how \gls{ble} devices advertise themselves, discover other devices, and establish connections. This layer also handles the pairing of devices. Finally, a standard \gls{ble} packet can comprise multiple protocols from the upper layer, and thus, there is a need to multiplex these protocols. This is the function of \gls{l2cap}. \gls{l2cap} performs segmentation and reassembly of data packets and ensures \gls{qos}, in addition.
+\\
+
+Finally, there is another layer, the \textit{Application} layer, which sits at the top of the \gls{bt} stack and is the avenue for application logic. It is an interface between the \gls{ble} stack and the \gls{ui}.
+\\
+
+\gls{ble}, additionally, provides features that are advantageous for pedestrian measurements. Version 4.0 of \gls{ble}, released in 2010, introduced \textit{\gls{whitelisting}} \citep{BT2014}. This feature enumerates devices that are permitted to engage with the devices that has whitelisting implemented, meaning that advertising packets, scan requests, or connection requests from devices that are not on a white list will be ignored. This feature is provisioned in the \gls{ll}. Whitelisting has been used in many indoor tracking and positioning research \citep{Schneider2021, Prakash2017, Memon2017, Solana2017}, however, its use in outdoor environments is not seen in the literature to the best of my knowledge, and this gap will be addressed in the study presented in this dissertation. \gls{gap} is responsible for \gls{irk}, which is used to randomise the address of the device while continuing to be identified by the paired devices \citep{Fawaz2016}. \gls{aoa} and \gls{aod} are new features, introduced in \gls{ble} version 5.1 \citep{Bluetooth5.1} in 2019, that allows devices to determine the direction of \gls{ble} signals.
+
+\subsection{\gls{ble} Applications}
+The versatility and potential of \gls{ble} is evident from its use in diverse application areas. From a commercial point of view, \gls{ble} is now an intrinsic part of modern wearable devices. From personal devices such as mobile phones, smart watches, fitness trackers, and audio devices to industrial uses in medical devices, proximity marketing, and infrastructure management, \gls{ble} has become indispensable. In this section, some of the application areas in which \gls{ble} has established its prominence are discussed briefly.
+\\
+
+\begin{enumerate}
+    \item \textbf{Smart Homes and Buildings:} Owing to its low power consumption, \gls{ble} is a common technology in the smart homes domain. Within this domain, \gls{ble} is employed for a variety of use-cases. For example, home energy management systems that utilise \gls{ble} for communication not only aim to reduce peak load demand and electricity consumption \citep{Collotta2015,Collotta2015A}, but also to predict future electricity consumption \citep{Collotta2017An}. \gls{ble} is also used for control and monitoring of household infrastructures and equipment \citep{Joya2021Bluetooth, Jung2018Design} through either smart gateways \citep{Galinina2015} or mobile phone applications \citep{Porjazoski2019Bluetooth}.
+
+    \item \textbf{Healthcare Applications:} \gls{ble} is extensively used in wearable sensor-based healthcare devices. Due to their cost-effectiveness, these wearable devices are often equipped with \gls{ble} technology to transmit collected data to a central device. Such systems support bio-signal monitoring, signal analysis, and biofeedback to cater to the user-base, especially older citizens \citep{Zhang2014Bluetooth}. Furthermore, advanced wearable devices that monitor a combination of personal activity through \gls{mems} sensors and environmental parameters such as sound level and toxic gases to assess physiological changes also utilise \gls{ble} technology \citep{Haghi2020}.
+
+    \item \textbf{Indoor Localisation and Collision Avoidance:} One of the unconventional uses of \gls{ble} is through exploiting the changes of its signal strength for proximity detection \citep{Montanari2017, Gast2014}, localisation \citep{Wang2018, Namie2021, You2021, Xu2021, Luo2019, Jin2023, Ciabattoni2019}, collision detection and avoidance systems \citep{Park2017, Solana2018}, and fall detection \cite{DeRaeve2022, Chen2016, Yu2018}.
+
+    \item \textbf{Vehicular and Transport Networks:} \gls{ble} enables seamless connection between devices which has been exhaustively investigated for vehicle-to-vehicle and vehicle-to-pedestrian communication \citep{Yang2017, Lin2015a, Wu2017, Mohammadi2021, Park2017}. These studies have been applied to collision warning and detection, vehicle bind-spot alerting, and information exchange between vehicles.
+
+    \item \textbf{Location/Proximity-Based Services:} Detecting proximity using \gls{ble} is effective and has been thoroughly examined in the literature for investigating proximity-based services. Such services are used to deliver content to the users based on their locations. For example, this mechanism can be used to provide supplementary content to museum and gallery visitors based on their proximity to exhibits \citep{9001059, 8019467}.
+\end{enumerate}
+
+
+
+\section{Methodologies for \gls{ble} in Pedestrian Measurements} \label{sec:lit/ble_meth}
+
+\gls{ble}, designed for short-range, low-power communication, is suitable for a wide range of \gls{iot} applications. Measuring pedestrian movements, however, is an unconventional use of this technology. Despite that, \gls{ble} has established a firm foundation in this application area of pedestrian movement measurements. In this application, the use of \gls{ble} has been predominantly focused in indoor localisation and tracking \citep{Wang2018, Namie2021, You2021, Xu2021, Luo2019, Jin2023, Ciabattoni2019}, and in collision avoidance systems for visually impaired and/or distracted pedestrians \citep{Kim2018, Hasan2020, Hasan2021, Wu2017, Shin2022, Mohammadi2021, Park2017}. Such applications typically employ methods like trilateration, fingerprinting, or more recently, machine learning based approaches to measure pedestrian dynamics \citep{Zafari2017}. As an example, measurement of museum visitors was presented by Centorrino et al. in \citep{Centorrino2020}, where visitors were provided with \gls{ble} beacons and 14 \gls{rpi} 3B+ were deployed in the museum to measure the signals. Visitor flow, including total time spent in any room, returning visitors, and people per room, was analysed using machine learning. In addition, trajectories were also identified. This study however, failed to measure the interaction between visitors. Moreover, the study does not mention anything in relation to the \gls{ll} \gls{ble} role assigned to \gls{rpi} 3B+ nor anything about the use of whitelisting. Another example is the work carried out by Yu et al. in \citep{Yu2023}, where a fusion of \gls{ble} with WiFi, QR codes, and \gls{mems} sensors was used for indoor localisation. In this publication by Yu et al. inertial odometry was used to continuously estimate position, whereas, WiFi (specifically using \gls{ftm} as described in Section \ref{sec:lit/tech/wifi_bt} in this chapter), \gls{ble} and QR codes were used to obtain landmark reference positions. These position were then compared with the \gls{mems} estimates through the calculation of residuals (the difference between observed and predicted value) to correct the cumulative error in the inertial odometry.
+\\
+
+The use of \gls{ble} in the outdoor environment is also challenging. While it can be argued that multipath interference could be greater in indoor environments due to walls and objects in comparatively close proximity to a \gls{ble} device, the outdoor environment introduces other challenges. Factors like signal attenuation arising due to \gls{ls} path loss \citep{Rappaport2002}, environmental obstructions, variability and presence of large metal objects \citep{Turner2020}, and varying weather conditions \citep{Inacio2018}. These factors contribute to the unpredictability of signal strength and increase the complexity of accurate pedestrian measurements \citep{MacAgnano2014}. In outdoor environments, \gls{rssi}-based distance estimation is more challenging due to the additional factors such as dynamic weather conditions and environmental topology, along with typical factors that affect any \gls{rf} signal such as \gls{ss} fading and shadowing (\gls{ls} fading). This was discussed in Section \ref{sec:lit/ble} and the expression for calculating path loss incorporating these factors is provided in Equation \ref{eq:lit/pl}. These factors influence the signal and hence, when the signals are recorded by a measuring device, their strength reflects the effect of these factors in addition to the path loss. Thus, even if the pedestrian with a \gls{ble}-enabled device is to remain stationary for a prolonged period of time, the \gls{rssi} measurements will not remain at a static value but display fluctuations. If the effect of factors such as \gls{ss} and \gls{ls} fading are amplified for a certain measurement, the corresponding \gls{rssi} could deviate (positively or negatively) from other measurements emitted from the same device and location by a significantly large proportion. Artefacts caused by \gls{ss} fading are often transient in nature since they cause rapid fluctuations, as presented in Section \ref{sec:lit/ble/signal} in this chapter. Such measurements create anomalous readings, affecting the correspondence of measured signals with pedestrian movements. Techniques such as \gls{sma}, \gls{ema}, moving median, and moving mode are applied to reduce the impact of fluctuations \citep{Koledoye2018}. Koledoye et al. in \citep{Koledoye2018} also identified that \gls{sma} and \gls{ema} are suitable for short range (2m, 5m, 7m, and 10m), and for short duration of anomalous measurements caused by fluctuations. Koledoye et al. studied various \textit{windows} (a mathematical function applied to create segments or discrete chunks of signals) sizes and deployment distances (physical separation between the deployed measurement device and the sensor) to compare different filtering techniques. This is depicted in Figure \ref{fig:koledoye}. This will be revisited in Section \ref{sec:meth/analysis} in Chapter \ref{ch:meth}.
+\\
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{Figures/Ch2/koledoye.png}
+\decoRule
+\caption{\gls{rmse}s of Filtering Techniques for Varying \gls{window} Sizes and Deployment Distances \citep{Koledoye2018}}
+\label{fig:koledoye}
+\end{figure}
+
+Several methodologies have been employed by researchers for \gls{ble}-based pedestrian measurements. Giovanelli et al. in \citep{Giovanelli2016} developed a \gls{ble}-based system to manage mobility of groups of children walking to school. Their system relied on a small node, carried by children and a smartphone application used by supervising adults. The architecture followed a leader-follower approach, where the smartphone application acted as the leader, while the nodes were followers. Key methodological ingredients in their work included the use of a state machine in the nodes that informed their states to a smartphone application depending on their distance from the leader. The states used in the approach in this research included the following:
+
+\begin{enumerate}
+    \item \textit{BY MYSELF}: isolated from any group.
+    \item \textit{CHECKING}: near a Leader but not yet a group member.
+    \item \textit{ON BOARD}: in a group and monitored by a Leader.
+    \item \textit{ALERT}: in a group but out of Leader's range.
+\end{enumerate}
+
+The states changed based on the \gls{rssi}, which was filtered using a 30-$second$ sliding window with a 25-$second$ overlap. This means that the \gls{rssi} measurements were divided in chunks of 30-$second$ segments with each subsequent segment comprising of first 25-$second$ \gls{rssi} measurements from the previous segment. A real-world case study, \textit{walking bus}, was performed to test the proposed system. An example of the correlation of \gls{rssi} with the states for one of the members during one of the walks is depicted in Figure \ref{fig:giovanelli_rssi}. The paper by Giovanelli et al. successfully presented the feasibility and effectiveness of the proposed system for smart city scenarios. While the filtering process is important part for analysing \gls{rssi} measurement, the lack of rationale or assessment for selecting the window size is lacking in the study by \citep{Giovanelli2016}. This aspect will be briefly covered in Section \ref{subsec:meth/analysis/sma} in Chapter \ref{ch:meth} and will be discussed in detail in Section \ref{sec:disc/supporting_tech} in Chapter \ref{ch:disc}.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{Figures/Ch2/giovanelli_state.png}
+\decoRule
+\caption{Correlation of \gls{rssi} to State \citep{Giovanelli2016}}
+\label{fig:giovanelli_rssi}
+\end{figure}
+
+A study by Kitazato et al. in 2018 introduced a novel participatory method for analysing pedestrian flow using \gls{ble} \citep{Kitazato2018}. The authors divided participating pedestrians into groups, where pedestrians of one group had \gls{ble} beacons attached to their bodies and the pedestrians from the other group, had \gls{ble} sensors or Observers attached. A depiction of their setup is presented in Figure \ref{fig:kitazato_setup}. The sensor observed the time when the sensor passes the beacon, and the relative velocity of a pedestrian with a beacon passing, by analysing the observed beacon's \gls{rssi}s and then uploading this data to the cloud, along with its position and velocity. The direction and velocity of each pedestrian were determined through data analysis. The \gls{ble} beacons were formatted as iBeacons in this study.
+\\
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{Figures/Ch2/kitazato_setup.png}
+\decoRule
+\caption{Setup of the Experiment \citep{Kitazato2018}}
+\label{fig:kitazato_setup}
+\end{figure}
+
+Kizakato employed the following method to estimate velocity and direction,
+
+\begin{enumerate}
+    \item \textit{Detection of passing beacon}: The collected \gls{rssi}s were smoothed using weighted average as given in the following equation,\\
+    \begin{equation}
+        \label{eq:kitazato_avg}
+        L_{smooth}(t) = \frac{\sum_{i,t - T_{smooth} < t_i < t+T_{smooth}}L_i\alpha^{t_i-t}}{\sum_{i,t - T_{smooth} < t_i < t+T_{smooth}}\alpha^{t_i-t}}
+        \myequations{Detection of Passing Beacons by \citep{Kitazato2018}}
+    \end{equation}
+
+    where $T_{smooth}$ is half of the window size of the weighted average, $t_i$ is the receive time for a signal from a beacon, $L_i$ is \gls{rssi} at $t_i$, and $\alpha$ is weighting rate. A search window was chosen and the time of the passing of the pedestrian $\tau$ was calculated as follows,
+    
+    \begin{equation}
+        \label{eq:kitazato_time}
+        L_{smooth}(t) = max{L(t) | \tau-T_{search} \leq t \leq \tau+T_{search}}
+        \myequations{Time of Pedestrian's Passage by \citep{Kitazato2018}}
+    \end{equation}
+
+    where $T_{search}$ is the search window.
+
+    \item \textit{Detecting relative velocity}: Since the time of passing, $\tau$, is known from the previous step, relative velocity between the Observer and Beacon, $v$, and the distance between the two, $w$ was determined by minimising the \gls{mse} between the obtained \gls{rssi}, $L_i$, and ideal \gls{rssi}, $L_{ideal}$. The ideal \gls{rssi} was calculated through the Equation \ref{eq:kitazato_ideal}. The \gls{mse}, described in the Equation \ref{eq:kitazato_mse}, was minimised using gradient descent.
+
+    \begin{equation}
+        \label{eq:kitazato_ideal}
+        L_{ideal} = L_1 - 10 log_{10} (v^2(t - \tau)^2 + w^2
+        \myequations{Calculation of Idear \gls{rssi} by \citep{Kitazato2018}}
+    \end{equation}
+
+    where $v$ is the relative velocity between the two pedestrians $(|v_A + v_B|)$. 
+
+    \begin{equation}
+        \label{eq:kitazato_mse}
+        MSE = \frac{\sum_{i, \tau-T_{MSE}<t_i<\tau+T_{MSE}}(L_i - L_{ideal}(t_i, v, w))^2}{N}
+        \myequations{\gls{mse} Calculation by \citep{Kitazato2018}}
+    \end{equation}
+
+    where $T_{MSE}$ is half of the window size for calculating mean squared error and $N$ is the number of $i$ such that $\tau − T_{MSE} < t_i < \tau + T{MSE}$
+\end{enumerate}
+
+The observed \gls{rssi} of the moving beacon is presented in Figure \ref{fig:kitazato_rssi}. Additionally, simulations were conducted to evaluate the performance of the method under varying conditions such as different noise levels and velocities. The findings from these simulations showed that the estimation errors were minimal, thereby underscoring the practicality of the method.\\
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{Figures/Ch2/kitazato_rssi.png}
+\decoRule
+\caption{Observed \gls{rssi} \citep{Kitazato2018}}
+\label{fig:kitazato_rssi}
+\end{figure}
+While this research by Kitazato et al. is an important study in the use of \gls{ble} for pedestrian measurements, their methodology requires the Observers to be carried by some of the participating pedestrians. This means that specialised and relatively power hungry devices are to be carried by pedestrians and such an approach could therefore, limit the study in the real-world.
+\\
+
+AlAnbouri et al. in 2019 presented a paper that employed \gls{ble} to anonymously understand visitor activity at a remote amenity space, The Great South Wall at the Port of Dublin \citep{Alanbouri2019}. The site was chosen due to the simplicity of the space with only water surrounding it on all sides apart from a small number of simple concrete and stone structures.  The experiment tested two \gls{ble} Observers, the first one was implemented on an \gls{esp32} microcontroller and the second one was implemented  on a Raspberry Pi 3, to determine the direction of pedestrians and the time spent by visitors carrying \gls{ble} Beacon. The recorded \gls{mac} addresses were anonymised using a hash encoding scheme to preserve the privacy of devices captured by the Observers. The Observers were mounted on poles on the front and back sides of a pump house at the location in a manner that impeded the signals coming from the side of the other Observer. This is depicted in Figure \ref{fig:ahlam_layout}. The results demonstrated the capability of \gls{ble} Observers to detect the direction of the pedestrian traffic through the correlated \gls{rssi} captured by the two Observers. The study by AlAnbouri also noted the ESP32's slight decrease in performance over significantly low power consumption, and also identified the ability of the Observer to simultaneously record \gls{rssi} emerging from multiple Beacons without interference or loss of data.\\
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/Ch2/ahlam_layout.png}
+    \caption{Deployment of the Observers \citep{Alanbouri2019}}
+    \label{fig:ahlam_layout}
+\end{figure}
+
+AlAnbouri et al. \citep{Alanbouri2019} presents a novel way of detecting pedestrian direction by exploiting the topology of the environment, however, their methodology required the use of two Observers for detection at each location. While this approach was shown to be successful in the experimental setting, the use of multiple Observers in one location increases financial and logistical overheads.
+\\
+
+Similar to the work by AlAnbouri et al. in \citep{Alanbouri2019}, Hasan et al. in \citep{Hasan2022b} also used the environmental topology in their work. This study was focused on identifying and alerting distracted pedestrians at intersections, where, \gls{ble} beacons were deployed on lamp posts and wooden stakes to broadcast signals to mobile phones in the vicinity. Their methodology relied on installation of a mobile phone application, \textit{StreetBit}, that activates upon reception of advertisements from beacons. Multiple beacons were deployed on the intersections with overlapping regions of visibility and simultaneous use of \gls{gps} on the phone to enable triangulation of mobile phones. The authors presented the challenges due to the presence of obstacles and fluctuations in the \gls{rssi} due to absorption, interference, and/or diffraction experienced by \gls{ble} signals. The former was addressed by deploying the beacons in places where the occlusion effects were minimised, whereas, the latter was minimised by creating two range zones, \textit{activation zone} (20 metres from the deplaoyed beacon) and \textit{alert zone} (8 metres from the deployed beacon). The study also presented the cognizance of battery drainage issues on the phones of participating pedestrians, which they overcame by enabling the sensors when the pedestrian arrived in the range of beacons.
+\\
+
+The study presented by \citep{Hasan2022b} lacks any analysis on the effectiveness of careful deployment in mitigating the effect of occlusion. They achieved the optimal deployment location through trial and error. While that approach could have minimised the detrimental effects of occlusion, propagation mechanisms and other factors, presented in Section \ref{sec:lit/ble} in this Chapter, have detrimental impact on \gls{rssi}. Therefore, \textit{calibration is a necessity in studies involving \gls{rssi}} \citep{VERANO2023}, and hence, this study by \citep{Hasan2022b} would have benefited from an emipirical approach. Similarly, fluctuation in \gls{rssi} was addressed through dividing the range of \gls{ble} in two separate zones, which were measured in the units of distance. A rationale for using distance as a parameter for describing zones was however nor provided. While this parameter could aid in minimising the effects of fluctuations, a more suitable approach would have been based on \gls{rssi} values itself, with some filtering technique \citep{Subhan2022}, as presented in Section \ref{sec:lit/ble} in this Chapter. As the fluctuation in \gls{rssi} will hamper the distance estimation as well, and could result in erroneous identification of those zones. Another disadvantage of this approach is the requirement of a mobile phone application on pedestrian's device.
+\\
+
+In \citep{Bessho2021}, Bessho and Sakamura in 2021 employed \gls{ble} to understand crowd densities at street-level during the time of COVID-19. The proposed method involved using \gls{ble} advertisements from a contact tracing application in Japan, COCOA, to estimate crowd density. The authors conducted experiments in major shopping districts in Tokyo using observation devices that captured \gls{ble} advertisements and the \gls{uuid}, the latter was anonymised for dissemination. The experiments began in January 2021, and the data was used to calculate an index of street-level crowd density in 30-minute intervals at several spots in the district. 
+\\
+
+Two potential issues were addressed by Bessho and Sakamura, in a preliminary study. Firstly, the study found that the received signals were unstable, leading to the implementation of an \gls{rssi} threshold for filtering. Secondly, the study examined the effects of closed shop shutters during non-business hours, which resulted in a correction of measured results during non-business hours based on observed ratios. Based on the findings from the preliminary study, a crowd-density sensing method was developed and integrated into the system. The method involved periodic reporting of smartphone identifiers from surrounding pedestrians, along with their \gls{rssi} values. Every 30 minutes, the crowd density was calculated by aggregating the reported identifiers from the last 30 minutes, excluding those with maximum \gls{rssi} values below the threshold. During business hours, the number of unique identifiers was used as the crowd density index, while outside business hours, the index was adjusted by dividing it by a predetermined ratio identified in the preliminary phase. The analysis was performed using a three-way \gls{anova}. The results confirm that factors such as the day of the week, weather, and state of emergency significantly influence crowd density. Based on this, a crowd density prediction model was devised and was tested with the collected test data. This study showcases the benefits contextual information can provide in deepening the understanding of pedestrian activities and movement with only signal strength measurements, and its use in the work presented in this dissertation will be discussed in Section \ref{subsec:meth/gg} of Chapter \ref{ch:meth}.
+\\
+
+Bessho and Sakamura presented another study in 2022, following up on their previous work to understand the congestion level at \gls{pos} at commercial zones in Tokyo \citep{Bessho2022}. The study by Bessho and Sakamura was performed to check if the \gls{ble} advertisements identified on the contact tracing app originated from specific manufacturers. The data was collected for over a year. The study used manufacturer-specific data contained in the \gls{uuid} of the advertisements. A comparison between identifiers 0x004, meaning the manufacturer defined the data format, and 0x0006, meaning that another company defined the data format, is presented in figure \ref{fig:bessho_mfg}, where \textit{r} signifies the correlation coefficient. Correlation between unique \gls{ble} advertisements from contact tracing application, COCOA, and those with manufacturer-specific data is presented in figure \ref{fig:bessho_cor}. A strong correlation, r=0.990, between the manufacturer-specific data 0x004 and COCOA is observed. The research by \citep{Bessho2022} demonstrated the potential of using \gls{ble} advertisements, originally intended for other purposes, to estimate street-level crowd density. The results also suggest that the technology could be useful even after the contact tracing application stops operating, highlighting that the use of \gls{ble} for pedestrian measurements is a sustainable choice despite the curbed use of contact tracing application post normalcy after COVID-19 pandemic.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{Figures/Ch2/bessho_mfg.png}
+\decoRule
+\caption{Comparison between 0x004 and 0x0006 Manufacture Specific Data in the Captured Advertisements \citep{Bessho2022}}
+\label{fig:bessho_mfg}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{Figures/Ch2/bessho_cor.png}
+\decoRule
+\caption{Correlation of Advertisements from Each Manufacturer Specific Data and Advertisements from Contact Tracing Application \citep{Bessho2022}}
+\label{fig:bessho_cor}
+\end{figure}
+
+\pagebreak
+\vspace{10pt}
+
+    \begin{tcolorbox}[
+        colframe=white, % Border color
+        colback=Ivory, % Background color
+        coltitle=white, % Title text color
+        title=\gls{ble} Highlights, % Title text
+        fonttitle=\bfseries, % Title font style
+        sharp corners, % Sharp corners for the main box
+        enhanced,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Positioning the title
+        boxed title style={colback=DarkSlateGray, colframe=SlateBlue, rounded corners=west, boxrule=0pt, top=2mm, bottom=2mm, right=2mm}, % Title box style
+        width=\linewidth, % Width of the box
+        boxrule=0pt, % No border for the main box
+        drop shadow, % Shadow effect
+        rounded corners, % Rounded corners for the main box
+        breakable,
+    ]
+    \gls{ble} offers features that allow it to overcome the limitations of WiFi. For instance, this dissertation has already presented that the default high transmission power of WiFi leads to a stronger multipath component, which is mitigated in the case of \gls{ble} since it is an extension of \gls{bt}. The problem highlighted earlier about the ability of both \gls{bt} and WiFi to listen to every connection enquiry and probe request respectively can also be encumbered using \gls{ble} by using a link layer feature in the \gls{ble} core specification \citep{BT2014} that enables \textit{whitelisting}. With this feature advertisement packets from devices not specified in the whitelist are discarded by default, allowing the technology to fully embrace consensual monitoring and is more suited to regulated privacy-preserving data collection and analysis. Since \gls{bt}, and thereby \gls{ble} use frequency hopping, their application for localisation is inaccurate. However, this limitation is advantageous from the point of view of privacy regulation as only an estimated ballpark of any pedestrian's location is known. Another challenge highlighted in earlier studies suggested the availability of \gls{bt} devices is limited, however, currently, the use of \gls{ble} in modern mobile and wearable devices is ubiquitous and with the consent of users, it would be possible to install applications, similar to the contact tracing applications used during COVID-19, that enables \gls{ble} advertisement. The availability of \gls{ble} beacons is advantageous over WiFi as it allows easy deployment of inexpensive devices for experiment participants without requiring the use of their personal mobile phones. Moreover, the price of these beacons (as low as GBP 11 \citep{Qtrendnrry2023}) makes it easier to provide participants with inexpensive beacons for the sake of the study and can also be offered to them as an incentive post-completion of the study.
+    \\
+
+    The current research lacks a detailed study of the design and development of tailored \gls{ble} Observer devices customised to selectively listen for \gls{ble} advertisements in outdoor environments. Most of the research in the literature applies \gls{ble} to pedestrian dynamics without first understanding the effect of environmental topology and hardware architecture and design on the signals. It is already presented in Section \ref{sec:lit/ble} in this chapter that technical parameters such as Advertisement Rate affects the quality and accuracy of measurements \citep{Montanari2017}, however, studies utilising \gls{ble} for pedestrian measurements, as presented in this section, rarely account such parameters. This gap in the literature limits the reliability of the measurements taken by the Observer. Similarly, the sparse mention of the \gls{ll} \gls{ble} role, such as observer and broadcaster, for data measurement implies that limited consideration is given to privacy in the literature. The literature does not provide comprehensive evaluations of \gls{ble} hardware and environmental effects on measurements in outdoor environments. Furthermore, while some work, such as \citep{Alanbouri2019}, has been carried out to use environmental topology to detect pedestrian movement characteristics, the knowledge and use of hardware specifics and their impact on signal capture in outdoor environments remain underexplored. 
+\end{tcolorbox}
+
+
+\section{Privacy Concerns in Pedestrian Measurements}
+
+In 1968, Alan Westin defined the term \textit{information privacy} as the right for the public to select the visibility of their own personal information to other people \citep{Westin1967}. Indeed security and privacy of the users are identified as the major challenge to any \gls{iot} system \citep{Costea2023, Ziegeldorf2014}. With tracking and data collection becoming a ubiquitous part of modern civilisation, concerns with the infringement of privacy are on the rise \citep{Hajian2014}. If the collected data, even with the aim of societal benefit, can be employed to identify private details or routines of a person, the data infringes the privacy of that person. Many regulations such as the \gls{gdpr} are imposed around the world to restrict the intentional and non-intentional breach of privacy of the general public. Privacy preservation is an important aspect of any data collection, assessment, and dissemination system. One of the definitions in the literature for privacy preservation is given by \citep{Qin2019},\\
+\\
+
+\textit{"Privacy-preserving data collection system collects sensitive data from data contributors and detects meaningful general information by gathering data while protecting data contributors’ privacy"}\\
+\\
+
+While the definition by \citep{Qin2019} is an apt description of what privacy preservation must entail, it misses out on the nuances around the topic. It fails to highlight whether the contributor of the data has the choice to opt out of the data collection process and whether the contributor or the subject has control over the storage or the dissemination of the data collected from them. On the contrary, the three-fold definition provided by \citep{Ziegeldorf2014} is more appropriate as it considers the collection, analysis, and dissemination layers, where, the motivation is to provide control to the contributor to 
+
+\begin{enumerate}
+    \item assess personal privacy risks
+    \item act to protect privacy
+    \item be guaranteed that the privacy will be maintained beyond the collection phase
+\end{enumerate}
+\\
+
+The concern about the infringement of the personal information of people and methods to mitigate this problem has been long discussed. In 2009, \citep{Cavoukian2009} presented the \gls{pbd} approach, a system design philosophy for ensuring the privacy of the public due to the systematic effects of \gls{ict}. This framework ensures that consideration to privacy preservation is given from the onset of the development of any system, therefore, privacy is not treated as an add-on. Following this, \citep{Hoepman2014} in 2014 presented a privacy design strategy based on \citep{Cavoukian2009} and data protection laws that include the \gls{oecd} guidelines \citep{OECD1980} including the US \gls{fip} \citep{FIP2000}, the EU's Protection of Personal Data legislation \citep{EU1995} and the ISO 29100 privacy framework perspective \citep{ISO29100}. The design strategies presented by Hoepman in \citep{Hoepman2014} are:
+
+\begin{enumerate}
+    \item \textit{Minimise: }Personal data collection should be a bare minimum.
+    \item \textit{Hide: }Confidentiality of personal data should be ensured.
+    \item \textit{Separate: }Storage and processing of personal data should be performed in a distributed manner.
+    \item \textit{Aggregate: }Wherever possible, individual data should be replaced with aggregated data.
+    \item \textit{Inform: }Individuals should be informed about the collection and processing of their personal data.
+    \item \textit{Control: }Individual should be able to access, modify, and delete their own personal data.
+    \item \textit{Enforce: }Policies should be enforced to protect privacy.
+    \item \textit{Demonstrate: }All processes involving the collection and processing of personal data should be well documented.
+\end{enumerate}
+\\
+
+The existence of the design strategies by Hoepman is in itself an indication of the presence of privacy concerns. These concerns become more apparent as the statistics around privacy threats and concerns are investigated. According to \citep{Netscout2019}, \gls{iot} devices are subjected to cyber-attacks as quickly as just five minutes after they are plugged in to the internet and are targeted by exploits specific to the system's design within 24 hours. The Sonicwall report from 2023 \citep{Sonicwall2023} recorded the increase in \gls{iot} malware attack volumes to 218\% from 2018 to 2019, 66\% from 2019 to 2020, 6\% from 2020 to 2021, and 87\% which is 112.3 million instances from 2021 to 2022. According to \citep{PaloAlto2020}, "98\% of all IoT traffic is unencrypted" and exposes \gls{pii} on the network. The report also identified that 57\% of \gls{iot} devices are vulnerable to attacks. Aside from vulnerabilities, it is also clear that the public is now aware of and concerned about their personal information. For instance, in a global survey by The Economist Intelligence Unit \citep{EIU2018}, 98\% of the participating consumers were keen to control their own personal information collected by the \gls{iot} devices, 74\% of the participants were concerned with the invasion of their privacy, 57\% of the participants identified the ability to delete their personal information held by third-party as the most important right, and 92\% participants expressed the need for stringent legal procedures against the companies violating the enforced privacy regulations. These concerns have shone a spotlight on the urgent need to develop techniques to safeguard \gls{pii}.
+\\
+
+There are many architectures for \gls{iot} system. However, typically, three-, four-, and five-layered architectures are common. These are presented in Figure \ref{fig:iot_arch} \citep{Burhan2018}. Each architecture has three layers in common, viz. \textit{perception layer}, \textit{network layer}, and \textit{application layer}. The perception layer (or \textit{sensor layer}) is the sensor layer which collects information from the environment, and the network layer (or \textit{transmission layer}) manages all sorts of communication and is the medium for the transmission of data, whereas the application layer manages the task of information sharing and security \citep{Yun2010}. The \textit{support layer} (or, \textit{middleware layer}) in the four-layer architecture provides the support for communication between the hardware and the application layer \citep{Burhan2018}. In the 5-layer architecture, the \textit{processing layer} is responsible for transforming raw data into actionable information for analytics, whereas, the \textit{business layer} utilises the processed information for decision-making \citep{Burhan2018}.
+\\
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{Figures/Ch2/architecture iot.png}
+\decoRule
+\caption{IoT Architectures \citep{Burhan2018}}
+\label{fig:iot_arch}
+\end{figure}
+
+The primary interest in the existing literature within the scope of this dissertation and the methodological approach that will follow in Section \ref{sec:meth/hw_design} in Chapter \ref{ch:meth}, is in regards to the use of on-board sensors. Therefore, this report considers the 3-layer architecture as relevant for discussion. The following are the three layers in the selected architecture.
+
+\begin{enumerate}
+    \item \textbf{L1: Perception Layer}
+    \item \textbf{L2: Network Layer}
+    \item \textbf{L3: Application Layer}
+\end{enumerate}
+
+Since the focus of this section is to highlight privacy-related concerns, privacy threats and attacks need to be discussed. However, the report must explore the security threats to enable comprehension of privacy-related components. Some of the potential security threats for each layer are described by Burhan et al. in \citep{Burhan2018}. L1 is susceptible to security threats including eavesdropping, node capture, fake node and malicious attacks, replay attacks, and timing attacks, which can compromise the perception layer of IoT and potentially lead to unauthorised data interception, control over key nodes, disruption of network communication, and exploitation of system vulnerabilities. L2 is susceptible to security threats, including Denial of Service (DoS) attacks, Man-in-The-Middle (MiTM) attacks, Storage attacks, and Exploit attacks, which can disrupt authentic user access, intercept and manipulate communication, alter stored user information, and exploit security vulnerabilities in systems, posing significant risks to online security and data integrity within the second layer of IoT. L3 is susceptible to security threats, including Cross Site Scripting attacks, Malicious Code attacks, and challenges related to handling massive data volumes, which can result in the injection of malicious scripts into trusted sites, undesired software effects, data processing issues, network disruption, and data loss, impacting the third layer of IoT and overall system integrity.
+\\
+
+Since cybersecurity is not the topic of focus in this research, further discussion about privacy threats, privacy attacks, and \gls{pet} are not presented here. However, they are provided in Appendix \ref{A.B/privacy}. It is important to now discuss various modalities for pedestrian measurements with the lens of privacy preservation.
+
+\subsection{Surveys and Questionnaires}
+
+Privacy concerns are a challenge in surveys and questionnaires, especially in the context of online and sensitive data collection. These concerns can impact the response rate, accuracy of answers, and willingness of the participants to disclose sensitive information.
+\\
+
+Online surveys have the potential to violate multiple forms of privacy when compared to traditional survey methods, including physical, informational psychological, and interactional \citep{Cho1999Privacy}. In addition, there is also a likelihood of an emotional reaction to privacy issues, contributing to biases in response, which can be mitigated through indirect survey measures \citep{Braunstein2011Indirect}. Data obtained from these surveys and questionnaires can also be linked with alternative records, such as administrative records, to enhance the information, but present the likelihood of \textit{linkages} privacy threat, see Appendix \ref{A.B/privacy}. Similarly, collating information from multiple surveys can result in the revelation of \gls{pii} \citep{Kandappu2013Exposing}.
+\\
+
+Several steps can be taken to ensure respondents' privacy preservation. The promise of confidentiality is an important influence affecting response rate, but the effect may vary based on the sensitivity of the topic \citep{Turner1982What}. Techniques such as \textit{Redaction} and \textit{Obfuscation}, see Appendix \ref{A.B/privacy}, can ensure that linkages between different surveys and documents are prevented and sensitive information is protected when sharing with untrusted parties \citep{Zhao2022A}.
+
+\subsection{Optical Sensors}
+
+Optical sensors can capture and store high-resolution images which can potentially be used to identify individuals through facial recognition technologies. Even if the primary purpose of the study is not the identification of individual pedestrians, the collected data can be repurposed or accessed by unauthorised entities. To prevent collecting \gls{pii} from such systems, complex data handling and privacy management protocols are necessitated \citep{Yu2022Pedestrian, Lovas2015Pedestrian}, which often require excessive computational resources. Furthermore, through aggregation of data from multiple sensors, or combining facial data with other types of data, a detailed profile of individual pedestrians can be created \citep{bennett2008}.
+\\
+
+Techniques such as blurring and masking identifiable features in the data are often used to mitigate privacy risks, however, with advances in Machine Learning and Artificial Intelligence, '\textit{deanonymisation}' or re-identification is possible \citep{Ohm2009}. Other approaches include the implementation of strict data governance policies to minimise data collection and control data access \citep{Kuner2020}. Even if the privacy risks associated with the use of optical sensors, especially RGB cameras, are to be sidelined for the sake of discussion, the psycho-social aversion to the presence of a camera lens in public spaces is significant. Being recorded or photographed is perceived as an invasion of personal space \citep{Guile1980Reactivity}. Installation of camera systems creates an initial deterrent impact on behaviour \citep{Mazerolle2002Social} and can evoke a range of emotional reactions in the public \citep{Sar2010Human-camera}.
+\\
+
+Methods such as \gls{vhe} \citep{Yang2020Accurate, Stanciu2021Privacy-Preserving}, 3D wireframe reconstruction \citep{Kunchala2023}, the use of \gls{lidar} point clouds \citep{Ohno2023Privacy-preserving}, and machine learning approaches \citep{Liu2018Local, Zhang2010Privacy, Zhang2011Privacy} are some of the approaches used for ensuring preservation of pedestrian privacy. However, all these measures are computationally expensive and/or require large datasets for training.
+
+\subsection{\gls{gps}}
+\gls{gps} is the only modality built with the purpose of localisation, and hence, amenable to pedestrian measurements. However, this also raises important privacy concerns associated with the technology. For localisation and data collection, \gls{gps}-enabled devices must be carried by pedestrians. Subsequently, the collected data has to be transferred to the researcher or authorised body, usually done by uploading the data to the cloud. Typically, this is achieved through a smartphone application installed on the personal device of pedestrians for collecting their location and movement data \citep{Larroya2023}. The use of personal devices by pedestrians presents a challenge, in which, their movements can be monitored even outside the experimental region, and, in addition, can reveal sensitive information such as their home and work addresses. To mitigate this, a technique known as Geofencing, as described in Section \ref{sec:lit/gps_intro},  is employed. This is, however, only a logical boundary guarding the privacy of pedestrians. A breach by an unauthorised entity may modify the application to remove this Geofence, and additionally, change the location for data upload to their own cloud.
+
+\subsection{WiFi and \gls{bt}} \label{subsec:wifi_bt_privacy}
+WiFi and \gls{bt} both operate on a similar principle where the signals emitted for discovering neighbouring devices for connections are used to measure pedestrian activities and movements. Both technologies use a unique identifier as the address for devices. These unique identifiers, \gls{mac} addresses, are sent in the packets broadcasted in the vicinity for connection. Since these technologies are opportunistic in nature, these packets can be captured and traced by any device, even unauthorised, without the knowledge of the user \citep{Huang2021, Simoncic2023Non-Intrusive}. If continual measurements, spanning over several days, are taken, \textit{tracking} and \textit{profiling}, as discussed in \ref{A.B/privacy}, are possible. To mitigate this privacy concern, a technique called \gls{mac} address randomisation is often employed. This ensures that the \gls{mac} address of the device is changed frequently to prevent profiling and tracking of pedestrians. However, techniques that group similar network management messages and characteristics of the radio to '\textit{de-randomise}' \gls{mac} addresses of individual devices have also emerged \citep{Simoncic2023Non-Intrusive, Pintor2022}. An alternative mechanism to mitigate privacy concerns related to \gls{mac} address is by obfuscating them using techniques such as hash encoding \citep{Preneel1995MDx-MAC, luo, Gagne2013Automated}. Another challenge in the use of this technology is that such automated measurement of activities is forbidden in \gls{eu} under \gls{gdpr} \citep{Steen2022}. This is only allowed for \textit{statistical counting}, and only when the pedestrians are explicitly informed and the data is discarded after computation of counting \citep{EC2017}.
+\\
+
+A study by Fukuda et al. in \citep{Fukuda2015Tracking} in 2015, found that most users keep WiFi active on their smartphones. This could be more prevalent now due to the growth of public WiFi hotspots. Due to the nature of WiFi technology, the devices are always sending probe requests to identify \gls{ap}s. This further raises a concern about the likelihood of unauthorised "sniffing" of WiFi packets. The same cannot be said for \gls{bt} however, since the technology has to be active and also \textit{discoverable} for it to be found. Additionally, since WiFi is typically used to provide access to the Internet, its access cannot be restricted, and hence, the \gls{ap} will listen to every probe request in their surrounding.
+
+\subsection{\gls{ble}}\label{subsec:lit/privacy/ble}
+While \gls{ble} suffers from the same issue as WiFi and \gls{bt}, in which, the advertisement packets are available for any device capable of receiving them in the vicinity. However, the availability of inexpensive \gls{ble} beacons allows the use of non-personal devices that can be left behind by volunteer pedestrians on days when they do not want to participate. Even if the measurements are to be performed through smartphone applications, the applications can be designed to utilise \gls{ble} in Broadcaster mode defined in the \gls{gap} layer, described in Section \ref{sec:lit/ble}. This role will ensure that even if an unauthorised sniffer gets access to the advertisements, no connection can be established, subsequently, preventing data theft.In a similar manner, the measuring device can be selected to be in an observer role, ensuring that even if a user-owned \gls{ble} device is in a peripheral role, capable of establishing a connection, the measurement device is unable to initiate and establish a connection. While some studies in the literature, such as \citep{Oosterlinck2017}, promote the use of \gls{ble} in an opportunistic manner, that is tracking without participants knowledge to enable unbiased and uninfluenced observations, the principles behind the presented dissertation steers my research towards privacy-preservation. 
+\\
+
+The \gls{mac} address obfuscation using hash encoding approaches described in the previous section, Section \ref{subsec:wifi_bt_privacy}, also applies in the case of \gls{ble}. Additionally, the Whitelisting feature defined in \gls{ll}, described in Section \ref{sec:lit/ble}, ensures that the monitoring platform only receives advertisements from devices enumerated in the White List. Unlike \gls{gps}, the capability of measuring only occurs in the presence of a \gls{ble} measurement device, Observer. Thus, the measurements are \textit{hard-geofenced}, as opposed to \textit{soft-geofenced} in \gls{gps}.
+
+
+\section{Research Gaps} \label{sec:gaps}
+Based on the literature review performed in this chapter, the following gaps in the current knowledge are identified as being important for the research presented in this dissertation.
+
+\begin{enumerate}[label={}, ref=\theresearchgap]
+     \item \researchgap{Limited Emphasis on Outdoor application of \gls{ble}: While there are several studies pertaining to the use of \gls{ble} as a tool to understand human activities, the focus of the majority of these studies is on indoor settings, as seen in Figure \ref{fig:comparison}. Thus, there is a notable lack of a comprehensive assessment for outdoor settings. The gap in the understanding of \gls{ble} in outdoor environments limits the effective use of the technology in open urban spaces. The reasons behind this limited use outdoors are not inconspicuous. \gls{ble} signals are prone to varying outdoor topology and environmental conditions. The need for using unconventional technologies in the outdoor environment, over existing camera infrastructure, is being considered only in  recent years due to increased stringency by privacy regulations such as \gls{gdpr}. Moreover, without careful consideration of a privacy-preserving methodology, \gls{ble} is an opportunistic tool like WiFi, that can capture non-consensual data from nearby devices.}{g1}
+
+     \item \researchgap{Scant Study on the Hardware and Environmental Influence: The sparse studies performed on the use of \gls{ble} to measure pedestrians in outdoor settings lack the assessment of hardware employed for measurements and the environment used in the study. Since \gls{ble}, as elucidated in Section \ref{sec:lit/ble}, works in 2.4 GHz frequency spectrum, it is prone to environmental influences. Furthermore, the design and placement of the antenna on the hardware platform used as measuring device may also affect the reception of \gls{ble} signals by either hindering or being sensitive to signals originating from some directions. Existing studies identified in the literature fail to address or assess such important factors which can be used to either mitigate or facilitate pedestrian measurements.}{g2}
+    
+     \item \researchgap{Lack of Studies Encompassing Heterogeneous Pedestrian Dynamics: Studies that have applied \gls{ble} to understand and measure pedestrians in outdoor settings, often remain fragmented, mostly focusing on one type of activity of movement characteristics. Furthermore, there is a lack of comprehensive guidelines, or steps that one could follow to ensure a strong foundation is built to facilitate such research. There is a need for an approach that can test the potential of \gls{ble}, first, by testing its capabilities, limitations, and reactions to environmental influence. And second, by identifying recognisable and repeatable patterns associated with a heterogeneous set of activities and movement characteristics.}{g3}
+
+     \item \researchgap{Use of Computationally Inexpensive Analysis Techniques: The studies identified in this discipline often employ machine learning and AI tools to analyse the measurements from \gls{ble} signals. While there is presence of studies that use simple and computationally inexpensive techniques as well to perform analytics, for example the work presented by \citep{Kitazato2018}, they are often targeting only one type of pedestrian activity or movement characteristics. There is a need to identify computationally inexpensive techniques for detection and inference of many pedestrian activities and movement characteristics. Such techniques open an avenue for implementing on-board analytics without compromising on measurements to limit the need for offloading raw data to some cloud server, thereby mitigating privacy risks posed during the transmission of raw data to the cloud 
+by interception from unauthorised agencies.}{g4}
+
+\end{enumerate}
+
+
+\section{Discussion and Chapter Summary}\label{sec:lit/chapter_summary}
+
+The need for effective pedestrian activity and movement monitoring is paramount in contemporary urban planning and management. As cities grow and transportation systems become more complex, understanding pedestrian movement patterns is critical for safety, efficiency, and planning purposes. However, traditional methods of pedestrian measurements, such as video surveillance or manual counting, are cumbersome and raise significant privacy concerns. These methods often capture more personal information than necessary, leading to potential misuse of data and infringement on individual privacy rights.
+\\
+
+In response to these concerns, various technologies have been explored for pedestrian data collection. \gls{gps} tracking and WiFi tracking have been used more commonly, but each comes with its own set of challenges. GPS tracking requires the installation of additional application software on users' personal devices which makes the use of this technology dependent on the users' participation. Moreover, the implications of such applications on the battery usage of those personal devices often deter participation. Additionally, the capability of \gls{gps} to track every movement of a participant and then share it to a cloud increases the risk for privacy breaches. WiFi tracking, while more effective in dense areas where the inability of \gls{gps} to lock on satellites hinders its efficacy, introduces challenges when setting up experiments due to its requirement for expensive and complex access points. The use of existing access points may lead to diminished network throughput, and high transmission power leads to multipath propagation and therefore, multipath fading. This could be because high transmission power leads to reflected signals not attenuating enough and being received again by the receiver.
+\\
+
+In contrast, \gls{ble} emerges as a suitable alternative that addresses both the need for effective data collection and privacy preservation. \gls{ble} technology, found in most modern smartphones and wearable devices, allows for anonymous detection of pedestrian movements without tracking individuals over extended periods or across different locations outside of the study location. The information carried by \gls{ble} advertisements significantly mitigates privacy concerns, as the data collected is less identifiable to the person carrying the device than the information obtained from other modalities discussed previously. It is more focused on movement patterns rather than individual tracking, which is a common problem with any kind of video or imaging-based approach. Another advantage of this limited information is that the processing required for such data is comparatively less computationally expensive. As seen in the literature, even fundamental statistical analysis of the data obtained through \gls{ble} is sufficient to extract useful information. Automated data collection by all of these technologies is already superior to manual data collection through questionnaires or surveys as these approaches are not prone to the introduction of biases in the collected data.
+\\
+
+Furthermore, \gls{ble} offers several practical advantages over other technologies. Firstly, it is cost-effective, requiring minimal infrastructure compared to comprehensive video surveillance systems. Its low energy consumption makes it an ideal choice for continuous operation without the need for frequent maintenance or battery replacements. Additionally, \gls{ble}'s widespread availability in consumer devices makes it a scalable solution, capable of capturing data from a large portion of the population without requiring additional hardware distribution. Even if the experiments necessitate incentivising the participants, the beacons used could be gifted to the participants at the end of the study for their further personal use. The flexibility of this approach also offers another notable advantage over WiFi, for example, if the participant does not wish to participate in the study on one of the days (s)he can conveniently leave behind the beacon, which in WiFi is more difficult as the technology in the studies in the literature tends to employ the WiFi module on the personal devices of the participants.
+\\
+
+While the literature includes various studies that use \gls{ble} to understand space utilisation and pedestrian activities and movement, the majority of reported work has been performed in indoor environments. As an example, Figure \ref{fig:comparison} depicts the year-wise comparison of the results of all publications searched with the search query "Bluetooth Low Energy Pedestrians" against the results of all publications found with the search query "Bluetooth Low Energy Pedestrians Outdoor", performed on Dimensions, the world's largest linked research database \citep{Dimensions2023}. \\
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{Figures/Ch2/comaprison of publications.png}
+\decoRule
+\caption{Year-wise Comparison of Publications Concerning "BLE Pedestrians" with Publications Concerning "BLE Pedestrians Outdoor"}
+\label{fig:comparison}
+\end{figure}
+
+Having identified the potential of \gls{ble} for understanding pedestrian activities and movement, and the inherent advantage of this technology in comparison to other technologies, there is an obvious gap in the literature to examine \gls{ble} as an alternative data collection method in outdoor environments. While there are a few studies, such as \citep{Kitazato2018, Bessho2021, Bessho2022}, that applied \gls{ble} for measuring pedestrians in an outdoor environment, a detailed investigation of the characteristics of this technology with respect to outdoor pedestrian measurements is lacking in the current research. Specifically, a study to assess and showcase the applicability and versatility of \gls{ble} to understand a variety of pedestrian activities and movement characteristics, would create a lasting impact about understanding pedestrian dynamics in a more privacy-preserving manner. Table \ref{tab:lit/comparison} presents a comparison of common modalities utilised for pedestrian behaviour measurements based on the discussion carried out in this chapter.
+\\
+
+\begin{sidewaystable}
+    \centering
+    \begin{adjustbox}{max width=\textwidth}
+    \begin{tabular}
+    {
+        >{\columncolor{MintCream}}c|  
+        >{\columncolor{MintCream}}p{6cm}| 
+        >{\columncolor{MintCream}}p{6cm}| 
+        >{\columncolor{MintCream}}p{6.22cm}}
+        \hline         
+        \rowcolor{MidnightGreen}\textcolor{white}{\textbf{Modality}} & \textcolor{white}{\textbf{Evidence of Achievement}} & \textcolor{white}{\textbf{Preserve privacy feature (inherent and addons)}} & \textcolor{white}{\textbf{Limitations}}\\
+        \hline         
+        \textit{Surveys and Questionnaires}  & \begin{itemize}[left=0pt,topsep=0pt]
+            \item Availability of well-established frameworks due to the maturity of the discipline.
+            \item Actual responses from pedestrians.
+            \item Participatory monitoring.
+        \end{itemize}
+            & \gls{sdc} & \begin{itemize}[left=0pt,topsep=0pt]
+                \item Potential biases in response.
+                \item Difficulty in engaging a sufficient number of respondents.
+                \item Training requirements for recruited surveyors.
+                \item Respondent fatigue due to long and complex questionnaires.
+            \end{itemize}\\
+                
+        \hline
+              
+        \textit{Optical Sensors} & \begin{itemize}[left=0pt,topsep=0pt]
+            \item Fine-resolution data acquisition.
+            \item Mature analysis techniques.
+            \item Refined and conclusive findings.
+        \end{itemize} & \begin{itemize} [left=0pt,topsep=0pt]
+                \item Use of thermal cameras.
+                \item Wireframes.
+                \item Data collected only within the range of the collection device.
+        \end{itemize} & \begin{itemize} [left=0pt,topsep=0pt]
+             \item Comparatively higher storage requirements.
+             \item Expensive setup.
+             \item Complex and computationally intensive analysis techniques.
+             \item Opportunistic monitoring.
+        \end{itemize}\\
+        \hline
+        \textit{\gls{gps}} & \begin{itemize}[left=0pt,topsep=0pt]
+            \item Fine-resolution data acquisition.
+            \item Technology inherently designed for the intention of tracking movements.
+        \end{itemize} & \begin{itemize} [left=0pt,topsep=0pt]
+            \item Geo-fencing
+        \end{itemize} & \begin{itemize}[left=0pt,topsep=0pt]
+            \item High utilisation of participant resources.
+            \item Capability of the technology to track pedestrian movements beyond the study region.
+        \end{itemize}\\
+        \hline
+        \rowcolor{MidnightGreen}\multicolumn{4}{c}{ \tiny{\textcolor{white}{continued on the next page.}}}\\
+        \hline
+        \hline
+    \end{tabular}
+    \end{adjustbox}
+    \caption{Comparison of Modalities}
+    \label{tab:lit/comparison}
+\end{sidewaystable}
+
+
+\begin{sidewaystable}
+    \ContinuedFloat
+    \centering
+    \begin{adjustbox}{max width=\textwidth}
+    \begin{tabular}
+    {
+        >{\columncolor{MintCream}}c|  
+        >{\columncolor{MintCream}}p{7.05cm}| 
+        >{\columncolor{MintCream}}p{6.75cm}| 
+        >{\columncolor{MintCream}}p{7.2cm}}
+        \hline         
+         \rowcolor{MidnightGreen}\textcolor{white}{\textbf{Modality}} & \textcolor{white}{\textbf{Evidence of Achievement}} & \textcolor{white}{\textbf{Preserve privacy feature (inherent and addons)}} & \textcolor{white}{\textbf{Limitations}}\\
+         \hline         
+         \textit{\gls{gps}} & \begin{itemize}[left=0pt,topsep=0pt]
+             \item Accurate and real-time response in outdoor environments.
+             \item Simplicity of captured data.
+             \item Refined and conclusive assertions.
+             \item Participatory monitoring.
+         \end{itemize} & & \begin{itemize}[left=0pt,topsep=0pt]
+             \item Requirement for data transmission to the cloud, making the technology vulnerable to data theft through spoofing.
+             \item Use of personal devices for monitoring purposes.
+         \end{itemize}\\
+              
+        \hline
+              
+        \textit{WiFi} & \begin{itemize}[left=0pt,topsep=0pt]
+             \item Pervasiveness of the technology.
+             \item Simplicity of the collected data.
+             \item Elementary data analysis.
+         \end{itemize} & \begin{itemize}[left=0pt,topsep=0pt]
+             \item Data collected only within the range of the collection device.
+             \item Data captured contains no personal information.
+         \end{itemize} & \begin{itemize}[left=0pt,topsep=0pt]
+             \item Use of personal devices for monitoring purposes.
+             \item Results are indicative.
+             \item Expensive and challenging setup.
+             \item Opportunistic monitoring.
+         \end{itemize}\\
+         
+         \hline
+         
+         \textit{\gls{ble}} & \begin{itemize}[left=0pt,topsep=0pt]
+             \item Pervasiveness of the technology.
+             \item Easy experimental setup.
+             \item Simplicity of the collected data.
+             \item Elementary data analysis.
+             \item Easy adaptation for participatory monitoring.
+         \end{itemize} &  \begin{itemize}[left=0pt,topsep=0pt]
+             \item Inherent features: whitelisting, Observer and Broadcaster roles.
+             \item Data collected only within the range of the collection device.
+             \item Inexpensive and distributable monitoring devices.
+         \end{itemize} & \begin{itemize}[left=0pt,topsep=0pt]
+             \item Results are indicative.
+         \end{itemize}\\
+        \hline
+        \hline
+    \end{tabular}
+    \end{adjustbox}
+    \caption{Comparison of Modalities (continued)}
+    \label{tab:lit/comparison}
+\end{sidewaystable}
+
+
+In conclusion, while the need for pedestrian measurements is clear, it is equally important to balance this need with the preservation of individual privacy. Based on the literature, \gls{ble} technology appears to present a compelling solution, offering a balance between effective data collection and privacy protection. Its cost benefits, widespread availability, and scalability further solidify its suitability as a preferable alternative to traditional pedestrian monitoring methods. In the next chapter, the methodology for developing a \gls{ble}-based pedestrian measurement system that adopts privacy-preserving features of the technology is presented, followed by descriptive evaluation cases to assess the efficacy of the system.
