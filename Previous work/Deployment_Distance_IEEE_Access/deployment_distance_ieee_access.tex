@@ -165,3 +165,35 @@ where $s$ is the amplitude of dominant LoS component, and $\sigma$ is standard d
 
 These parameters, RSSI and Rician factors, are used in this study to assess the quality of signals received at various deployment distances in order to identify an optimal deployment distance. Whilst the RSSI provides an insight into the strength of the signal at various deployment distances, the Rician factor informs the measure of the dominance of LoS components at those distances. Whilst the RSSI approach might seem sufficient to understand the optimal deployment distance of the Observer, because simple strength of the signal can inform if the chosen pathway provides meaningful data, it is inadequate to unravel the effect of multipath components on the signal strengths. Due to propagation mechanisms, RSSI can get influenced, and thus, assessing the Rician factor, in addition to RSSI, provides better insights into the external factors associated with deployment distances affecting signal strength.
 
+\section{Related Work}
+\label{sec:related_work}
+
+This section reviews recent research on BLE-based pedestrian sensing, signal propagation studies, and deployment considerations for wireless sensing systems.
+
+\subsection{BLE for Pedestrian Monitoring and Crowd Sensing}
+BLE has gained significant traction as a technology for pedestrian monitoring due to its low power consumption, cost-effectiveness, and privacy-preserving capabilities. Nikodem and Bawiec \cite{Nikodem2020} conducted a large-scale experimental evaluation of advertisement-based BLE communication with over 200 tags, demonstrating that despite collision rates between 0.22 and 0.33, BLE can ensure acceptable data reception rates for IoT applications. Their work validates the scalability of BLE for crowd sensing but does not address optimal deployment configurations.
+
+Groba and Springer \cite{Groba2019} explored data forwarding with Bluetooth for participatory crowd monitoring at large-scale events, proposing peer-to-peer networking to reduce network infrastructure load. Whilst their work addresses data transmission challenges, it assumes pre-existing deployment without investigating optimal sensor placement. Blanke et al. \cite{Blanke2014} deployed an official app for Züri Fäscht 2013, collecting 25M location updates from 28,000 users, demonstrating the potential of participatory sensing for understanding crowd dynamics. However, their approach relies on GPS-based localisation rather than BLE infrastructure deployment.
+
+\subsection{RSSI-Based Positioning and Signal Characterisation}
+Several studies have investigated RSSI-based positioning using BLE beacons. Yao et al. \cite{Yao2020} proposed an integrity monitoring algorithm for BLE beacon RSSI-based indoor positioning, achieving a 90\% average error of 1.9143~m after performing integrity monitoring, representing a 34.48\% improvement over basic least squares methods. Their work focuses on positioning accuracy rather than optimal sensor deployment distances.
+
+The impact of environmental factors on BLE signal propagation has been examined in various contexts. Turner et al. \cite{Turner2020} validated the impact of vehicle obstruction on signal propagation at 2.4~GHz, demonstrating that metal objects significantly reduce transmission range and signal power. Inácio and Azevedo \cite{Inacio2018} studied the influence of meteorological parameters on a 2.4~GHz wireless sensor network, showing significant impact on link quality during rainfall and temperature variations. These studies highlight the importance of environmental considerations but do not provide systematic deployment distance guidelines.
+
+\subsection{Human Body Effects and Occlusion Studies}
+Body shadowing and occlusion effects have been identified as significant factors affecting BLE signal propagation. Parmar et al. \cite{Parmar2022} investigated the effects of body occlusion on BLE RSSI in identifying close proximity of pedestrians in outdoor environments, demonstrating measurable RSSI differences based on device orientation relative to the Observer. Kara and Bertoni \cite{Kara2006Effect} examined the effect of people moving near short-range indoor propagation links at 2.45~GHz, whilst Hongwei et al. \cite{Hongwei2009} studied the effect of human activities on 2.4~GHz radio propagation in home environments. These studies confirm that human body orientation significantly affects signal quality, supporting the need for LoS and nLoS scenario evaluation in deployment studies.
+
+\subsection{Wireless Sensor Deployment Studies}
+Deployment optimisation for wireless sensing systems has been explored primarily in the context of WiFi-based crowd sensing. Basalamah \cite{Basalamah2016} deployed solar-powered WiFi sniffers at the Hajj, covering a population of 185,000 people with 8 sniffers, detecting 37.5\% of the population. The study provides valuable insights on large-scale deployment but does not systematically evaluate deployment distances. López-Iturri et al. \cite{Lopez2012} investigated the impact of high power interference sources in planning and deployment of wireless sensor networks at 2.4~GHz in heterogeneous environments, emphasising the need for careful deployment planning to mitigate electromagnetic interference.
+
+\subsection{Research Gap}
+Whilst existing literature demonstrates the viability of BLE for pedestrian monitoring and characterises various factors affecting signal propagation, a systematic investigation of optimal horizontal deployment distances for BLE Observers in outdoor pedestrian monitoring scenarios remains absent. Previous studies have focused on:
+\begin{itemize}
+\item Indoor positioning accuracy \cite{Yao2020} rather than outdoor monitoring deployment
+\item Large-scale system validation \cite{Nikodem2020,Blanke2014} without deployment optimisation
+\item Environmental factor characterisation \cite{Turner2020,Inacio2018,Lopez2012} without systematic distance evaluation
+\item Body occlusion effects \cite{Parmar2022,Kara2006Effect} without deployment guidelines
+\end{itemize}
+
+This work addresses this gap by providing a systematic experimental evaluation of horizontal deployment distances using statistical validation (ANOVA, Tukey's HSD) and small-scale fading analysis (Rician distribution fitting), establishing empirical evidence for optimal Observer placement at 3~m and 5~m distances for outdoor linear pathways.
+
