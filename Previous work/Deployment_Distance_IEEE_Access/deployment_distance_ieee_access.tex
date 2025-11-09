@@ -79,3 +79,89 @@ The main contributions of this work are:
 
 The remainder of this paper is organised as follows: Section~\ref{sec:background} provides background on BLE technology and signal propagation. Section~\ref{sec:related_work} reviews related work on BLE deployment and pedestrian sensing. Section~\ref{sec:methodology} describes the experimental methodology. Section~\ref{sec:results} presents the results. Section~\ref{sec:discussion} discusses the findings, limitations, and practical guidelines. Section~\ref{sec:conclusion} concludes the paper.
 
+\section{Background}
+\label{sec:background}
+
+BLE is a communication protocol developed by the Bluetooth Special Interest Group (SIG) with their Bluetooth 4.0 standard in 2010 \cite{Collotta2018}, as a low power, low cost, easily accessible, and highly available alternative to Bluetooth \cite{Liu2012,Yao2020}. The protocol operates in the 2.4~GHz spectrum and is divided into 40 channels, comprising 3 advertisement channels and 37 data channels \cite{Sig2019}. The BLE protocol, outlined in the Bluetooth SIG core specification \cite{Sig2019}, enables BLE devices to assume one of the following four roles:
+
+\begin{enumerate}
+\item \textit{Central:} A device that can initiate and control connections. Two-way communication.
+\item \textit{Peripheral:} A device capable of advertising its presence and waiting for connection requests from a central device. Two-way communication.
+\item \textit{Observer:} A device that can scan and listen to advertisements from nearby devices but is incapable of establishing a connection. One-way communication.
+\item \textit{Broadcaster:} A device that can advertise its presence to other BLE devices nearby. One-way communication.
+\end{enumerate}
+
+The connection between BLE-enabled devices is established using \textit{advertisements}, where signals are emitted by BLE devices periodically, containing information necessary for the connection process. A BLE device, depending on its role, can assume the following two states:
+
+\begin{enumerate}
+\item \textit{Advertising:} Sending out advertisements. For a Peripheral device, these advertisements are a vehicle for establishing a connection, whereas, for a Broadcaster device, these are used to indicate its presence.
+\item \textit{Scanning:} Listening to the advertisements. For a Central device, this state is a precursor to establishing a connection with a Peripheral device, whereas, for an Observer, this state is a means to identify advertising BLE devices in the vicinity.
+\end{enumerate}
+
+Pedestrian measurements through BLE typically capitalise on this advertisement process, where volunteers carry a Broadcaster or a Peripheral that is periodically advertising its presence which can be intercepted by an Observer or a Central device \cite{Nikodem2020}. The advertising and scanning processes are depicted in Fig.~\ref{fig:advertscan}, and the relevant parameters for these processes are summarised in Table~\ref{tab:params}.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{figures/advert.png}
+\vspace{-0.2cm}
+\includegraphics[width=3.5in]{figures/scan.png}
+\caption{Advertisement (top) and scanning (bottom) mechanisms of BLE devices.}
+\label{fig:advertscan}
+\end{figure}
+
+\begin{table}[!t]
+\caption{BLE Device Parameters During Discovery Process}
+\label{tab:params}
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Notation} & \textbf{Description} & \textbf{Range} \\
+\midrule
+$\tau_{wa}$ & Advertising period per channel & $\leq 10$ ms \\
+$\tau_{ai}$ & Advertisement Interval & [20, 10,240] ms \\
+ & & (0.625 ms multiples) \\
+$\delta$ & Uniform random delay & [0, 10] ms \\
+$\tau_{si}$ & Scan Interval & [2.5, 10,240] ms \\
+ & & (0.625 ms multiples) \\
+$\tau_{sw}$ & Scan Window & [2.5, 10,240] ms \\
+ & & (0.625 ms multiples) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{RSSI and Signal Propagation}
+When an advertisement is intercepted, a parameter known as the Received Signal Strength Indicator (RSSI) is evaluated by the Observer or Central device. This parameter represents the strength of the signal (advertisement) upon reception and is a factor of distance between the two devices and environmental influences. These influences include multi-path propagation mechanisms such as \textit{reflection}, \textit{refraction}, \textit{scattering}, and \textit{absorption} \cite{Rappaport2002}. Other factors such as physical obstructions blocking the direct LoS between two devices \cite{Turner2020}, natural obstacles such as foliage, terrain and weather conditions \cite{liao1990microwave,Mathew2017Evaluation,Inacio2018}, electromagnetic interference \cite{Lopez2012}, and occlusion by other humans \cite{Parmar2022,Smailagic2002,Hongwei2009,Kara2006Effect} also affect the RSSI. Such factors introduce fluctuation in the measured RSSI even when the distances between the two devices are fixed.
+
+\subsection{Path Loss Models}
+The relationship between RSSI and the factors affecting it is represented by the \textit{path loss model} \cite{ROUPHAEL200987}. The standard path loss model, expressed in (\ref{eq:std_loss}), only accommodates the distance between communicating devices, and is often insufficient to assess the path loss accurately as it does not incorporate other contributors to path loss, importantly, \textit{fading}. Fading, also referred to as \textit{shadowing}, is the attenuation of signals occurring due to environmental topology and characteristics \cite{Grami2016,Kaluuba2006}. There are two types of fading, \textit{small-scale (SS) fading} -- fluctuations in the signal due to multipath propagation over short distances, and \textit{large-scale (LS) fading} -- gradual changes in the average received signal strength over longer distances.
+
+\begin{equation}\label{eq:std_loss}
+L_{pl}(d)_{[dB]} = L_{pl}(d_0)_{[dB]} + 10\,n_{pl}\,\log\left(\frac{d}{d_0}\right),
+\end{equation}
+where $L_{pl}(d)_{[dB]}$ is path loss at distance $d$, $L_{pl}(d_0)_{[dB]}$ is reference path loss at reference distance $d_0$, and $n_{pl}$ is the path loss exponent.
+
+The standard path loss model can be adjusted to incorporate these fading parameters to accurately model signal attenuation. A time-dependent path loss model integrating fading is expressed in (\ref{eq:pl}) \cite{SAYRAFIAN2021221}. SS fading can be utilised to understand the effect of multipath components on BLE signals in pedestrianised pathways since SS fading applies over shorter distances and provides insight into fluctuations the signals undergo over any pathway under study.
+
+\begin{equation}
+\label{eq:pl}
+L_{pl}(d, t)_{[dB]} = \overline{L_{pl}(d)_{[dB]}} + \Delta L_{ls}(t)_{[dB]} + \Delta L_{ss}(t)_{[dB]}
+\end{equation}
+where $\overline{L_{pl}(d)_{[dB]}}$ is mean path loss at distance $d$ calculated using (\ref{eq:std_loss}), $\Delta L_{ls}(t)_{[dB]}$ is LS fading component, and $\Delta L_{ss}(t)_{[dB]}$ is SS fading component.
+
+\subsection{Rician Distribution and K-Factor}
+SS fading can be assessed using a \textit{Rician} distribution, a probability distribution function that can be used to assess the dominance of the LoS component relative to the nLoS components in scenarios where there is a direct LoS for signals between devices \cite{Molisch2012}. The Rician probability density function is expressed in (\ref{eq:rician_pdf}). This assessment is performed through the \textit{Rician Factor}, $K$, which is the ratio of power in the LoS component to the power of scattered (or, nLoS) components, indicating the proportion of LoS components. The Rician factor is calculated using (\ref{eq:rician_factor}). A special case of Rician distribution occurs when the $K$-factor is 0, signifying that the distribution is reduced to a \textit{Rayleigh distribution}, meaning that the signal consists purely of scattered components.
+
+\begin{equation}
+\label{eq:rician_pdf}
+f_R(r) = \frac{r}{\sigma^2}\exp\left(-\frac{r^2 + s^2}{2\sigma^2}\right)I_0\left(\frac{rs}{\sigma^2}\right),\quad r \geq 0
+\end{equation}
+where $r$ is the magnitude of receiver signal, $s$ is the amplitude of dominant LoS component, $\sigma$ is standard deviation of scattered components, and $I_0(\cdot)$ is the modified Bessel function of the first kind and zero order.
+
+\begin{equation}
+\label{eq:rician_factor}
+K = \frac{s^2}{2\sigma^2}
+\end{equation}
+where $s$ is the amplitude of dominant LoS component, and $\sigma$ is standard deviation of scattered components.
+
+These parameters, RSSI and Rician factors, are used in this study to assess the quality of signals received at various deployment distances in order to identify an optimal deployment distance. Whilst the RSSI provides an insight into the strength of the signal at various deployment distances, the Rician factor informs the measure of the dominance of LoS components at those distances. Whilst the RSSI approach might seem sufficient to understand the optimal deployment distance of the Observer, because simple strength of the signal can inform if the chosen pathway provides meaningful data, it is inadequate to unravel the effect of multipath components on the signal strengths. Due to propagation mechanisms, RSSI can get influenced, and thus, assessing the Rician factor, in addition to RSSI, provides better insights into the external factors associated with deployment distances affecting signal strength.
+
